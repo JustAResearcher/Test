@@ -825,22 +825,36 @@ UniValue waitforblockheight(const JSONRPCRequest& request)
 
 static UniValue getdifficulty(const JSONRPCRequest& request)
 {
-    if (request.fHelp || request.params.size() != 1)
+    if (request.fHelp || request.params.size() > 1)
         throw std::runtime_error(
-            "getdifficulty algo\n"
+            "getdifficulty ( algo )\n"
             "\nReturns the proof-of-work difficulty as a multiple of the minimum difficulty.\n"
             "\nArguments:\n"
-            "1. \"algo\"  (numeric, required) algorithm to get difficulty for\n"
+            "1. \"algo\"  (numeric, optional) algorithm to get difficulty for (0=MeowPOW, 1=Scrypt)\n"
+            "             If not specified, defaults to MeowPOW (0) unless -auxpow=1 is set in config, then defaults to Scrypt (1)\n"
             "\nResult:\n"
             "n.nnn       (numeric) the proof-of-work difficulty as a multiple of the minimum difficulty.\n"
             "\nExamples:\n"
+            + HelpExampleCli("getdifficulty", "")
             + HelpExampleCli("getdifficulty", "0")
             + HelpExampleCli("getdifficulty", "1")
-            + HelpExampleRpc("getdifficulty", "0")
+            + HelpExampleRpc("getdifficulty", "")
         );
 
     LOCK(cs_main);
-    return GetDifficulty(DecodeAlgoParam(request.params[0]));
+    
+    // Determine which algorithm to use
+    PowAlgo algo;
+    if (request.params.size() == 0) {
+        // No parameter provided - use default based on auxpow config
+        bool fAuxpow = gArgs.GetBoolArg("-auxpow", false);
+        algo = fAuxpow ? PowAlgo::SCRYPT : PowAlgo::MEOWPOW;
+    } else {
+        // Parameter provided - use it
+        algo = DecodeAlgoParam(request.params[0]);
+    }
+    
+    return GetDifficulty(algo);
 }
 
 std::string EntryDescriptionString()
