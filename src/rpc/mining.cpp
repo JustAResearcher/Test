@@ -187,10 +187,10 @@ UniValue getnetworkhashps(const JSONRPCRequest& request)
             "\nArguments:\n"
             "1. nblocks   (numeric, optional, default=120) Number of blocks to average. -1 = since last difficulty change.\n"
             "2. height    (numeric, optional, default=-1)  Estimate at the time of the given height (tip if -1).\n"
-            "3. algo      (string|numeric, optional, default=\"combined\") "
+            "3. algo      (string|numeric, optional) "
             "\"combined\" | \"meowpow\"(or 0) | \"scrypt\"(or 1)\n"
+            "             If not specified, defaults to MeowPOW unless -auxpow=1 is set in config, then defaults to Scrypt\n"
             "\nNotes:\n"
-            "- \"combined\" preserves historical behavior (all blocks).\n"
             "- When an algo is selected, only blocks mined by that algo are sampled.\n"
             "- If too few blocks of that algo are found in the lookback window, 0 is returned.\n"
             "\nExamples:\n"
@@ -204,14 +204,22 @@ UniValue getnetworkhashps(const JSONRPCRequest& request)
 
     int nblocks = 120;
     int height  = -1;
-    Algo algo   = Algo::Combined;
+    Algo algo;
 
     if (request.params.size() > 0 && request.params[0].isNum())
         nblocks = request.params[0].get_int();
     if (request.params.size() > 1 && request.params[1].isNum())
         height = request.params[1].get_int();
-    if (request.params.size() > 2)
+    
+    // Determine which algorithm to use
+    if (request.params.size() > 2) {
+        // Algorithm parameter provided - use it
         algo = ParseAlgoParam(request.params[2]);
+    } else {
+        // No algorithm parameter provided - use default based on auxpow config
+        bool fAuxpow = gArgs.GetBoolArg("-auxpow", false);
+        algo = fAuxpow ? Algo::Scrypt : Algo::MeowPOW;
+    }
 
     const double d = GetNetworkHashPSAlgoAware(nblocks, height, algo);
     return UniValue(d);
