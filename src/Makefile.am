@@ -128,15 +128,6 @@ MEOWCOIN_CORE_H = \
   spentindex.h \
   timestampindex.h \
   addrman.h \
-  assets/assets.h \
-  assets/assetdb.h \
-  assets/assettypes.h \
-  assets/messages.h \
-  assets/myassetsdb.h \
-  assets/restricteddb.h \
-  assets/snapshotrequestdb.h \
-  assets/assetsnapshotdb.h \
-  assets/rewards.h \
   auxpow.h \
   base58.h \
   bloom.h \
@@ -265,15 +256,6 @@ libmeowcoin_server_a_SOURCES = \
   net.cpp \
   net_processing.cpp \
   noui.cpp \
-  assets/assets.cpp \
-  assets/assetdb.cpp \
-  assets/assettypes.cpp \
-  assets/messages.cpp \
-  assets/myassetsdb.cpp \
-  assets/restricteddb.cpp \
-  assets/snapshotrequestdb.cpp \
-  assets/assetsnapshotdb.cpp \
-  assets/rewards.cpp \
   policy/fees.cpp \
   policy/policy.cpp \
   policy/rbf.cpp \
