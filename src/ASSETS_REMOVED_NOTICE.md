@@ -1,0 +1,1 @@
+The original asset layer has been moved to src/_assets_removed_backup.\n\nNext: remove references to asset headers and symbols across the codebase and rebase/merge bitcoin/master while preserving chainparams.
