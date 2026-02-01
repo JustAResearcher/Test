@@ -33,13 +33,6 @@
 #include <vector>
 
 #include <atomic>
-#include <assets/assets.h>
-#include <assets/assetdb.h>
-#include <assets/messages.h>
-#include <assets/myassetsdb.h>
-#include <assets/restricteddb.h>
-#include <assets/assetsnapshotdb.h>
-#include <assets/snapshotrequestdb.h>
 
 class CBlockIndex;
 class CBlockTreeDB;

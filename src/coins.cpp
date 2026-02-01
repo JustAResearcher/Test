@@ -14,7 +14,6 @@
 #include "base58.h"
 
 #include <assert.h>
-#include <assets/assets.h>
 #include <wallet/wallet.h>
 
 bool CCoinsView::GetCoin(const COutPoint &outpoint, Coin &coin) const { return false; }

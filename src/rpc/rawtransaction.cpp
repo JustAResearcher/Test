@@ -32,7 +32,6 @@
 #endif
 
 #include <stdint.h>
-#include "assets/assets.h"
 
 #include <univalue.h>
 #include <tinyformat.h>

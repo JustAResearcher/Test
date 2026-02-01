@@ -54,12 +54,8 @@
 #include <script/ismine.h>
 #include <wallet/wallet.h>
 
-#include "assets/assets.h"
-#include "assets/assetdb.h"
 #include "base58.h"
 
-#include "assets/snapshotrequestdb.h"
-#include "assets/assetsnapshotdb.h"
 
 // Fixing Boost 1.73 compile errors
 #include <boost/bind/bind.hpp>

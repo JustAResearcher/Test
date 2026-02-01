@@ -3,7 +3,6 @@
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 
-#include <assets/assets.h>
 
 #include <test/test_meowcoin.h>
 

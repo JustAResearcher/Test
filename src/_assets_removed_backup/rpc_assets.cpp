@@ -4,8 +4,6 @@
 
 //#include <amount.h>
 //#include <base58.h>
-#include "assets/assets.h"
-#include "assets/assetdb.h"
 #include <map>
 #include "tinyformat.h"
 //#include <rpc/server.h>

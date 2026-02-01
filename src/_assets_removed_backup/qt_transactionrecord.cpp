@@ -6,7 +6,6 @@
 #include "transactionrecord.h"
 
 #include "transactionview.h"
-#include "assets/assets.h"
 #include "base58.h"
 #include "consensus/consensus.h"
 #include "validation.h"

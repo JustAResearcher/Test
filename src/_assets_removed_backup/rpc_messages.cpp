@@ -2,10 +2,6 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#include "assets/assets.h"
-#include "assets/assetdb.h"
-#include "assets/messages.h"
-#include "assets/myassetsdb.h"
 #include <map>
 #include "tinyformat.h"
 

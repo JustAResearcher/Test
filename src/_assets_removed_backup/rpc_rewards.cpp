@@ -2,9 +2,6 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#include "assets/assets.h"
-#include "assets/assetdb.h"
-#include "assets/messages.h"
 #include <map>
 #include "tinyformat.h"
 
@@ -33,8 +30,6 @@
 #include "wallet/feebumper.h"
 #include "wallet/wallet.h"
 #include "wallet/walletdb.h"
-#include "assets/snapshotrequestdb.h"
-#include "assets/assetsnapshotdb.h"
 
 #ifdef ENABLE_WALLET
 

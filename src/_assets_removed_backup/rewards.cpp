@@ -15,7 +15,6 @@
 #include <consensus/validation.h>
 #include <wallet/coincontrol.h>
 #include <utilmoneystr.h>
-#include "assets/rewards.h"
 #include "assetsnapshotdb.h"
 #include "wallet/wallet.h"
 

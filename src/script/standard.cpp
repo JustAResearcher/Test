@@ -5,7 +5,6 @@
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 #include <base58.h>
-#include <assets/assets.h>
 #include <validation.h>
 #include "script/standard.h"
 

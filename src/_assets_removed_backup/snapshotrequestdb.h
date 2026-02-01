@@ -12,7 +12,6 @@
 #include <set>
 
 #include "amount.h"
-#include "assets/rewards.h"
 
 class CSnapshotRequestDBEntry
 {

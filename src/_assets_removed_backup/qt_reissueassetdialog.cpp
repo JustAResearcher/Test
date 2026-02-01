@@ -12,7 +12,6 @@
 #include "addresstablemodel.h"
 #include "core_io.h"
 #include "univalue.h"
-#include "assets/assettypes.h"
 #include "meowcoinunits.h"
 #include "optionsmodel.h"
 #include "sendcoinsdialog.h"

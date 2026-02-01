@@ -45,9 +45,6 @@
 #include "util.h"
 #include "utilmoneystr.h"
 #include "validationinterface.h"
-#include "assets/assets.h"
-#include "assets/assetdb.h"
-#include "assets/snapshotrequestdb.h"
 #ifdef ENABLE_WALLET
 #include "wallet/init.h"
 #include <wallet/wallet.h>

@@ -19,8 +19,6 @@
 #include <stdint.h>
 
 #include <unordered_map>
-#include <assets/assets.h>
-#include <assets/assetdb.h>
 
 /**
  * A UTXO entry.

@@ -17,7 +17,6 @@
 #include "guiconstants.h"
 
 #include "wallet/coincontrol.h"
-#include "assets/assets.h"
 
 #include <QGraphicsDropShadowEffect>
 #include <QApplication>

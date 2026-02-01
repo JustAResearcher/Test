@@ -14,7 +14,6 @@
 #include "core_io.h"
 
 #include "amount.h"
-#include "assets/assets.h"
 #include "validation.h"
 #include "platformstyle.h"
 

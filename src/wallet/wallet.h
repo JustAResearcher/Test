@@ -20,7 +20,6 @@
 #include "wallet/crypter.h"
 #include "wallet/walletdb.h"
 #include "wallet/rpcwallet.h"
-#include "assets/assettypes.h"
 
 #include <algorithm>
 #include <atomic>

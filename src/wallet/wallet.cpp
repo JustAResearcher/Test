@@ -41,7 +41,6 @@
 #include <random>
 #include <tinyformat.h>
 
-#include "assets/assets.h"
 
 std::vector<CWalletRef> vpwallets;
 /** Transaction fee set by the user */

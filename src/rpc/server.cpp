@@ -31,7 +31,6 @@ using namespace boost::placeholders;
 #include <unordered_map>
 #include <validation.h>
 
-#include "assets/assets.h"
 
 static std::atomic<bool> g_rpc_running{false};
 static bool fRPCInWarmup = true;

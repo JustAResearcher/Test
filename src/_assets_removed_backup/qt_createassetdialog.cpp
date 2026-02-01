@@ -26,7 +26,6 @@
 #include <wallet/wallet.h>
 #include <core_io.h>
 #include <policy/policy.h>
-#include "assets/assettypes.h"
 #include "assettablemodel.h"
 
 #include <QGraphicsDropShadowEffect>
