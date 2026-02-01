@@ -10,6 +10,7 @@
 #include "primitives/transaction.h"
 #include "compressor.h"
 #include "core_memusage.h"
+#include "assets_stub.h"
 #include "hash.h"
 #include "memusage.h"
 #include "serialize.h"

@@ -5,6 +5,7 @@
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 #include "wallet/wallet.h"
+#include "assets_stub.h"
 
 #include "base58.h"
 #include "checkpoints.h"

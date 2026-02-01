@@ -8,6 +8,7 @@
 #define MEOWCOIN_WALLET_WALLET_H
 
 #include "amount.h"
+#include "assets_stub.h"
 #include "auxpow.h"
 #include "policy/feerate.h"
 #include "streams.h"

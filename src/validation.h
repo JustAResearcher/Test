@@ -14,6 +14,9 @@
 #include "amount.h"
 #include "coins.h"
 #include "fs.h"
+#include "addressindex.h"
+#include "timestampindex.h"
+#include <algorithm>
 #include "protocol.h" // For CMessageHeader::MessageStartChars
 #include "policy/feerate.h"
 #include "script/script_error.h"
@@ -25,13 +28,7 @@
 
 #include <algorithm>
 #include <exception>
-#include <map>
-#include <set>
-#include <stdint.h>
-#include <string>
-#include <utility>
-#include <vector>
-
+#include "assets_stub.h"
 #include <atomic>
 
 class CBlockIndex;
