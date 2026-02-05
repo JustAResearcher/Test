@@ -48,6 +48,7 @@ enum QualifierType {
 // Asset tag constants
 #define OWNER_TAG "!"
 #define UNIQUE_TAG "#"
+#define RESTRICTED_CHAR '$'
 
 // Asset undo version constant
 const int8_t ASSET_UNDO_INCLUDES_VERIFIER_STRING = -1;
@@ -200,6 +201,10 @@ public:
     bool GetAssetMetaDataIfExists(const std::string&, CNewAsset&) const { return false; }
     bool GetAssetMetaDataIfExists(const std::string&, CNewAsset&, int&, uint256&) const { return false; }
     bool GetAssetVerifierStringIfExists(const std::string&, CNullAssetTxVerifierString&) const { return false; }
+    bool CheckForAddressRestriction(const std::string&, const std::string&, bool = false) { return false; }
+    bool CheckForGlobalRestriction(const std::string&, bool = false) { return false; }
+    bool CheckIfAssetExists(const std::string&, bool = true) { return false; }
+    bool CheckForAddressQualifier(const std::string&, const std::string&, bool = false) { return false; }
     bool TrySpendCoin(const COutPoint&, const CTxOut&) { return true; }
     bool UndoAssetCoin(const Coin&, const COutPoint&) { return true; }
     bool DumpCacheToDatabase() { return true; }
