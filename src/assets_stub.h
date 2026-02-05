@@ -56,6 +56,10 @@ const int8_t ASSET_UNDO_INCLUDES_VERIFIER_STRING = -1;
 struct CNewAsset {
     std::string strName;
     int64_t nAmount{0};
+    int8_t units{8};
+    int8_t nReissuable{0};
+    int8_t nHasIPFS{0};
+    std::string strIPFSHash;
     CNewAsset() = default;
     CNewAsset(const std::string& n, int64_t a): strName(n), nAmount(a) {}
 };
@@ -68,7 +72,14 @@ struct CAssetTransfer {
     void ConstructTransaction(CScript&) const {}
 };
 
-struct CReissueAsset { };
+struct CReissueAsset {
+    std::string strName;
+    int64_t nAmount{0};
+    int8_t nUnits{0};
+    int8_t nReissuable{1};
+    std::string strIPFSHash;
+    CReissueAsset() = default;
+};
 struct CNullAssetTxData { std::string asset_name; int flag{0}; };
 struct CDatabasedAssetData { };
 
