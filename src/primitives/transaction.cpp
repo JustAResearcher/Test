@@ -132,3 +132,12 @@ std::string CTransaction::ToString() const
         str += "    " + tx_out.ToString() + "\n";
     return str;
 }
+
+/** MEWC Asset stubs - asset layer removed */
+bool CTransaction::IsNewAsset() const { return false; }
+bool CTransaction::IsNewUniqueAsset() const { return false; }
+bool CTransaction::IsReissueAsset() const { return false; }
+bool CTransaction::IsNewMsgChannelAsset() const { return false; }
+bool CTransaction::IsNewQualifierAsset() const { return false; }
+bool CTransaction::IsNewRestrictedAsset() const { return false; }
+/** MEWC END */

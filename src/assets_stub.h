@@ -13,6 +13,7 @@ class CTransaction;
 class CScript;
 class CBlockIndex;
 class COutPoint;
+class CTxOut;
 class uint256;
 
 // AssetType subset used in Meowcoin sources
@@ -178,6 +179,20 @@ public:
     bool RemoveGlobalRestricted(const std::string&, RestrictedType) { return true; }
     size_t DynamicMemoryUsage() const { return 0; }
     size_t GetCacheSizeV2() const { return 0; }
+
+    // Add methods used in coins.cpp
+    bool AddNewAsset(const CNewAsset&, const std::string&, int, const uint256&) { return true; }
+    bool AddOwnerAsset(const std::string&, const std::string&) { return true; }
+    bool AddReissueAsset(const CReissueAsset&, const std::string&, const COutPoint&) { return true; }
+    bool AddTransferAsset(const CAssetTransfer&, const std::string&, const COutPoint&, const uint256&) { return true; }
+    bool AddQualifierAddress(const std::string&, const std::string&, QualifierType) { return true; }
+    bool AddRestrictedAddress(const std::string&, const std::string&, RestrictedType) { return true; }
+    bool AddGlobalRestricted(const std::string&, RestrictedType) { return true; }
+    bool AddRestrictedVerifier(const std::string&, const std::string&) { return true; }
+    bool GetAssetMetaDataIfExists(const std::string&, CNewAsset&) const { return false; }
+    bool GetAssetMetaDataIfExists(const std::string&, CNewAsset&, int&, uint256&) const { return false; }
+    bool GetAssetVerifierStringIfExists(const std::string&, CNullAssetTxVerifierString&) const { return false; }
+    bool TrySpendCoin(const COutPoint&, const CTxOut&) { return true; }
     bool DumpCacheToDatabase() { return true; }
     void Flush() {}
 };
@@ -205,6 +220,9 @@ extern CDistributeSnapshotRequestDB* pDistributeSnapshotDb;
 extern bool fMessaging;
 inline bool AreMessagesDeployed() { return false; }
 
+// Forward declaration for wallet types
+struct CAssetOutputEntry;  // defined in wallet/wallet.h
+
 // Helper stubs used in various places
 inline bool AssetFromTransaction(const CTransaction&, CNewAsset&, std::string&) { return false; }
 inline bool AssetFromScript(const CScript&, CNewAsset&, std::string&) { return false; }
@@ -213,6 +231,7 @@ inline bool ReissueAssetFromScript(const CScript&, CReissueAsset&, std::string&)
 inline bool MsgChannelAssetFromTransaction(const CTransaction&, CNewAsset&, std::string&) { return false; }
 inline bool TransferAssetFromScript(const CScript&, CAssetTransfer&, std::string&) { return false; }
 inline bool GetAssetData(const CScript&, CDatabasedAssetData&) { return false; }
+inline bool GetAssetData(const CScript&, CAssetOutputEntry&) { return false; }
 inline bool ContextualCheckVerifierString(CAssetsCache*, const std::string&, const std::string&, std::string&) { return true; }
 inline bool ContextualCheckVerifierString(CAssetsCache*, const std::string&, const std::string&) { return true; }
 
