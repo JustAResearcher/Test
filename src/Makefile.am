@@ -261,14 +261,11 @@ libmeowcoin_server_a_SOURCES = \
   policy/rbf.cpp \
   pow.cpp \
   rest.cpp \
-  rpc/assets.cpp \
   rpc/blockchain.cpp \
-  rpc/messages.cpp \
   rpc/mining.cpp \
   rpc/misc.cpp \
   rpc/net.cpp \
   rpc/rawtransaction.cpp \
-  rpc/rewards.cpp \
   rpc/safemode.cpp \
   rpc/server.cpp \
   script/sigcache.cpp \
