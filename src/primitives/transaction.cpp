@@ -10,6 +10,7 @@
 #include "hash.h"
 #include "tinyformat.h"
 #include "utilstrencodings.h"
+#include "assets_stub.h"
 
 std::string COutPoint::ToString() const
 {
@@ -146,4 +147,6 @@ bool CTransaction::VerifyReissueAsset(std::string&) const { return true; }
 bool CTransaction::VerifyNewMsgChannelAsset(std::string&) const { return true; }
 bool CTransaction::VerifyNewQualfierAsset(std::string&) const { return true; }
 bool CTransaction::VerifyNewRestrictedAsset(std::string&) const { return true; }
+bool CTransaction::GetVerifierStringFromTx(CNullAssetTxVerifierString&, std::string&) const { return false; }
+bool CTransaction::GetVerifierStringFromTx(CNullAssetTxVerifierString&, std::string&, bool& fNotFound) const { fNotFound = true; return false; }
 /** MEWC END */
