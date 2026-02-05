@@ -268,4 +268,28 @@ inline std::string DecodeAssetData(const std::string& s) { return s; }
 // GetAssetInfoFromScript - used in rpc/misc.cpp
 inline bool GetAssetInfoFromScript(const CScript&, std::string&, int64_t&) { return false; }
 
+// CheckVerifierAssetTxOut stubs - used in tx_verify.cpp
+inline bool CheckVerifierAssetTxOut(const CTxOut&, std::string&) { return true; }
+inline bool ContextualCheckVerifierAssetTxOut(const CTxOut&, CAssetsCache*, std::string&) { return true; }
+inline bool ContextualCheckNullAssetTxOut(const CTxOut&, CAssetsCache*, std::string&, std::vector<std::pair<std::string, CNullAssetTxData>>* = nullptr) { return true; }
+inline bool ContextualCheckGlobalAssetTxOut(const CTxOut&, CAssetsCache*, std::string&) { return true; }
+
+// IsScript* stubs - used in tx_verify.cpp
+inline bool IsScriptNewAsset(const CScript&) { return false; }
+inline bool IsScriptNewAsset(const CScript&, int&) { return false; }
+inline bool IsScriptNewUniqueAsset(const CScript&) { return false; }
+inline bool IsScriptNewUniqueAsset(const CScript&, int&) { return false; }
+inline bool IsScriptOwnerAsset(const CScript&) { return false; }
+inline bool IsScriptOwnerAsset(const CScript&, int&) { return false; }
+inline bool IsScriptReissueAsset(const CScript&) { return false; }
+inline bool IsScriptReissueAsset(const CScript&, int&) { return false; }
+inline bool IsScriptTransferAsset(const CScript&) { return false; }
+inline bool IsScriptTransferAsset(const CScript&, int&) { return false; }
+inline bool IsScriptNewMsgChannelAsset(const CScript&) { return false; }
+inline bool IsScriptNewMsgChannelAsset(const CScript&, int&) { return false; }
+inline bool IsScriptNewQualifierAsset(const CScript&) { return false; }
+inline bool IsScriptNewQualifierAsset(const CScript&, int&) { return false; }
+inline bool IsScriptNewRestrictedAsset(const CScript&) { return false; }
+inline bool IsScriptNewRestrictedAsset(const CScript&, int&) { return false; }
+
 #endif // MEOWCOIN_ASSETS_STUB_H
