@@ -197,6 +197,7 @@ public:
     bool RemoveQualifierAddress(const std::string&, const std::string&, QualifierType) { return true; }
     bool RemoveRestrictedAddress(const std::string&, const std::string&, RestrictedType) { return true; }
     bool RemoveGlobalRestricted(const std::string&, RestrictedType) { return true; }
+    bool RemoveRestrictedVerifier(const std::string&, const std::string&, bool = false) { return true; }
     size_t DynamicMemoryUsage() const { return 0; }
     size_t GetCacheSizeV2() const { return 0; }
 
