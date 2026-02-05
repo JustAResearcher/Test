@@ -234,6 +234,8 @@ struct CAssetOutputEntry;  // defined in wallet/wallet.h
 
 // Helper stubs used in various places
 inline bool AssetFromTransaction(const CTransaction&, CNewAsset&, std::string&) { return false; }
+inline bool OwnerFromTransaction(const CTransaction&, std::string&, std::string&) { return false; }
+inline bool UniqueAssetFromTransaction(const CTransaction&, CNewAsset&, std::string&) { return false; }
 inline bool AssetFromScript(const CScript&, CNewAsset&, std::string&) { return false; }
 inline bool OwnerAssetFromScript(const CScript&, std::string&, std::string&) { return false; }
 inline bool ReissueAssetFromScript(const CScript&, CReissueAsset&, std::string&) { return false; }
@@ -256,7 +258,9 @@ inline bool ContextualCheckUniqueAssetTx(CAssetsCache*, std::string&, const CTra
 inline bool ContextualCheckVerifierString(CAssetsCache*, const std::string&, const std::string&, std::string&) { return true; }
 inline bool ContextualCheckVerifierString(CAssetsCache*, const std::string&, const std::string&) { return true; }
 
+inline bool IsAssetNameValid(const std::string&) { return false; }
 inline bool IsAssetNameValid(const std::string&, AssetType& t) { t = INVALID; return false; }
+inline bool IsAssetNameValid(const std::string&, AssetType&, std::string&) { return false; }
 inline bool IsAssetNameAnOwner(const std::string&) { return false; }
 inline bool IsAssetNameAnMsgChannel(const std::string&) { return false; }
 inline bool IsAssetNameAQualifier(const std::string&) { return false; }
