@@ -44,6 +44,10 @@ enum QualifierType {
     REMOVE_QUALIFIER
 };
 
+// Asset tag constants
+#define OWNER_TAG "!"
+#define UNIQUE_TAG "#"
+
 struct CNewAsset {
     std::string strName;
     int64_t nAmount{0};
@@ -228,10 +232,22 @@ inline bool AssetFromTransaction(const CTransaction&, CNewAsset&, std::string&) 
 inline bool AssetFromScript(const CScript&, CNewAsset&, std::string&) { return false; }
 inline bool OwnerAssetFromScript(const CScript&, std::string&, std::string&) { return false; }
 inline bool ReissueAssetFromScript(const CScript&, CReissueAsset&, std::string&) { return false; }
+inline bool ReissueAssetFromTransaction(const CTransaction&, CReissueAsset&, std::string&) { return false; }
 inline bool MsgChannelAssetFromTransaction(const CTransaction&, CNewAsset&, std::string&) { return false; }
+inline bool QualifierAssetFromTransaction(const CTransaction&, CNewAsset&, std::string&) { return false; }
+inline bool RestrictedAssetFromTransaction(const CTransaction&, CNewAsset&, std::string&) { return false; }
 inline bool TransferAssetFromScript(const CScript&, CAssetTransfer&, std::string&) { return false; }
+inline bool AssetNullDataFromScript(const CScript&, CNullAssetTxData&, std::string&) { return false; }
+inline bool GlobalAssetNullDataFromScript(const CScript&, CNullAssetTxData&) { return false; }
 inline bool GetAssetData(const CScript&, CDatabasedAssetData&) { return false; }
 inline bool GetAssetData(const CScript&, CAssetOutputEntry&) { return false; }
+inline bool VerifyNullAssetDataFlag(const int&, std::string&) { return true; }
+inline bool CheckNewAsset(const CNewAsset&, std::string&) { return true; }
+inline bool CheckReissueAsset(const CReissueAsset&, std::string&) { return true; }
+inline bool ContextualCheckNewAsset(CAssetsCache*, const CNewAsset&, std::string&, bool = false) { return true; }
+inline bool ContextualCheckReissueAsset(CAssetsCache*, const CReissueAsset&, std::string&, const CTransaction&) { return true; }
+inline bool ContextualCheckTransferAsset(CAssetsCache*, const CAssetTransfer&, const std::string&, std::string&) { return true; }
+inline bool ContextualCheckUniqueAssetTx(CAssetsCache*, std::string&, const CTransaction&) { return true; }
 inline bool ContextualCheckVerifierString(CAssetsCache*, const std::string&, const std::string&, std::string&) { return true; }
 inline bool ContextualCheckVerifierString(CAssetsCache*, const std::string&, const std::string&) { return true; }
 

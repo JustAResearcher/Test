@@ -140,4 +140,10 @@ bool CTransaction::IsReissueAsset() const { return false; }
 bool CTransaction::IsNewMsgChannelAsset() const { return false; }
 bool CTransaction::IsNewQualifierAsset() const { return false; }
 bool CTransaction::IsNewRestrictedAsset() const { return false; }
+bool CTransaction::VerifyNewAsset(std::string&) const { return true; }
+bool CTransaction::VerifyNewUniqueAsset(std::string&) const { return true; }
+bool CTransaction::VerifyReissueAsset(std::string&) const { return true; }
+bool CTransaction::VerifyNewMsgChannelAsset(std::string&) const { return true; }
+bool CTransaction::VerifyNewQualfierAsset(std::string&) const { return true; }
+bool CTransaction::VerifyNewRestrictedAsset(std::string&) const { return true; }
 /** MEWC END */
