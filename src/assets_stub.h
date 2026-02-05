@@ -14,6 +14,7 @@ class CScript;
 class CBlockIndex;
 class COutPoint;
 class CTxOut;
+class Coin;
 class uint256;
 
 // AssetType subset used in Meowcoin sources
@@ -176,7 +177,7 @@ public:
     bool ContainsAsset(const std::string&) const { return false; }
     bool RemoveNewAsset(const CNewAsset&, const std::string&) { return true; }
     bool RemoveOwnerAsset(const std::string&, const std::string&) { return true; }
-    bool RemoveReissueAsset(const CReissueAsset&, const std::string&, const std::string&) { return true; }
+    bool RemoveReissueAsset(const CReissueAsset&, const std::string&, const COutPoint&, const std::vector<std::pair<std::string, CBlockAssetUndo>>&) { return true; }
     bool RemoveTransfer(const CAssetTransfer&, const std::string&, const COutPoint&) { return true; }
     bool RemoveQualifierAddress(const std::string&, const std::string&, QualifierType) { return true; }
     bool RemoveRestrictedAddress(const std::string&, const std::string&, RestrictedType) { return true; }
@@ -197,6 +198,7 @@ public:
     bool GetAssetMetaDataIfExists(const std::string&, CNewAsset&, int&, uint256&) const { return false; }
     bool GetAssetVerifierStringIfExists(const std::string&, CNullAssetTxVerifierString&) const { return false; }
     bool TrySpendCoin(const COutPoint&, const CTxOut&) { return true; }
+    bool UndoAssetCoin(const Coin&, const COutPoint&) { return true; }
     bool DumpCacheToDatabase() { return true; }
     void Flush() {}
 };
