@@ -49,6 +49,9 @@ enum QualifierType {
 #define OWNER_TAG "!"
 #define UNIQUE_TAG "#"
 
+// Asset undo version constant
+const int8_t ASSET_UNDO_INCLUDES_VERIFIER_STRING = -1;
+
 struct CNewAsset {
     std::string strName;
     int64_t nAmount{0};
@@ -291,5 +294,12 @@ inline bool IsScriptNewQualifierAsset(const CScript&) { return false; }
 inline bool IsScriptNewQualifierAsset(const CScript&, int&) { return false; }
 inline bool IsScriptNewRestrictedAsset(const CScript&) { return false; }
 inline bool IsScriptNewRestrictedAsset(const CScript&, int&) { return false; }
+
+// Asset name helpers - used in coins.cpp
+inline std::string GetParentName(const std::string& name) { return name; }
+
+// Messaging helpers - used in coins.cpp
+inline bool IsChannelSubscribed(const std::string&) { return false; }
+inline void AddChannel(const std::string&) { }
 
 #endif // MEOWCOIN_ASSETS_STUB_H
