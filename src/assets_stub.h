@@ -16,6 +16,11 @@ class COutPoint;
 class CTxOut;
 class Coin;
 class uint256;
+class CWallet;
+class CCoinControl;
+class CWalletTx;
+class CReserveKey;
+class CMutableTransaction;
 
 // AssetType subset used in Meowcoin sources
 enum AssetType {
@@ -356,5 +361,31 @@ inline std::string GetParentName(const std::string& name) { return name; }
 // Messaging helpers - used in coins.cpp
 inline bool IsChannelSubscribed(const std::string&) { return false; }
 inline void AddChannel(const std::string&) { }
+
+// Forward declarations for wallet types
+class COutput;
+
+// Wallet asset balance functions
+inline bool GetAllMyAssetBalances(std::map<std::string, std::vector<COutput>>&, std::map<std::string, CAmount>&, int = 0, bool = true) { return false; }
+inline bool GetMyAssetBalance(const std::string&, CAmount&, int = 0) { return false; }
+
+// Asset transaction creation stubs - used in Qt dialogs
+inline bool CreateAssetTransaction(CWallet*, CCoinControl&, const CNewAsset&, const std::string&, std::pair<int, std::string>&, CWalletTx&, CReserveKey&, CAmount&, std::string* = nullptr) { return false; }
+inline bool CreateAssetTransaction(CWallet*, CCoinControl&, const std::vector<CNewAsset>&, const std::string&, std::pair<int, std::string>&, CWalletTx&, CReserveKey&, CAmount&, std::string* = nullptr) { return false; }
+inline bool CreateReissueAssetTransaction(CWallet*, CCoinControl&, const CReissueAsset&, const std::string&, std::pair<int, std::string>&, CWalletTx&, CReserveKey&, CAmount&, std::string* = nullptr) { return false; }
+inline bool CreateTransferAssetTransaction(CWallet*, CCoinControl&, const std::vector<std::pair<CAssetTransfer, std::string>>&, const std::string&, std::pair<int, std::string>&, CWalletTx&, CReserveKey&, CAmount&, std::string* = nullptr) { return false; }
+
+// Burn amount and address helpers
+inline CAmount GetBurnAmount(AssetType) { return 0; }
+inline CAmount GetBurnAmount(int) { return 0; }
+inline std::string GetBurnAddress(AssetType) { return ""; }
+inline std::string GetBurnAddress(int) { return ""; }
+inline CAmount GetReissueAssetBurnAmount() { return 0; }
+inline CAmount GetIssueAssetBurnAmount() { return 0; }
+inline CAmount GetIssueSubAssetBurnAmount() { return 0; }
+inline CAmount GetIssueUniqueAssetBurnAmount() { return 0; }
+
+// Value formatting helpers
+inline std::string ValueFromAmountString(CAmount amount, int8_t units) { return std::to_string(amount); }
 
 #endif // MEOWCOIN_ASSETS_STUB_H
