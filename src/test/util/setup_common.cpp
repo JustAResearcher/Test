@@ -1,4 +1,4 @@
-// Copyright (c) 2011-present The Bitcoin Core developers
+﻿// Copyright (c) 2011-present The Bitcoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -28,7 +28,7 @@
 #include <node/peerman_args.h>
 #include <node/warnings.h>
 #include <noui.h>
-#include <policy/fees.h>
+#include <policy/fees/block_policy_estimator.h>
 #include <pow.h>
 #include <random.h>
 #include <rpc/blockchain.h>
@@ -652,3 +652,4 @@ std::ostream& operator<<(std::ostream& os, const Txid& txid) {
 std::ostream& operator<<(std::ostream& os, const Wtxid& wtxid) {
     return os << wtxid.ToString();
 }
+

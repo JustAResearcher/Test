@@ -1,4 +1,4 @@
-// Copyright (c) 2021-present The Bitcoin Core developers
+﻿// Copyright (c) 2021-present The Bitcoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -6,7 +6,7 @@
 #define BITCOIN_WALLET_SPEND_H
 
 #include <consensus/amount.h>
-#include <policy/fees.h>
+#include <policy/fees/block_policy_estimator.h>
 #include <util/result.h>
 #include <wallet/coinselection.h>
 #include <wallet/transaction.h>
@@ -234,3 +234,4 @@ util::Result<CreatedTransactionResult> FundTransaction(CWallet& wallet, const CM
 } // namespace wallet
 
 #endif // BITCOIN_WALLET_SPEND_H
+

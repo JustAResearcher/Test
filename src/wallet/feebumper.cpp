@@ -1,11 +1,11 @@
-// Copyright (c) 2017-2022 The Bitcoin Core developers
+﻿// Copyright (c) 2017-2022 The Bitcoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 #include <common/system.h>
 #include <consensus/validation.h>
 #include <interfaces/chain.h>
-#include <policy/fees.h>
+#include <policy/fees/block_policy_estimator.h>
 #include <policy/policy.h>
 #include <util/moneystr.h>
 #include <util/rbf.h>
@@ -382,3 +382,4 @@ Result CommitTransaction(CWallet& wallet, const Txid& txid, CMutableTransaction&
 
 } // namespace feebumper
 } // namespace wallet
+

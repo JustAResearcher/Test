@@ -83,33 +83,33 @@ EXTRA_LIBRARIES += \
   $(LIBBITCOIN_ZMQ)
 
 if BUILD_BITCOIND
-  bin_PROGRAMS += bitcoind
+  bin_PROGRAMS += meowcoind
 endif
 
 if BUILD_BITCOIN_NODE
-  bin_PROGRAMS += bitcoin-node
+  bin_PROGRAMS += meowcoin-node
 endif
 
 if BUILD_BITCOIN_CLI
-  bin_PROGRAMS += bitcoin-cli
+  bin_PROGRAMS += meowcoin-cli
 endif
 
 if BUILD_BITCOIN_TX
-  bin_PROGRAMS += bitcoin-tx
+  bin_PROGRAMS += meowcoin-tx
 endif
 
 if ENABLE_WALLET
 if BUILD_BITCOIN_WALLET
-  bin_PROGRAMS += bitcoin-wallet
+  bin_PROGRAMS += meowcoin-wallet
 endif
 endif
 
 if BUILD_BITCOIN_UTIL
-  bin_PROGRAMS += bitcoin-util
+  bin_PROGRAMS += meowcoin-util
 endif
 
 if BUILD_BITCOIN_CHAINSTATE
-  bin_PROGRAMS += bitcoin-chainstate
+  bin_PROGRAMS += meowcoin-chainstate
 endif
 
 .PHONY: FORCE check-symbols check-security
@@ -169,6 +169,7 @@ BITCOIN_CORE_H = \
   index/base.h \
   index/blockfilterindex.h \
   index/coinstatsindex.h \
+  index/db_key.h \
   index/disktxpos.h \
   index/txindex.h \
   indirectmap.h \
@@ -185,12 +186,15 @@ BITCOIN_CORE_H = \
   kernel/blockmanager_opts.h \
   kernel/chain.h \
   kernel/chainparams.h \
+  kernel/bitcoinkernel.h \
+  kernel/bitcoinkernel_wrapper.h \
   kernel/chainstatemanager_opts.h \
   kernel/checks.h \
   kernel/coinstats.h \
   kernel/context.h \
   kernel/cs_main.h \
   kernel/disconnected_transactions.h \
+  kernel/types.h \
   kernel/mempool_entry.h \
   kernel/mempool_limits.h \
   kernel/mempool_options.h \
@@ -245,14 +249,15 @@ BITCOIN_CORE_H = \
   noui.h \
   outputtype.h \
   policy/feerate.h \
-  policy/fees.h \
-  policy/fees_args.h \
+  policy/fees/block_policy_estimator.h \
+  policy/fees/block_policy_estimator_args.h \
   policy/packages.h \
   policy/policy.h \
   policy/rbf.h \
   policy/settings.h \
   policy/truc_policy.h \
   pow.h \
+  private_broadcast.h \
   protocol.h \
   psbt.h \
   random.h \
@@ -278,6 +283,7 @@ BITCOIN_CORE_H = \
   script/sign.h \
   script/signingprovider.h \
   script/solver.h \
+  script/verify_flags.h \
   signet.h \
   streams.h \
   support/allocators/pool.h \
@@ -305,6 +311,7 @@ BITCOIN_CORE_H = \
   util/check.h \
   util/epochguard.h \
   util/exception.h \
+  util/expected.h \
   util/fastrange.h \
   util/feefrac.h \
   util/fs.h \
@@ -417,6 +424,7 @@ libbitcoin_node_a_SOURCES = \
   net.cpp \
   net_processing.cpp \
   netgroup.cpp \
+  private_broadcast.cpp \
   node/abort.cpp \
   node/blockmanager_args.cpp \
   node/blockstorage.cpp \
@@ -446,8 +454,8 @@ libbitcoin_node_a_SOURCES = \
   node/utxo_snapshot.cpp \
   node/warnings.cpp \
   noui.cpp \
-  policy/fees.cpp \
-  policy/fees_args.cpp \
+  policy/fees/block_policy_estimator.cpp \
+  policy/fees/block_policy_estimator_args.cpp \
   policy/packages.cpp \
   policy/rbf.cpp \
   policy/settings.cpp \
@@ -779,6 +787,7 @@ libbitcoin_util_a_SOURCES = \
   util/chaintype.cpp \
   util/check.cpp \
   util/exception.cpp \
+  util/expected.cpp \
   util/feefrac.cpp \
   util/fs.cpp \
   util/fs_helpers.cpp \
@@ -812,7 +821,7 @@ libbitcoin_cli_a_SOURCES = \
 nodist_libbitcoin_util_a_SOURCES = $(srcdir)/obj/build.h
 #
 
-# bitcoind & bitcoin-node binaries #
+# meowcoind & meowcoin-node binaries #
 bitcoin_daemon_sources = bitcoind.cpp
 bitcoin_bin_cppflags = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES)
 bitcoin_bin_cxxflags = $(AM_CXXFLAGS) $(PIE_FLAGS)
@@ -836,49 +845,49 @@ bitcoin_bin_ldadd = \
 
 bitcoin_bin_ldadd += $(BDB_LIBS) $(MINIUPNPC_LIBS) $(NATPMP_LIBS) $(EVENT_PTHREADS_LIBS) $(EVENT_LIBS) $(ZMQ_LIBS) $(SQLITE_LIBS)
 
-bitcoind_SOURCES = $(bitcoin_daemon_sources) init/bitcoind.cpp
-bitcoind_CPPFLAGS = $(bitcoin_bin_cppflags)
-bitcoind_CXXFLAGS = $(bitcoin_bin_cxxflags)
-bitcoind_LDFLAGS = $(bitcoin_bin_ldflags)
-bitcoind_LDADD = $(LIBBITCOIN_NODE) $(bitcoin_bin_ldadd)
+meowcoind_SOURCES = $(bitcoin_daemon_sources) init/bitcoind.cpp
+meowcoind_CPPFLAGS = $(bitcoin_bin_cppflags)
+meowcoind_CXXFLAGS = $(bitcoin_bin_cxxflags)
+meowcoind_LDFLAGS = $(bitcoin_bin_ldflags)
+meowcoind_LDADD = $(LIBBITCOIN_NODE) $(bitcoin_bin_ldadd)
 
-bitcoin_node_SOURCES = $(bitcoin_daemon_sources) init/bitcoin-node.cpp
-bitcoin_node_CPPFLAGS = $(bitcoin_bin_cppflags)
-bitcoin_node_CXXFLAGS = $(bitcoin_bin_cxxflags)
-bitcoin_node_LDFLAGS = $(bitcoin_bin_ldflags)
-bitcoin_node_LDADD = $(LIBBITCOIN_NODE) $(bitcoin_bin_ldadd) $(LIBBITCOIN_IPC) $(LIBMULTIPROCESS_LIBS)
+meowcoin_node_SOURCES = $(bitcoin_daemon_sources) init/bitcoin-node.cpp
+meowcoin_node_CPPFLAGS = $(bitcoin_bin_cppflags)
+meowcoin_node_CXXFLAGS = $(bitcoin_bin_cxxflags)
+meowcoin_node_LDFLAGS = $(bitcoin_bin_ldflags)
+meowcoin_node_LDADD = $(LIBBITCOIN_NODE) $(bitcoin_bin_ldadd) $(LIBBITCOIN_IPC) $(LIBMULTIPROCESS_LIBS)
 
-# bitcoin-cli binary #
-bitcoin_cli_SOURCES = bitcoin-cli.cpp
-bitcoin_cli_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES) $(EVENT_CFLAGS)
-bitcoin_cli_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
-bitcoin_cli_LDFLAGS = $(RELDFLAGS) $(AM_LDFLAGS) $(LIBTOOL_APP_LDFLAGS) $(PTHREAD_FLAGS)
+# meowcoin-cli binary #
+meowcoin_cli_SOURCES = bitcoin-cli.cpp
+meowcoin_cli_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES) $(EVENT_CFLAGS)
+meowcoin_cli_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
+meowcoin_cli_LDFLAGS = $(RELDFLAGS) $(AM_LDFLAGS) $(LIBTOOL_APP_LDFLAGS) $(PTHREAD_FLAGS)
 
 if TARGET_WINDOWS
-bitcoin_cli_SOURCES += bitcoin-cli-res.rc
+meowcoin_cli_SOURCES += bitcoin-cli-res.rc
 endif
 
-bitcoin_cli_LDADD = \
+meowcoin_cli_LDADD = \
   $(LIBBITCOIN_CLI) \
   $(LIBUNIVALUE) \
   $(LIBBITCOIN_COMMON) \
   $(LIBBITCOIN_UTIL) \
   $(LIBBITCOIN_CRYPTO)
 
-bitcoin_cli_LDADD += $(EVENT_LIBS)
+meowcoin_cli_LDADD += $(EVENT_LIBS)
 #
 
-# bitcoin-tx binary #
-bitcoin_tx_SOURCES = bitcoin-tx.cpp
-bitcoin_tx_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES)
-bitcoin_tx_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
-bitcoin_tx_LDFLAGS = $(RELDFLAGS) $(AM_LDFLAGS) $(LIBTOOL_APP_LDFLAGS) $(PTHREAD_FLAGS)
+# meowcoin-tx binary #
+meowcoin_tx_SOURCES = bitcoin-tx.cpp
+meowcoin_tx_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES)
+meowcoin_tx_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
+meowcoin_tx_LDFLAGS = $(RELDFLAGS) $(AM_LDFLAGS) $(LIBTOOL_APP_LDFLAGS) $(PTHREAD_FLAGS)
 
 if TARGET_WINDOWS
-bitcoin_tx_SOURCES += bitcoin-tx-res.rc
+meowcoin_tx_SOURCES += bitcoin-tx-res.rc
 endif
 
-bitcoin_tx_LDADD = \
+meowcoin_tx_LDADD = \
   $(LIBUNIVALUE) \
   $(LIBBITCOIN_COMMON) \
   $(LIBBITCOIN_UTIL) \
@@ -887,13 +896,13 @@ bitcoin_tx_LDADD = \
   $(LIBSECP256K1)
 #
 
-# bitcoin-wallet binary #
-bitcoin_wallet_SOURCES = bitcoin-wallet.cpp
-bitcoin_wallet_SOURCES += init/bitcoin-wallet.cpp
-bitcoin_wallet_CPPFLAGS = $(bitcoin_bin_cppflags)
-bitcoin_wallet_CXXFLAGS = $(bitcoin_bin_cxxflags)
-bitcoin_wallet_LDFLAGS = $(bitcoin_bin_ldflags)
-bitcoin_wallet_LDADD = \
+# meowcoin-wallet binary #
+meowcoin_wallet_SOURCES = bitcoin-wallet.cpp
+meowcoin_wallet_SOURCES += init/bitcoin-wallet.cpp
+meowcoin_wallet_CPPFLAGS = $(bitcoin_bin_cppflags)
+meowcoin_wallet_CXXFLAGS = $(bitcoin_bin_cxxflags)
+meowcoin_wallet_LDFLAGS = $(bitcoin_bin_ldflags)
+meowcoin_wallet_LDADD = \
   $(LIBBITCOIN_WALLET_TOOL) \
   $(LIBBITCOIN_WALLET) \
   $(LIBBITCOIN_COMMON) \
@@ -906,21 +915,21 @@ bitcoin_wallet_LDADD = \
   $(SQLITE_LIBS)
 
 if TARGET_WINDOWS
-bitcoin_wallet_SOURCES += bitcoin-wallet-res.rc
+meowcoin_wallet_SOURCES += bitcoin-wallet-res.rc
 endif
 #
 
-# bitcoin-util binary #
-bitcoin_util_SOURCES = bitcoin-util.cpp
-bitcoin_util_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES)
-bitcoin_util_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
-bitcoin_util_LDFLAGS = $(RELDFLAGS) $(AM_LDFLAGS) $(LIBTOOL_APP_LDFLAGS) $(PTHREAD_FLAGS)
+# meowcoin-util binary #
+meowcoin_util_SOURCES = bitcoin-util.cpp
+meowcoin_util_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES)
+meowcoin_util_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
+meowcoin_util_LDFLAGS = $(RELDFLAGS) $(AM_LDFLAGS) $(LIBTOOL_APP_LDFLAGS) $(PTHREAD_FLAGS)
 
 if TARGET_WINDOWS
-bitcoin_util_SOURCES += bitcoin-util-res.rc
+meowcoin_util_SOURCES += bitcoin-util-res.rc
 endif
 
-bitcoin_util_LDADD = \
+meowcoin_util_LDADD = \
   $(LIBBITCOIN_COMMON) \
   $(LIBBITCOIN_UTIL) \
   $(LIBUNIVALUE) \
@@ -929,17 +938,17 @@ bitcoin_util_LDADD = \
   $(LIBSECP256K1)
 #
 
-# bitcoin-chainstate binary #
-bitcoin_chainstate_SOURCES = bitcoin-chainstate.cpp
-bitcoin_chainstate_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES) $(BOOST_CPPFLAGS)
-bitcoin_chainstate_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
+# meowcoin-chainstate binary #
+meowcoin_chainstate_SOURCES = bitcoin-chainstate.cpp
+meowcoin_chainstate_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES) $(BOOST_CPPFLAGS)
+meowcoin_chainstate_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
 
-bitcoin_chainstate_LDFLAGS = $(RELDFLAGS) $(AM_LDFLAGS) $(PTHREAD_FLAGS) $(LIBTOOL_APP_LDFLAGS) -static
-bitcoin_chainstate_LDADD = $(LIBBITCOINKERNEL)
+meowcoin_chainstate_LDFLAGS = $(RELDFLAGS) $(AM_LDFLAGS) $(PTHREAD_FLAGS) $(LIBTOOL_APP_LDFLAGS) -static
+meowcoin_chainstate_LDADD = $(LIBBITCOINKERNEL)
 
 # libtool is unable to calculate this indirect dependency, presumably because it's a subproject.
 # libsecp256k1 only needs to be linked in when libbitcoinkernel is static.
-bitcoin_chainstate_LDADD += $(LIBSECP256K1)
+meowcoin_chainstate_LDADD += $(LIBSECP256K1)
 #
 
 # bitcoinkernel library #

@@ -1,4 +1,4 @@
-// Copyright (c) 2021-2022 The Bitcoin Core developers
+﻿// Copyright (c) 2021-2022 The Bitcoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -9,7 +9,7 @@
 #include <net_processing.h>
 #include <node/context.h>
 #include <node/miner.h>
-#include <policy/fees.h>
+#include <policy/fees/block_policy_estimator.h>
 #include <pow.h>
 #include <rpc/protocol.h>
 #include <rpc/request.h>
@@ -148,3 +148,4 @@ void NextEmptyBlockIndex(CBlockIndex& tip, const Consensus::Params& consensusPar
     next_index.nNonce = next_header.nNonce;
     next_index.nHeight = tip.nHeight + 1;
 }
+
