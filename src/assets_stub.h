@@ -9,6 +9,8 @@
 #include <cstdint>
 #include <utility>
 
+#include "amount.h"  // For CAmount typedef
+
 class CTransaction;
 class CScript;
 class CBlockIndex;
