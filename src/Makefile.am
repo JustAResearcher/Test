@@ -554,7 +554,7 @@ libbitcoin_wallet_tool_a_SOURCES = \
 # crypto_base contains the unspecialized (unoptimized) versions of our
 # crypto functions. Functions that require custom compiler flags and/or
 # runtime opt-in are omitted.
-crypto_libbitcoin_crypto_base_la_CPPFLAGS = $(AM_CPPFLAGS)
+crypto_libbitcoin_crypto_base_la_CPPFLAGS = $(AM_CPPFLAGS) -I$(srcdir)/crypto/ethash/include -I$(srcdir)/crypto/ethash/lib
 
 # Specify -static in both CXXFLAGS and LDFLAGS so libtool will only build a
 # static version of this library. We don't need a dynamic version, and a dynamic
@@ -563,7 +563,7 @@ crypto_libbitcoin_crypto_base_la_CPPFLAGS = $(AM_CPPFLAGS)
 crypto_libbitcoin_crypto_base_la_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS) -static
 crypto_libbitcoin_crypto_base_la_LDFLAGS = $(AM_LDFLAGS) -static
 
-crypto_libbitcoin_crypto_base_la_SOURCES = \
+crypto/libbitcoin_crypto_base_la_SOURCES = \
   crypto/aes.cpp \
   crypto/aes.h \
   crypto/chacha20.h \
@@ -596,6 +596,14 @@ crypto_libbitcoin_crypto_base_la_SOURCES = \
   crypto/sha512.h \
   crypto/siphash.cpp \
   crypto/siphash.h \
+  crypto/ethash/lib/ethash/ethash.cpp \
+  crypto/ethash/lib/ethash/managed.cpp \
+  crypto/ethash/lib/ethash/meowpow.cpp \
+  crypto/ethash/lib/ethash/progpow.cpp \
+  crypto/ethash/lib/ethash/primes.c \
+  crypto/ethash/lib/keccak/keccak.c \
+  crypto/ethash/lib/keccak/keccakf1600.c \
+  crypto/ethash/lib/keccak/keccakf800.c \
   support/cleanse.cpp
 
 # See explanation for -static in crypto_libbitcoin_crypto_base_la's LDFLAGS and
