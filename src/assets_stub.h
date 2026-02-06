@@ -330,6 +330,7 @@ inline int64_t GetBurnAmount(AssetType) { return 0; }
 inline std::string GetUniqueAssetName(const std::string&, const std::string&) { return std::string(); }
 inline std::string RestrictedNameToOwnerName(const std::string& s) { return s; }
 inline std::string DecodeAssetData(const std::string& s) { return s; }
+inline std::string EncodeAssetData(const std::string& s) { return s; }
 
 // GetAssetInfoFromScript - used in rpc/misc.cpp
 inline bool GetAssetInfoFromScript(const CScript&, std::string&, int64_t&) { return false; }
