@@ -56,6 +56,7 @@ enum QualifierType {
 #define OWNER_TAG "!"
 #define UNIQUE_TAG "#"
 #define RESTRICTED_CHAR '$'
+#define OWNER_UNITS 0
 
 // Asset undo version constant
 const int8_t ASSET_UNDO_INCLUDES_VERIFIER_STRING = -1;
