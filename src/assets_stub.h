@@ -65,14 +65,27 @@ struct CNewAsset {
     std::string strIPFSHash;
     CNewAsset() = default;
     CNewAsset(const std::string& n, int64_t a): strName(n), nAmount(a) {}
+    CNewAsset(const std::string& n, int64_t a, int u, int r, int h, const std::string& ipfs)
+        : strName(n), nAmount(a), units(u), nReissuable(r), nHasIPFS(h), strIPFSHash(ipfs) {}
+    void SetNull() { strName.clear(); nAmount = 0; units = 8; nReissuable = 0; nHasIPFS = 0; strIPFSHash.clear(); }
+    bool IsNull() const { return strName.empty(); }
+    std::string ToString() const { return strName; }
+    void ConstructTransaction(CScript&) const {}
+    void ConstructOwnerTransaction(CScript&) const {}
 };
 
 struct CAssetTransfer {
     std::string strName;
     int64_t nAmount{0};
+    std::string message;
+    int64_t nExpireTime{0};
     CAssetTransfer() = default;
     CAssetTransfer(const std::string& n, int64_t a): strName(n), nAmount(a) {}
+    CAssetTransfer(const std::string& n, int64_t a, const std::string& m, int64_t e)
+        : strName(n), nAmount(a), message(m), nExpireTime(e) {}
     void ConstructTransaction(CScript&) const {}
+    void SetNull() { strName.clear(); nAmount = 0; message.clear(); nExpireTime = 0; }
+    bool IsNull() const { return strName.empty(); }
 };
 
 struct CReissueAsset {
@@ -82,6 +95,11 @@ struct CReissueAsset {
     int8_t nReissuable{1};
     std::string strIPFSHash;
     CReissueAsset() = default;
+    CReissueAsset(const std::string& n, int64_t a, int u, int r, const std::string& ipfs)
+        : strName(n), nAmount(a), nUnits(u), nReissuable(r), strIPFSHash(ipfs) {}
+    void SetNull() { strName.clear(); nAmount = 0; nUnits = 0; nReissuable = 1; strIPFSHash.clear(); }
+    bool IsNull() const { return strName.empty(); }
+    void ConstructTransaction(CScript&) const {}
 };
 struct CNullAssetTxData { std::string asset_name; int flag{0}; };
 struct CDatabasedAssetData { };
@@ -258,6 +276,9 @@ extern CDistributeSnapshotRequestDB* pDistributeSnapshotDb;
 // Global messaging flags
 extern bool fMessaging;
 inline bool AreMessagesDeployed() { return false; }
+
+// Returns the current active asset cache (used by Qt and RPC)
+inline CAssetsCache* GetCurrentAssetCache() { return passets; }
 
 // Forward declaration for wallet types
 struct CAssetOutputEntry;  // defined in wallet/wallet.h
