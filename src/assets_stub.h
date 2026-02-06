@@ -218,7 +218,7 @@ public:
     bool AddNewAsset(const CNewAsset&, const std::string&, int, const uint256&) { return true; }
     bool AddOwnerAsset(const std::string&, const std::string&) { return true; }
     bool AddReissueAsset(const CReissueAsset&, const std::string&, const COutPoint&) { return true; }
-    bool AddTransferAsset(const CAssetTransfer&, const std::string&, const COutPoint&, const uint256&) { return true; }
+    bool AddTransferAsset(const CAssetTransfer&, const std::string&, const COutPoint&, const CTxOut&) { return true; }
     bool AddQualifierAddress(const std::string&, const std::string&, QualifierType) { return true; }
     bool AddRestrictedAddress(const std::string&, const std::string&, RestrictedType) { return true; }
     bool AddGlobalRestricted(const std::string&, RestrictedType) { return true; }
