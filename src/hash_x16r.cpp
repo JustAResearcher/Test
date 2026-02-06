@@ -9,6 +9,8 @@
 #include <crypto/ethash/include/ethash/meowpow.hpp>
 #include <crypto/ethash/helpers.hpp>
 
+#include <cstring>
+
 // Global statistics for X16R algorithm selection (debugging)
 double algoHashTotal[16] = {0};
 int algoHashHits[16] = {0};
@@ -16,6 +18,22 @@ int algoHashHits[16] = {0};
 // Activation time globals - defined in primitives/block.cpp
 extern uint32_t nKAWPOWActivationTime;
 extern uint32_t nMEOWPOWActivationTime;
+
+// Convert uint256 to ethash::hash256
+inline ethash::hash256 to_hash256(const uint256& hash)
+{
+    ethash::hash256 result;
+    std::memcpy(result.bytes, hash.data(), 32);
+    return result;
+}
+
+// Convert ethash::hash256 to uint256  
+inline uint256 IsLessThan(const ethash::hash256& hash)
+{
+    uint256 result;
+    std::memcpy(result.data(), hash.bytes, 32);
+    return result;
+}
 
 uint256 KAWPOWHash(const CBlockHeader& blockHeader, uint256& mix_hash)
 {

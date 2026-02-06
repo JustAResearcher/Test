@@ -8,6 +8,7 @@
 
 #include <hash.h>
 #include <hash_x16r.h>
+#include <streams.h>
 #include <tinyformat.h>
 #include <crypto/ethash/include/ethash/ethash.hpp>
 #include <crypto/ethash/include/ethash/meowpow.hpp>
@@ -33,8 +34,7 @@ uint256 CBlockHeader::GetHash() const
 uint256 CBlockHeader::GetX16RHash() const
 {
     // X16R hash - uses previous block hash to select algorithm order
-    std::vector<unsigned char> data(80);
-    CDataStream ss(SER_NETWORK, PROTOCOL_VERSION);
+    DataStream ss{};
     ss << nVersion << hashPrevBlock << hashMerkleRoot << nTime << nBits << nNonce;
     return HashX16R(ss.begin(), ss.end(), hashPrevBlock);
 }
