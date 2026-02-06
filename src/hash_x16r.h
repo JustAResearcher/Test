@@ -8,6 +8,8 @@
 #include <uint256.h>
 #include <serialize.h>
 
+#include <cassert>
+
 #include <algo/sph_blake.h>
 #include <algo/sph_bmw.h>
 #include <algo/sph_groestl.h>

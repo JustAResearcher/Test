@@ -161,6 +161,7 @@ BITCOIN_CORE_H = \
   deploymentstatus.h \
   external_signer.h \
   flatfile.h \
+  hash_x16r.h \
   headerssync.h \
   httprpc.h \
   httpserver.h \
