@@ -53,6 +53,9 @@ enum QualifierType {
 // Asset undo version constant
 const int8_t ASSET_UNDO_INCLUDES_VERIFIER_STRING = -1;
 
+// Cache size constant
+#define MAX_CACHE_ASSETS_SIZE 2500
+
 struct CNewAsset {
     std::string strName;
     int64_t nAmount{0};
@@ -119,10 +122,20 @@ struct CBlockAssetUndo {
 template<typename K, typename V>
 class CLRUCache {
 public:
-    CLRUCache(size_t) {}
-    void insert(const K&, const V&) {}
-    bool contains(const K&) const { return false; }
-    size_t size() const { return 0; }
+    CLRUCache(size_t = 0) {}
+    void Put(const K&, const V&) {}
+    void Erase(const K&) {}
+    V Get(const K&) const { return V(); }
+    bool Exists(const K&) const { return false; }
+    size_t Size() const { return 0; }
+    void Clear() {}
+    void SetNull() {}
+    size_t MaxSize() const { return 0; }
+    void SetSize(size_t) {}
+    // Legacy method names
+    void insert(const K& k, const V& v) { Put(k, v); }
+    bool contains(const K& k) const { return Exists(k); }
+    size_t size() const { return Size(); }
 };
 
 // Database stub classes
