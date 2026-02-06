@@ -1,12 +1,13 @@
 // Copyright (c) 2009-2010 Satoshi Nakamoto
 // Copyright (c) 2009-2019 The Bitcoin Core developers
-// Copyright (c) 2017-2026 The Meowcoin Core developers
+// Copyright (c) 2017-2024 The Meowcoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 #include <primitives/block.h>
 
 #include <hash.h>
+#include <hash_x16r.h>
 #include <tinyformat.h>
 #include <crypto/ethash/include/ethash/ethash.hpp>
 #include <crypto/ethash/include/ethash/meowpow.hpp>
@@ -17,9 +18,13 @@ uint32_t nMEOWPOWActivationTime = 0;
 
 uint256 CBlockHeader::GetHash() const
 {
-    // For KawPow blocks, we use the header hash (which gets verified with mix_hash)
-    if (nTime >= nKAWPOWActivationTime) {
+    // For MeowPow blocks
+    if (nTime >= nMEOWPOWActivationTime && nMEOWPOWActivationTime > 0) {
         return GetMEOWPOWHeaderHash();
+    }
+    // For KawPow blocks  
+    if (nTime >= nKAWPOWActivationTime && nKAWPOWActivationTime > 0) {
+        return GetKAWPOWHeaderHash();
     }
     // Legacy X16R hash for pre-KawPow blocks
     return GetX16RHash();
@@ -27,9 +32,11 @@ uint256 CBlockHeader::GetHash() const
 
 uint256 CBlockHeader::GetX16RHash() const
 {
-    // For now, use SHA256d as a placeholder
-    // Full X16R implementation would go here
-    return (HashWriter{} << nVersion << hashPrevBlock << hashMerkleRoot << nTime << nBits << nNonce).GetHash();
+    // X16R hash - uses previous block hash to select algorithm order
+    std::vector<unsigned char> data(80);
+    CDataStream ss(SER_NETWORK, PROTOCOL_VERSION);
+    ss << nVersion << hashPrevBlock << hashMerkleRoot << nTime << nBits << nNonce;
+    return HashX16R(ss.begin(), ss.end(), hashPrevBlock);
 }
 
 uint256 CBlockHeader::GetKAWPOWHeaderHash() const
@@ -46,7 +53,7 @@ uint256 CBlockHeader::GetMEOWPOWHeaderHash() const
 
 uint256 CBlockHeader::GetHashFull(uint256& mix_hash_out) const
 {
-    // Compute the full KawPow hash including mix_hash verification
+    // Compute the full KawPow/MeowPow hash including mix_hash verification
     mix_hash_out = mix_hash;
     return GetHash();
 }

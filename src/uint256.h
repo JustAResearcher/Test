@@ -184,6 +184,43 @@ public:
     constexpr explicit uint256(Span<const unsigned char> vch) : base_blob<256>(vch) {}
     static const uint256 ZERO;
     static const uint256 ONE;
+
+    /** Get a nibble (4 bits) from the hash for X16R algorithm selection.
+     * @param index The nibble index (0-63), where 0 is MSB nibble
+     */
+    int GetNibble(int index) const
+    {
+        index = 63 - index;
+        if (index % 2 == 1)
+            return (m_data[index / 2] >> 4);
+        return (m_data[index / 2] & 0x0F);
+    }
+
+    /** A cheap hash function that just returns 64 bits from the result, it can be
+     * used when the contents are considered uniformly random. It is not appropriate
+     * when the value can easily be influenced from outside as e.g. a network adversary
+     * could provide values to trigger worst-case behavior.
+     */
+    uint64_t GetCheapHash() const
+    {
+        return ReadLE64(m_data.data());
+    }
+};
+
+/** 512-bit opaque blob used for intermediate X16R hash results. */
+class uint512 : public base_blob<512> {
+public:
+    constexpr uint512() = default;
+    uint512(const base_blob<512>& b) : base_blob<512>(b) {}
+    constexpr explicit uint512(Span<const unsigned char> vch) : base_blob<512>(vch) {}
+
+    /** Trim to 256 bits by taking the first 32 bytes */
+    uint256 trim256() const
+    {
+        uint256 result;
+        memcpy((void*)result.data(), (void*)m_data.data(), 32);
+        return result;
+    }
 };
 
 /* uint256 from std::string_view, containing byte-reversed hex encoding.

@@ -644,9 +644,36 @@ crypto_libbitcoin_crypto_arm_shani_la_SOURCES = crypto/sha256_arm_shani.cpp
 #
 
 # consensus #
-libbitcoin_consensus_a_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES)
+libbitcoin_consensus_a_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES) -I$(srcdir)/crypto/ethash/include -I$(srcdir)/crypto/ethash/lib
 libbitcoin_consensus_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
 libbitcoin_consensus_a_SOURCES = \
+  algo/aes_helper.c \
+  algo/blake.c \
+  algo/bmw.c \
+  algo/cubehash.c \
+  algo/echo.c \
+  algo/extra.c \
+  algo/fugue.c \
+  algo/gost_streebog.c \
+  algo/groestl.c \
+  algo/hamsi.c \
+  algo/hamsi_helper.c \
+  algo/haval.c \
+  algo/haval_helper.c \
+  algo/jh.c \
+  algo/keccak.c \
+  algo/luffa.c \
+  algo/lyra2.cpp \
+  algo/Lyra2RE.c \
+  algo/shabal.c \
+  algo/shavite.c \
+  algo/simd.c \
+  algo/skein.c \
+  algo/sph_sha2.c \
+  algo/sph_sha2big.c \
+  algo/sponge.cpp \
+  algo/tiger.cpp \
+  algo/whirlpool.c \
   arith_uint256.cpp \
   arith_uint256.h \
   consensus/amount.h \
@@ -657,6 +684,8 @@ libbitcoin_consensus_a_SOURCES = \
   consensus/validation.h \
   hash.cpp \
   hash.h \
+  hash_x16r.cpp \
+  hash_x16r.h \
   prevector.h \
   primitives/block.cpp \
   primitives/block.h \
