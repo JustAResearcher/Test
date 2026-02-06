@@ -6,12 +6,12 @@
         <translation type="unfinished">Valitse hiiren kakkospainikkeella muokataksesi osoitetta tai nimikettä</translation>
     </message>
     <message>
-        <source>&amp;New</source>
-        <translation type="unfinished">&amp;Uusi</translation>
+        <source>Create a new address</source>
+        <translation type="unfinished">Luo uusi osoite</translation>
     </message>
     <message>
-        <source>Copy the currently selected address to the system clipboard</source>
-        <translation type="unfinished">Kopioi valittu osoite leikepöydälle</translation>
+        <source>&amp;New</source>
+        <translation type="unfinished">&amp;Uusi</translation>
     </message>
     <message>
         <source>&amp;Copy</source>
@@ -819,14 +819,6 @@ Allekirjoitus on mahdollista vain 'legacy'-tyyppisillä osoitteilla.</translatio
         <translation type="unfinished">Esi synkronoidaan otsikot (%1%)…</translation>
     </message>
     <message>
-        <source>Error creating wallet</source>
-        <translation type="unfinished">Virhe luodessa lompakkoa</translation>
-    </message>
-    <message>
-        <source>Cannot create new wallet, the software was compiled without sqlite support (required for descriptor wallets)</source>
-        <translation type="unfinished">Uutta lompakkoa ei voi luoda, ohjelmisto on käännetty ilman sqlite-tukea (tarvitaan kuvauslompakoissa)</translation>
-    </message>
-    <message>
         <source>Error: %1</source>
         <translation type="unfinished">Virhe: %1</translation>
     </message>
@@ -1194,6 +1186,10 @@ Siirtoprosessi luo varmuuskopion lompakosta ennen siirtoa. Tämä varmuuskopioti
         <translation type="unfinished">Sulje lompakko</translation>
     </message>
     <message>
+        <source>Are you sure you wish to close the wallet &lt;i&gt;%1&lt;/i&gt;?</source>
+        <translation type="unfinished">Haluatko varmasti sulkea lompakon &lt;i&gt;%1&lt;/i&gt;?</translation>
+    </message>
+    <message>
         <source>Closing the wallet for too long can result in having to resync the entire chain if pruning is enabled.</source>
         <translation type="unfinished">Lompakon sulkeminen liian pitkäksi aikaa saattaa johtaa tarpeeseen synkronoida koko ketju uudelleen, mikäli karsinta on käytössä.</translation>
     </message>
@@ -1353,7 +1349,77 @@ Siirtoprosessi luo varmuuskopion lompakosta ennen siirtoa. Tämä varmuuskopioti
     </message>
 </context>
 <context>
+    <name>HelpMessageDialog</name>
+    <message>
+        <source>version</source>
+        <translation type="unfinished">versio</translation>
+    </message>
+    <message>
+        <source>About %1</source>
+        <translation type="unfinished">Tietoja %1</translation>
+    </message>
+    <message>
+        <source>Command-line options</source>
+        <translation type="unfinished">Komentorivi parametrit</translation>
+    </message>
+</context>
+<context>
+    <name>ShutdownWindow</name>
+    <message>
+        <source>%1 is shutting down…</source>
+        <translation type="unfinished">%1 suljetaan...</translation>
+    </message>
+    <message>
+        <source>Do not shut down the computer until this window disappears.</source>
+        <translation type="unfinished">Älä sammuta tietokonetta ennenkuin tämä ikkuna katoaa.</translation>
+    </message>
+</context>
+<context>
     <name>Intro</name>
+    <message>
+        <source>Welcome</source>
+        <translation type="unfinished">Tervetuloa</translation>
+    </message>
+    <message>
+        <source>Welcome to %1.</source>
+        <translation type="unfinished">Tervetuloa %1 pariin.</translation>
+    </message>
+    <message>
+        <source>As this is the first time the program is launched, you can choose where %1 will store its data.</source>
+        <translation type="unfinished">Tämä on ensimmäinen kerta, kun %1 on käynnistetty, joten voit valita data-hakemiston paikan.</translation>
+    </message>
+    <message>
+        <source>Limit block chain storage to</source>
+        <translation type="unfinished">Rajoita lohkoketjun tallennus</translation>
+    </message>
+    <message>
+        <source>Reverting this setting requires re-downloading the entire blockchain. It is faster to download the full chain first and prune it later. Disables some advanced features.</source>
+        <translation type="unfinished">Tämän asetuksen peruuttaminen vaatii koko lohkoketjun uudelleenlataamisen. On nopeampaa ladata koko ketju ensin ja karsia se myöhemmin. Tämä myös poistaa käytöstä joitain edistyneitä toimintoja.</translation>
+    </message>
+    <message>
+        <source> GB</source>
+        <translation type="unfinished">GB</translation>
+    </message>
+    <message>
+        <source>This initial synchronisation is very demanding, and may expose hardware problems with your computer that had previously gone unnoticed. Each time you run %1, it will continue downloading where it left off.</source>
+        <translation type="unfinished">Tämä alustava synkronointi on erittäin vaativa ja saattaa tuoda esiin laiteongelmia, joita ei aikaisemmin ole havaittu. Aina kun ajat %1:n, jatketaan siitä kohdasta, mihin viimeksi jäätiin.</translation>
+    </message>
+    <message>
+        <source>When you click OK, %1 will begin to download and process the full %4 block chain (%2 GB) starting with the earliest transactions in %3 when %4 initially launched.</source>
+        <translation type="unfinished">Kun napsautat OK, %1 alkaa ladata ja käsitellä koko %4 lohkoketjun (%2 GB) alkaen ensimmäisistä tapahtumista %3 kun %4 alun perin käynnistetty.</translation>
+    </message>
+    <message>
+        <source>If you have chosen to limit block chain storage (pruning), the historical data must still be downloaded and processed, but will be deleted afterward to keep your disk usage low.</source>
+        <translation type="unfinished">Vaikka olisitkin valinnut rajoittaa lohkoketjun tallennustilaa (karsinnalla), täytyy historiatiedot silti ladata ja käsitellä, mutta ne poistetaan jälkikäteen levytilan säästämiseksi.</translation>
+    </message>
+    <message>
+        <source>Use the default data directory</source>
+        <translation type="unfinished">Käytä oletuskansiota</translation>
+    </message>
+    <message>
+        <source>Use a custom data directory:</source>
+        <translation type="unfinished">Määritä oma kansio:</translation>
+    </message>
     <message numerus="yes">
         <source>%n GB of space available</source>
         <translation type="unfinished">
@@ -1410,76 +1476,6 @@ Siirtoprosessi luo varmuuskopion lompakosta ennen siirtoa. Tämä varmuuskopioti
     <message>
         <source>Error</source>
         <translation type="unfinished">Virhe</translation>
-    </message>
-    <message>
-        <source>Welcome</source>
-        <translation type="unfinished">Tervetuloa</translation>
-    </message>
-    <message>
-        <source>Welcome to %1.</source>
-        <translation type="unfinished">Tervetuloa %1 pariin.</translation>
-    </message>
-    <message>
-        <source>As this is the first time the program is launched, you can choose where %1 will store its data.</source>
-        <translation type="unfinished">Tämä on ensimmäinen kerta, kun %1 on käynnistetty, joten voit valita data-hakemiston paikan.</translation>
-    </message>
-    <message>
-        <source>Limit block chain storage to</source>
-        <translation type="unfinished">Rajoita lohkoketjun tallennus</translation>
-    </message>
-    <message>
-        <source>Reverting this setting requires re-downloading the entire blockchain. It is faster to download the full chain first and prune it later. Disables some advanced features.</source>
-        <translation type="unfinished">Tämän asetuksen peruuttaminen vaatii koko lohkoketjun uudelleenlataamisen. On nopeampaa ladata koko ketju ensin ja karsia se myöhemmin. Tämä myös poistaa käytöstä joitain edistyneitä toimintoja.</translation>
-    </message>
-    <message>
-        <source> GB</source>
-        <translation type="unfinished">GB</translation>
-    </message>
-    <message>
-        <source>This initial synchronisation is very demanding, and may expose hardware problems with your computer that had previously gone unnoticed. Each time you run %1, it will continue downloading where it left off.</source>
-        <translation type="unfinished">Tämä alustava synkronointi on erittäin vaativa ja saattaa tuoda esiin laiteongelmia, joita ei aikaisemmin ole havaittu. Aina kun ajat %1:n, jatketaan siitä kohdasta, mihin viimeksi jäätiin.</translation>
-    </message>
-    <message>
-        <source>When you click OK, %1 will begin to download and process the full %4 block chain (%2 GB) starting with the earliest transactions in %3 when %4 initially launched.</source>
-        <translation type="unfinished">Kun napsautat OK, %1 alkaa ladata ja käsitellä koko %4 lohkoketjun (%2 GB) alkaen ensimmäisistä tapahtumista %3 kun %4 alun perin käynnistetty.</translation>
-    </message>
-    <message>
-        <source>If you have chosen to limit block chain storage (pruning), the historical data must still be downloaded and processed, but will be deleted afterward to keep your disk usage low.</source>
-        <translation type="unfinished">Vaikka olisitkin valinnut rajoittaa lohkoketjun tallennustilaa (karsinnalla), täytyy historiatiedot silti ladata ja käsitellä, mutta ne poistetaan jälkikäteen levytilan säästämiseksi.</translation>
-    </message>
-    <message>
-        <source>Use the default data directory</source>
-        <translation type="unfinished">Käytä oletuskansiota</translation>
-    </message>
-    <message>
-        <source>Use a custom data directory:</source>
-        <translation type="unfinished">Määritä oma kansio:</translation>
-    </message>
-</context>
-<context>
-    <name>HelpMessageDialog</name>
-    <message>
-        <source>version</source>
-        <translation type="unfinished">versio</translation>
-    </message>
-    <message>
-        <source>About %1</source>
-        <translation type="unfinished">Tietoja %1</translation>
-    </message>
-    <message>
-        <source>Command-line options</source>
-        <translation type="unfinished">Komentorivi parametrit</translation>
-    </message>
-</context>
-<context>
-    <name>ShutdownWindow</name>
-    <message>
-        <source>%1 is shutting down…</source>
-        <translation type="unfinished">%1 suljetaan...</translation>
-    </message>
-    <message>
-        <source>Do not shut down the computer until this window disappears.</source>
-        <translation type="unfinished">Älä sammuta tietokonetta ennenkuin tämä ikkuna katoaa.</translation>
     </message>
 </context>
 <context>
@@ -1644,11 +1640,6 @@ Siirtoprosessi luo varmuuskopion lompakosta ennen siirtoa. Tämä varmuuskopioti
         <translation type="unfinished">Tämän asetuksen muuttaminen vaatii koko lohkoketjun uudelleenlataamista.</translation>
     </message>
     <message>
-        <source>Maximum database cache size. A larger cache can contribute to faster sync, after which the benefit is less pronounced for most use cases. Lowering the cache size will reduce memory usage. Unused mempool memory is shared for this cache.</source>
-        <extracomment>Tooltip text for Options window setting that sets the size of the database cache. Explains the corresponding effects of increasing/decreasing this value.</extracomment>
-        <translation type="unfinished">Tietokannan välimuistin enimmäiskoko. Suurempi välimuisti voi nopeuttaa synkronointia, mutta sen jälkeen hyöty ei ole enää niin merkittävä useimmissa käyttötapauksissa. Välimuistin koon pienentäminen vähentää muistin käyttöä. Käyttämätön mempool-muisti jaetaan tätä välimuistia varten.</translation>
-    </message>
-    <message>
         <source>Set the number of script verification threads. Negative values correspond to the number of cores you want to leave free to the system.</source>
         <extracomment>Tooltip text for Options window setting that sets the number of script verification threads. Explains that negative values mean to leave these many cores free to the system.</extracomment>
         <translation type="unfinished">Aseta komentosarjan vahvistusketjujen määrä. Negatiiviset arvot vastaavat niiden ytimien määrää, jotka haluat jättää järjestelmälle vapaiksi.</translation>
@@ -1714,22 +1705,6 @@ Siirtoprosessi luo varmuuskopion lompakosta ennen siirtoa. Tämä varmuuskopioti
     <message>
         <source>&amp;External signer script path</source>
         <translation type="unfinished">&amp;Ulkoisen allekirjoittajan komentosarjapolku</translation>
-    </message>
-    <message>
-        <source>Automatically open the Bitcoin client port on the router. This only works when your router supports UPnP and it is enabled.</source>
-        <translation type="unfinished">Avaa Bitcoin-asiakasohjelman portti reitittimellä automaattisesti. Tämä toimii vain, jos reitittimesi tukee UPnP:tä ja se on käytössä.</translation>
-    </message>
-    <message>
-        <source>Map port using &amp;UPnP</source>
-        <translation type="unfinished">Portin uudelleenohjaus &amp;UPnP:llä</translation>
-    </message>
-    <message>
-        <source>Automatically open the Bitcoin client port on the router. This only works when your router supports NAT-PMP and it is enabled. The external port could be random.</source>
-        <translation type="unfinished">Avaa reitittimen Bitcoin client-portti automaattisesti. Tämä toimii vain, jos reitittimesi tukee NAT-PMP:tä ja se on käytössä. Ulkoinen portti voi olla satunnainen.</translation>
-    </message>
-    <message>
-        <source>Map port using NA&amp;T-PMP</source>
-        <translation type="unfinished">Kartoita portti käyttämällä NA&amp;T-PMP:tä</translation>
     </message>
     <message>
         <source>Accept connections from outside.</source>
@@ -1913,10 +1888,6 @@ Siirtoprosessi luo varmuuskopion lompakosta ennen siirtoa. Tämä varmuuskopioti
         <translation type="unfinished">Näytetyt tiedot eivät välttämättä ole ajantasalla. Lompakkosi synkronoituu Bitcoin-verkon kanssa automaattisesti yhteyden muodostamisen jälkeen, mutta synkronointi on vielä meneillään.</translation>
     </message>
     <message>
-        <source>Watch-only:</source>
-        <translation type="unfinished">Seuranta:</translation>
-    </message>
-    <message>
         <source>Available:</source>
         <translation type="unfinished">Käytettävissä:</translation>
     </message>
@@ -1953,28 +1924,8 @@ Siirtoprosessi luo varmuuskopion lompakosta ennen siirtoa. Tämä varmuuskopioti
         <translation type="unfinished">Tililläsi tällä hetkellä olevien Bitcoinien määrä</translation>
     </message>
     <message>
-        <source>Your current balance in watch-only addresses</source>
-        <translation type="unfinished">Nykyinen tase seurattavassa osoitetteissa</translation>
-    </message>
-    <message>
-        <source>Spendable:</source>
-        <translation type="unfinished">Käytettävissä:</translation>
-    </message>
-    <message>
         <source>Recent transactions</source>
         <translation type="unfinished">Viimeisimmät rahansiirrot</translation>
-    </message>
-    <message>
-        <source>Unconfirmed transactions to watch-only addresses</source>
-        <translation type="unfinished">Vahvistamattomat rahansiirrot vain seurattaviin osoitteisiin</translation>
-    </message>
-    <message>
-        <source>Mined balance in watch-only addresses that has not yet matured</source>
-        <translation type="unfinished">Louhittu, ei vielä kypsynyt saldo vain seurattavissa osoitteissa</translation>
-    </message>
-    <message>
-        <source>Current total balance in watch-only addresses</source>
-        <translation type="unfinished">Nykyinen tase seurattavassa osoitetteissa</translation>
     </message>
     <message>
         <source>Privacy mode activated for the Overview tab. To unmask the values, uncheck Settings-&gt;Mask values.</source>
@@ -2294,6 +2245,14 @@ Jos saat tämän virheen, pyydä kauppiasta antamaan BIP21-yhteensopiva URI.</tr
         <translation type="unfinished">Yhteyksien lukumäärä</translation>
     </message>
     <message>
+        <source>Local Addresses</source>
+        <translation type="unfinished">Paikalliset osoitteet</translation>
+    </message>
+    <message>
+        <source>Network addresses that your Bitcoin node is currently using to communicate with other nodes.</source>
+        <translation type="unfinished">Verkko-osoitteet, joita Bitcoin-solmusi käyttää tällä hetkellä kommunikoidakseen muiden solmujen kanssa.</translation>
+    </message>
+    <message>
         <source>Block chain</source>
         <translation type="unfinished">Lohkoketju</translation>
     </message>
@@ -2340,6 +2299,10 @@ Jos saat tämän virheen, pyydä kauppiasta antamaan BIP21-yhteensopiva URI.</tr
     <message>
         <source>Select a peer to view detailed information.</source>
         <translation type="unfinished">Valitse vertainen eriteltyjä tietoja varten.</translation>
+    </message>
+    <message>
+        <source>Hide Peers Detail</source>
+        <translation type="unfinished">Piilota vertaisten yksityiskohdat</translation>
     </message>
     <message>
         <source>The transport layer version: %1</source>
@@ -2454,6 +2417,10 @@ Jos saat tämän virheen, pyydä kauppiasta antamaan BIP21-yhteensopiva URI.</tr
     <message>
         <source>Direction/Type</source>
         <translation type="unfinished">Suunta/Tyyppi</translation>
+    </message>
+    <message>
+        <source>The BIP324 session ID string in hex.</source>
+        <translation type="unfinished">BIP324-istunnon ID-merkkijono heksana.</translation>
     </message>
     <message>
         <source>The network protocol this peer is connected through: IPv4, IPv6, Onion, I2P, or CJDNS.</source>
@@ -3223,10 +3190,6 @@ Huom: Koska maksu lasketaan per tavu, "100 satoshin per kB" maksunopeus 500 virt
         <translation type="unfinished">Vahvista kolikoiden lähetys</translation>
     </message>
     <message>
-        <source>Watch-only balance:</source>
-        <translation type="unfinished">Katselulompakon saldo:</translation>
-    </message>
-    <message>
         <source>The recipient address is not valid. Please recheck.</source>
         <translation type="unfinished">Vastaanottajan osoite ei ole kelvollinen. Tarkista osoite.</translation>
     </message>
@@ -3363,6 +3326,10 @@ Huom: Koska maksu lasketaan per tavu, "100 satoshin per kB" maksunopeus 500 virt
         <translation type="unfinished">&amp;Allekirjoita viesti</translation>
     </message>
     <message>
+        <source>You can sign messages/agreements with your legacy (P2PKH) addresses to prove you can receive bitcoins sent to them. Be careful not to sign anything vague or random, as phishing attacks may try to trick you into signing your identity over to them. Only sign fully-detailed statements you agree to.</source>
+        <translation type="unfinished">Voit allekirjoittaa viestejä/sopimuksia vanhojen (P2PKH) osoitteidesi kanssa todistaaksesi, että voit vastaanottaa niihin lähetettyjä bitcoineja. Varo allekirjoittamasta mitään epämääräistä tai satunnaista, sillä phishing-hyökkäykset voivat yrittää huijata sinua allekirjoittamaan henkilöllisyytesi heille. Allekirjoita vain täysin yksityiskohtaiset lausunnot, joihin suostut.</translation>
+    </message>
+    <message>
         <source>The Bitcoin address to sign the message with</source>
         <translation type="unfinished">Bitcoin-osoite jolla viesti allekirjoitetaan</translation>
     </message>
@@ -3381,10 +3348,6 @@ Huom: Koska maksu lasketaan per tavu, "100 satoshin per kB" maksunopeus 500 virt
     <message>
         <source>Signature</source>
         <translation type="unfinished">Allekirjoitus</translation>
-    </message>
-    <message>
-        <source>Copy the current signature to the system clipboard</source>
-        <translation type="unfinished">Kopioi tämänhetkinen allekirjoitus leikepöydälle</translation>
     </message>
     <message>
         <source>Sign the message to prove you own this Bitcoin address</source>
@@ -3563,10 +3526,6 @@ Huom: Koska maksu lasketaan per tavu, "100 satoshin per kB" maksunopeus 500 virt
         <translation type="unfinished">oma osoite</translation>
     </message>
     <message>
-        <source>watch-only</source>
-        <translation type="unfinished">vain seurattava</translation>
-    </message>
-    <message>
         <source>label</source>
         <translation type="unfinished">nimi</translation>
     </message>
@@ -3736,10 +3695,6 @@ Huom: Koska maksu lasketaan per tavu, "100 satoshin per kB" maksunopeus 500 virt
         <translation type="unfinished">Louhittu</translation>
     </message>
     <message>
-        <source>watch-only</source>
-        <translation type="unfinished">vain seurattava</translation>
-    </message>
-    <message>
         <source>(n/a)</source>
         <translation type="unfinished">(ei saatavilla)</translation>
     </message>
@@ -3758,10 +3713,6 @@ Huom: Koska maksu lasketaan per tavu, "100 satoshin per kB" maksunopeus 500 virt
     <message>
         <source>Type of transaction.</source>
         <translation type="unfinished">Maksutapahtuman tyyppi.</translation>
-    </message>
-    <message>
-        <source>Whether or not a watch-only address is involved in this transaction.</source>
-        <translation type="unfinished">Onko rahansiirrossa mukana ainoastaan seurattava osoite vai ei.</translation>
     </message>
     <message>
         <source>User-defined intent/purpose of the transaction.</source>
@@ -3883,10 +3834,6 @@ Huom: Koska maksu lasketaan per tavu, "100 satoshin per kB" maksunopeus 500 virt
     <message>
         <source>Confirmed</source>
         <translation type="unfinished">Vahvistettu</translation>
-    </message>
-    <message>
-        <source>Watch-only</source>
-        <translation type="unfinished">Vain seurattava</translation>
     </message>
     <message>
         <source>Date</source>
@@ -4017,12 +3964,20 @@ Varoitus: Tämä voi maksaa ylimääräisen maksun vähentämällä vaihtotuloja
         <translation type="unfinished">PSBT kopioitu</translation>
     </message>
     <message>
+        <source>Fee-bump PSBT copied to clipboard</source>
+        <translation type="unfinished">Siirtokulujen nosto PSBT kopioitu leikepöydälle</translation>
+    </message>
+    <message>
         <source>Can't sign transaction.</source>
         <translation type="unfinished">Siirtoa ei voida allekirjoittaa.</translation>
     </message>
     <message>
         <source>Could not commit transaction</source>
         <translation type="unfinished">Siirtoa ei voitu tehdä</translation>
+    </message>
+    <message>
+        <source>Signer error</source>
+        <translation type="unfinished">Allekirjoittajan virhe</translation>
     </message>
     <message>
         <source>Can't display address</source>
@@ -4076,21 +4031,13 @@ Varoitus: Tämä voi maksaa ylimääräisen maksun vähentämällä vaihtotuloja
         <translation type="unfinished">%s kehittäjät</translation>
     </message>
     <message>
-        <source>%s corrupt. Try using the wallet tool bitcoin-wallet to salvage or restoring a backup.</source>
-        <translation type="unfinished">%s on vioittunut. Yritä käyttää lompakkotyökalua bitcoin-wallet pelastaaksesi sen tai palauttaa varmuuskopio.</translation>
-    </message>
-    <message>
         <source>%s failed to validate the -assumeutxo snapshot state. This indicates a hardware problem, or a bug in the software, or a bad software modification that allowed an invalid snapshot to be loaded. As a result of this, the node will shut down and stop using any state that was built on the snapshot, resetting the chain height from %d to %d. On the next restart, the node will resume syncing from %d without using any snapshot data. Please report this incident to %s, including how you obtained the snapshot. The invalid snapshot chainstate will be left on disk in case it is helpful in diagnosing the issue that caused this error.</source>
         <translation type="unfinished">%s virheellinen -assumeutxo-snapshot-tila. Tämä viittaa laitteistoon liittyvään ongelmaan, ohjelmistovirheeseen tai huonoon ohjelmistomuutokseen, joka on sallinut virheellisen snapshotin lataamisen. Tämän seurauksena solmu sulkeutuu ja lopettaa kaiken sen tilan käytön, joka perustui snapshottiin, ja nollaa lohkokorkeuden%darvoon%d. Seuraavassa uudelleenkäynnistyksessä solmu jatkaa synkronointia kohdasta%d  
 ilman, että käytetään mitään snapshot-tietoja. Ilmoita tästä tapauksesta osoitteeseen%s, mukaan lukien se, miten sait snapshotin. Virheellinen snapshot-tilatiedosto jätetään levylle, jos se on hyödyllinen ongelman diagnosoinnissa, joka aiheutti tämän virheen.</translation>
     </message>
     <message>
-        <source>Cannot downgrade wallet from version %i to version %i. Wallet version unchanged.</source>
-        <translation type="unfinished">Ei voida alentaa lompakon versiota versiosta %i versioon %i. Lompakon versio pysyy ennallaan.</translation>
-    </message>
-    <message>
-        <source>Cannot obtain a lock on data directory %s. %s is probably already running.</source>
-        <translation type="unfinished">Ei voida lukita data-hakemistoa %s. %s on luultavasti jo käynnissä.</translation>
+        <source>%s request to listen on port %u. This port is considered "bad" and thus it is unlikely that any peer will connect to it. See doc/p2p-bad-ports.md for details and a full list.</source>
+        <translation type="unfinished">%s pyyntö kuunnella porttia %u. Tätä porttia pidetään ”huonona”, joten on epätodennäköistä, että mikään vertaisohjelma muodostaa siihen yhteyden. Katso lisätietoja ja täydellinen luettelo doc/p2p-bad-ports.md-tiedostosta.</translation>
     </message>
     <message>
         <source>Distributed under the MIT software license, see the accompanying file %s or %s</source>
@@ -4113,10 +4060,6 @@ ilman, että käytetään mitään snapshot-tietoja. Ilmoita tästä tapauksesta
         <translation type="unfinished">Karsinta konfiguroitu alle minimin %d MiB. Käytä surempaa numeroa.</translation>
     </message>
     <message>
-        <source>Prune: last wallet synchronisation goes beyond pruned data. You need to -reindex (download the whole blockchain again in case of pruned node)</source>
-        <translation type="unfinished">Karsinta: viime lompakon synkronisointi menee karsitun datan taakse. Sinun tarvitsee ajaa -reindex (lataa koko lohkoketju uudelleen tapauksessa jossa karsiva noodi)</translation>
-    </message>
-    <message>
         <source>SQLiteDatabase: Unknown sqlite wallet schema version %d. Only version %d is supported</source>
         <translation type="unfinished">SQLiteDatabase: Tuntematon sqlite-lompakkokaavioversio %d. Vain versiota %d tuetaan</translation>
     </message>
@@ -4127,10 +4070,6 @@ ilman, että käytetään mitään snapshot-tietoja. Ilmoita tästä tapauksesta
     <message>
         <source>The transaction amount is too small to send after the fee has been deducted</source>
         <translation type="unfinished">Siirtomäärä on liian pieni lähetettäväksi kulun vähentämisen jälkeen.</translation>
-    </message>
-    <message>
-        <source>This error could occur if this wallet was not shutdown cleanly and was last loaded using a build with a newer version of Berkeley DB. If so, please use the software that last loaded this wallet</source>
-        <translation type="unfinished">Tämä virhe voi tapahtua, jos tämä lompakko ei sammutettu siististi ja ladattiin viimeksi uudempaa Berkeley DB -versiota käyttäneellä ohjelmalla. Tässä tapauksessa käytä sitä ohjelmaa, joka viimeksi latasi tämän lompakon.</translation>
     </message>
     <message>
         <source>This is a pre-release test build - use at your own risk - do not use for mining or merchant applications</source>
@@ -4185,10 +4124,6 @@ ilman, että käytetään mitään snapshot-tietoja. Ilmoita tästä tapauksesta
         <translation type="unfinished">-peerblockfiltersiä ei voida asettaa ilman -blockfilterindexiä.</translation>
     </message>
     <message>
-        <source>Cannot write to data directory '%s'; check permissions.</source>
-        <translation type="unfinished">Hakemistoon '%s' ei voida kirjoittaa. Tarkista käyttöoikeudet.</translation>
-    </message>
-    <message>
         <source>
 Unable to cleanup failed migration</source>
         <translation type="unfinished">
@@ -4199,6 +4134,10 @@ Epäonnistuneen migraation siivoaminen epäonnistui</translation>
 Unable to restore backup of wallet.</source>
         <translation type="unfinished">
 Ei voinut palauttaa lompakon varmuuskopiota..</translation>
+    </message>
+    <message>
+        <source>default wallet</source>
+        <translation type="unfinished">oletuslompakko</translation>
     </message>
     <message>
         <source>Block verification was interrupted</source>
@@ -4229,10 +4168,6 @@ Ei voinut palauttaa lompakon varmuuskopiota..</translation>
         <translation type="unfinished">Liian vähän levytilaa!</translation>
     </message>
     <message>
-        <source>Do you want to rebuild the block database now?</source>
-        <translation type="unfinished">Haluatko uudelleenrakentaa lohkotietokannan nyt?</translation>
-    </message>
-    <message>
         <source>Done loading</source>
         <translation type="unfinished">Lataus on valmis</translation>
     </message>
@@ -4247,10 +4182,6 @@ Ei voinut palauttaa lompakon varmuuskopiota..</translation>
     <message>
         <source>Error initializing block database</source>
         <translation type="unfinished">Virhe alustaessa lohkotietokantaa</translation>
-    </message>
-    <message>
-        <source>Error initializing wallet database environment %s!</source>
-        <translation type="unfinished">Virhe alustaessa lompakon tietokantaympäristöä %s!</translation>
     </message>
     <message>
         <source>Error loading %s</source>
@@ -4329,20 +4260,12 @@ Ei voinut palauttaa lompakon varmuuskopiota..</translation>
         <translation type="unfinished">Virhe: Tiedon kirjoittaminen lompakkoon epäonnistui</translation>
     </message>
     <message>
-        <source>Error: address book copy failed for wallet %s</source>
-        <translation type="unfinished">Virhe: osoitekirjan kopiointi epäonnistui lompakolle %s</translation>
-    </message>
-    <message>
         <source>Failed to listen on any port. Use -listen=0 if you want this.</source>
         <translation type="unfinished">Ei onnistuttu kuuntelemaan missään portissa. Käytä -listen=0 jos haluat tätä.</translation>
     </message>
     <message>
         <source>Failed to rescan the wallet during initialization</source>
         <translation type="unfinished">Lompakkoa ei voitu tarkastaa alustuksen yhteydessä.</translation>
-    </message>
-    <message>
-        <source>Failed to start indexes, shutting down..</source>
-        <translation type="unfinished">Indeksien käynnistäminen epäonnistui, sammutetaan..</translation>
     </message>
     <message>
         <source>Failed to verify database</source>
@@ -4359,10 +4282,6 @@ Ei voinut palauttaa lompakon varmuuskopiota..</translation>
     <message>
         <source>Ignoring duplicate -wallet %s.</source>
         <translation type="unfinished">Ohitetaan kaksois -lompakko %s.</translation>
-    </message>
-    <message>
-        <source>Importing…</source>
-        <translation type="unfinished">Tuodaan...</translation>
     </message>
     <message>
         <source>Incorrect or no genesis block found. Wrong datadir for network?</source>
@@ -4413,10 +4332,6 @@ Ei voinut palauttaa lompakon varmuuskopiota..</translation>
         <translation type="unfinished">Virheellinen portti määritetty %s: '%s'</translation>
     </message>
     <message>
-        <source>Invalid pre-selected input %s</source>
-        <translation type="unfinished">Virheellinen esivalittu syöte %s</translation>
-    </message>
-    <message>
         <source>Listening for incoming connections failed (listen returned error %s)</source>
         <translation type="unfinished">Saapuvien yhteyksien kuuntelu epäonnistui (kuuntelu palasi virheen %s)</translation>
     </message>
@@ -4451,10 +4366,6 @@ Ei voinut palauttaa lompakon varmuuskopiota..</translation>
     <message>
         <source>No addresses available</source>
         <translation type="unfinished">Osoitteita ei ole saatavilla</translation>
-    </message>
-    <message>
-        <source>Not enough file descriptors available.</source>
-        <translation type="unfinished">Ei tarpeeksi tiedostomerkintöjä vapaana.</translation>
     </message>
     <message>
         <source>Not found pre-selected input %s</source>
@@ -4609,14 +4520,6 @@ Ei voinut palauttaa lompakon varmuuskopiota..</translation>
         <translation type="unfinished">Ulkoisen tulon UTXO ei löydy</translation>
     </message>
     <message>
-        <source>Unable to generate initial keys</source>
-        <translation type="unfinished">Alkuavaimia ei voi luoda</translation>
-    </message>
-    <message>
-        <source>Unable to generate keys</source>
-        <translation type="unfinished">Avaimia ei voitu luoda</translation>
-    </message>
-    <message>
         <source>Unable to open %s for writing</source>
         <translation type="unfinished">Ei pystytä avaamaan %s kirjoittamista varten</translation>
     </message>
@@ -4627,10 +4530,6 @@ Ei voinut palauttaa lompakon varmuuskopiota..</translation>
     <message>
         <source>Unable to start HTTP server. See debug log for details.</source>
         <translation type="unfinished">HTTP-palvelinta ei voitu käynnistää. Katso debug-lokista lisätietoja.</translation>
-    </message>
-    <message>
-        <source>Unable to unload the wallet before migrating</source>
-        <translation type="unfinished">Lompakon lataus epäonnistui ennen siirtoa</translation>
     </message>
     <message>
         <source>Unknown -blockfilterindex value %s.</source>

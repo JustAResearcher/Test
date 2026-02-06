@@ -2,8 +2,6 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#include <config/bitcoin-config.h> // IWYU pragma: keep
-
 #include <cstring>
 #include <string>
 #include <thread>
@@ -16,7 +14,7 @@
 
 #include <util/threadnames.h>
 
-#ifdef HAVE_SYS_PRCTL_H
+#if __has_include(<sys/prctl.h>)
 #include <sys/prctl.h>
 #endif
 
@@ -29,7 +27,7 @@ static void SetThreadName(const char* name)
     ::prctl(PR_SET_NAME, name, 0, 0, 0);
 #elif (defined(__FreeBSD__) || defined(__OpenBSD__) || defined(__DragonFly__))
     pthread_set_name_np(pthread_self(), name);
-#elif defined(MAC_OSX)
+#elif defined(__APPLE__)
     pthread_setname_np(name);
 #else
     // Prevent warnings for unused parameters...

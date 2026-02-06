@@ -14,10 +14,6 @@
         <translation type="unfinished">Новы</translation>
     </message>
     <message>
-        <source>Copy the currently selected address to the system clipboard</source>
-        <translation type="unfinished">Капіяваць пазначаны адрас у сістэмны буфер абмену</translation>
-    </message>
-    <message>
         <source>&amp;Copy</source>
         <translation type="unfinished">Капіяваць</translation>
     </message>
@@ -591,7 +587,18 @@
     </message>
     </context>
 <context>
+    <name>HelpMessageDialog</name>
+    <message>
+        <source>Command-line options</source>
+        <translation type="unfinished">Опцыі каманднага радка</translation>
+    </message>
+</context>
+<context>
     <name>Intro</name>
+    <message>
+        <source>Welcome</source>
+        <translation type="unfinished">Вітаем</translation>
+    </message>
     <message>
         <source>Bitcoin</source>
         <translation type="unfinished">Біткойн</translation>
@@ -632,17 +639,6 @@
     <message>
         <source>Error</source>
         <translation type="unfinished">Памылка</translation>
-    </message>
-    <message>
-        <source>Welcome</source>
-        <translation type="unfinished">Вітаем</translation>
-    </message>
-    </context>
-<context>
-    <name>HelpMessageDialog</name>
-    <message>
-        <source>Command-line options</source>
-        <translation type="unfinished">Опцыі каманднага радка</translation>
     </message>
 </context>
 <context>
@@ -1086,20 +1082,12 @@
 <context>
     <name>bitcoin-core</name>
     <message>
-        <source>Do you want to rebuild the block database now?</source>
-        <translation type="unfinished">Ці жадаеце вы перабудаваць зараз базу звестак блокаў?</translation>
-    </message>
-    <message>
         <source>Done loading</source>
         <translation type="unfinished">Загрузка выканана</translation>
     </message>
     <message>
         <source>Error initializing block database</source>
         <translation type="unfinished">Памылка ініцыялізацыі базвы звестак блокаў</translation>
-    </message>
-    <message>
-        <source>Error initializing wallet database environment %s!</source>
-        <translation type="unfinished">Памалка ініцыялізацыі асяроддзя базы звестак гаманца %s!</translation>
     </message>
     <message>
         <source>Error loading block database</source>
@@ -1112,10 +1100,6 @@
     <message>
         <source>Insufficient funds</source>
         <translation type="unfinished">Недастаткова сродкаў</translation>
-    </message>
-    <message>
-        <source>Not enough file descriptors available.</source>
-        <translation type="unfinished">Не хапае файлавых дэскрыптараў.</translation>
     </message>
     <message>
         <source>Signing transaction failed</source>

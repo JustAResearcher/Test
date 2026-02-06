@@ -30,7 +30,12 @@ JSON_PARSING_ERROR = 'error: Error parsing JSON: foo'
 BLOCKS_VALUE_OF_ZERO = 'error: the first argument (number of blocks to generate, default: 1) must be an integer value greater than zero'
 TOO_MANY_ARGS = 'error: too many arguments (maximum 2 for nblocks and maxtries)'
 WALLET_NOT_LOADED = 'Requested wallet does not exist or is not loaded'
-WALLET_NOT_SPECIFIED = 'Wallet file not specified'
+WALLET_NOT_SPECIFIED = (
+    "Multiple wallets are loaded. Please select which wallet to use by requesting the RPC "
+    "through the /wallet/<walletname> URI path. Or for the CLI, specify the \"-rpcwallet=<walletname>\" "
+    "option before the command (run \"bitcoin-cli -h\" for help or \"bitcoin-cli listwallets\" to see "
+    "which wallets are currently loaded)."
+)
 
 
 def cli_get_info_string_to_dict(cli_get_info_string):
@@ -68,15 +73,26 @@ def cli_get_info_string_to_dict(cli_get_info_string):
 
 
 class TestBitcoinCli(BitcoinTestFramework):
-    def add_options(self, parser):
-        self.add_wallet_options(parser)
-
     def set_test_params(self):
         self.setup_clean_chain = True
         self.num_nodes = 1
+        self.uses_wallet = None
 
     def skip_test_if_missing_module(self):
         self.skip_if_no_cli()
+
+    def test_netinfo(self):
+        """Test -netinfo output format."""
+        self.log.info("Test -netinfo header and separate local services line")
+        out = self.nodes[0].cli('-netinfo').send_cli().splitlines()
+        assert out[0].startswith(f"{self.config['environment']['CLIENT_NAME']} client ")
+        assert any(re.match(r"^Local services:.+network", line) for line in out)
+
+        self.log.info("Test -netinfo local services are moved to header if details are requested")
+        det = self.nodes[0].cli('-netinfo', '1').send_cli().splitlines()
+        self.log.debug(f"Test -netinfo 1 header output: {det[0]}")
+        assert re.match(rf"^{re.escape(self.config['environment']['CLIENT_NAME'])} client.+services nwl2?$", det[0])
+        assert not any(line.startswith("Local services:") for line in det)
 
     def run_test(self):
         """Main test logic"""
@@ -159,6 +175,9 @@ class TestBitcoinCli(BitcoinTestFramework):
         self.log.info("Test connecting with non-existing RPC cookie file")
         assert_raises_process_error(1, "Could not locate RPC credentials", self.nodes[0].cli('-rpccookiefile=does-not-exist', '-rpcpassword=').echo)
 
+        self.log.info("Test connecting without RPC cookie file and with password arg")
+        assert_equal(BLOCKS, self.nodes[0].cli('-norpccookiefile', f'-rpcuser={user}', f'-rpcpassword={password}').getblockcount())
+
         self.log.info("Test -getinfo with arguments fails")
         assert_raises_process_error(1, "-getinfo takes no arguments", self.nodes[0].cli('-getinfo').help)
 
@@ -172,7 +191,7 @@ class TestBitcoinCli(BitcoinTestFramework):
         assert_raises_process_error(1, "Invalid value for -color option. Valid values: always, auto, never.", self.nodes[0].cli('-getinfo', '-color=foo').send_cli)
 
         self.log.info("Test -getinfo returns expected network and blockchain info")
-        if self.is_specified_wallet_compiled():
+        if self.is_wallet_compiled():
             self.import_deterministic_coinbase_privkeys()
             self.nodes[0].encryptwallet(password)
         cli_get_info_string = self.nodes[0].cli('-getinfo').send_cli()
@@ -198,7 +217,7 @@ class TestBitcoinCli(BitcoinTestFramework):
         cli_get_info = cli_get_info_string_to_dict(cli_get_info_string)
         assert_equal(cli_get_info["Proxies"], "127.0.0.1:9050 (ipv4, ipv6, onion, cjdns), 127.0.0.1:7656 (i2p)")
 
-        if self.is_specified_wallet_compiled():
+        if self.is_wallet_compiled():
             self.log.info("Test -getinfo and bitcoin-cli getwalletinfo return expected wallet info")
             # Explicitly set the output type in order to have consistent tx vsize / fees
             # for both legacy and descriptor wallets (disables the change address type detection algorithm)
@@ -271,6 +290,10 @@ class TestBitcoinCli(BitcoinTestFramework):
             assert_equal(cli_get_info['Wallet'], wallets[1])
             assert_equal(Decimal(cli_get_info['Balance']), amounts[1])
 
+            self.log.info("Test -getinfo -norpcwallet returns the same as -getinfo")
+            # Previously there was a bug where -norpcwallet was treated like -rpcwallet=0
+            assert_equal(self.nodes[0].cli('-getinfo', "-norpcwallet").send_cli(), cli_get_info_string)
+
             self.log.info("Test -getinfo with -rpcwallet=remaining-non-default-wallet returns only its balance")
             cli_get_info_string = self.nodes[0].cli('-getinfo', rpcwallet2).send_cli()
             cli_get_info = cli_get_info_string_to_dict(cli_get_info_string)
@@ -331,6 +354,10 @@ class TestBitcoinCli(BitcoinTestFramework):
             n4 = 10
             blocks = self.nodes[0].getblockcount()
 
+            self.log.info('Test -generate -rpcwallet=<filename> raise RPC error')
+            wallet2_path = f'-rpcwallet={self.nodes[0].wallets_path / wallets[2] / self.wallet_data_filename}'
+            assert_raises_rpc_error(-18, WALLET_NOT_LOADED, self.nodes[0].cli(wallet2_path, '-generate').echo)
+
             self.log.info('Test -generate -rpcwallet with no args')
             generate = self.nodes[0].cli(rpcwallet2, '-generate').send_cli()
             assert_equal(set(generate.keys()), {'address', 'blocks'})
@@ -363,10 +390,12 @@ class TestBitcoinCli(BitcoinTestFramework):
             self.log.info("*** Wallet not compiled; cli getwalletinfo and -getinfo wallet tests skipped")
             self.generate(self.nodes[0], 25)  # maintain block parity with the wallet_compiled conditional branch
 
+        self.test_netinfo()
+
         self.log.info("Test -version with node stopped")
         self.stop_node(0)
         cli_response = self.nodes[0].cli('-version').send_cli()
-        assert f"{self.config['environment']['PACKAGE_NAME']} RPC client version" in cli_response
+        assert f"{self.config['environment']['CLIENT_NAME']} RPC client version" in cli_response
 
         self.log.info("Test -rpcwait option successfully waits for RPC connection")
         self.nodes[0].start()  # start node without RPC connection
@@ -380,6 +409,9 @@ class TestBitcoinCli(BitcoinTestFramework):
         start_time = time.time()
         assert_raises_process_error(1, "Could not connect to the server", self.nodes[0].cli('-rpcwait', '-rpcwaittimeout=5').echo)
         assert_greater_than_or_equal(time.time(), start_time + 5)
+
+        self.log.info("Test that only one of -addrinfo, -generate, -getinfo, -netinfo may be specified at a time")
+        assert_raises_process_error(1, "Only one of -getinfo, -netinfo may be specified", self.nodes[0].cli('-getinfo', '-netinfo').send_cli)
 
 
 if __name__ == '__main__':

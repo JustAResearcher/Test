@@ -122,23 +122,60 @@ std::optional<std::string> CheckPackageMempoolAcceptResult(const Package& txns,
         if (mempool) {
             // The tx by txid should be in the mempool iff the result was not INVALID.
             const bool txid_in_mempool{atmp_result.m_result_type != MempoolAcceptResult::ResultType::INVALID};
-            if (mempool->exists(GenTxid::Txid(tx->GetHash())) != txid_in_mempool) {
+            if (mempool->exists(tx->GetHash()) != txid_in_mempool) {
                 return strprintf("tx %s should %sbe in mempool", wtxid.ToString(), txid_in_mempool ? "" : "not ");
             }
             // Additionally, if the result was DIFFERENT_WITNESS, we shouldn't be able to find the tx in mempool by wtxid.
             if (tx->HasWitness() && atmp_result.m_result_type == MempoolAcceptResult::ResultType::DIFFERENT_WITNESS) {
-                if (mempool->exists(GenTxid::Wtxid(wtxid))) {
+                if (mempool->exists(wtxid)) {
                     return strprintf("wtxid %s should not be in mempool", wtxid.ToString());
                 }
             }
             for (const auto& tx_ref : atmp_result.m_replaced_transactions) {
-                if (mempool->exists(GenTxid::Txid(tx_ref->GetHash()))) {
+                if (mempool->exists(tx_ref->GetHash())) {
                     return strprintf("tx %s should not be in mempool as it was replaced", tx_ref->GetWitnessHash().ToString());
                 }
             }
         }
     }
     return std::nullopt;
+}
+
+void CheckMempoolEphemeralInvariants(const CTxMemPool& tx_pool)
+{
+    LOCK(tx_pool.cs);
+    for (const auto& tx_info : tx_pool.infoAll()) {
+        const auto& entry = *Assert(tx_pool.GetEntry(tx_info.tx->GetHash()));
+
+        std::vector<uint32_t> dust_indexes = GetDust(*tx_info.tx, tx_pool.m_opts.dust_relay_feerate);
+
+        Assert(dust_indexes.size() < 2);
+
+        if (dust_indexes.empty()) continue;
+
+        // Transaction must have no base fee
+        Assert(entry.GetFee() == 0 && entry.GetModifiedFee() == 0);
+
+        // Transaction has single dust; make sure it's swept or will not be mined
+        const auto& children = entry.GetMemPoolChildrenConst();
+
+        // Multiple children should never happen as non-dust-spending child
+        // can get mined as package
+        Assert(children.size() < 2);
+
+        if (children.empty()) {
+            // No children and no fees; modified fees aside won't get mined so it's fine
+            // Happens naturally if child spend is RBF cycled away.
+            continue;
+        }
+
+        // Only-child should be spending the dust
+        const auto& only_child = children.begin()->get().GetTx();
+        COutPoint dust_outpoint{tx_info.tx->GetHash(), dust_indexes[0]};
+        Assert(std::any_of(only_child.vin.begin(), only_child.vin.end(), [&dust_outpoint](const CTxIn& txin) {
+            return txin.prevout == dust_outpoint;
+            }));
+    }
 }
 
 void CheckMempoolTRUCInvariants(const CTxMemPool& tx_pool)
@@ -170,4 +207,14 @@ void CheckMempoolTRUCInvariants(const CTxMemPool& tx_pool)
             }
         }
     }
+}
+
+void AddToMempool(CTxMemPool& tx_pool, const CTxMemPoolEntry& entry)
+{
+    LOCK2(cs_main, tx_pool.cs);
+    auto changeset = tx_pool.GetChangeSet();
+    changeset->StageAddition(entry.GetSharedTx(), entry.GetFee(),
+            entry.GetTime().count(), entry.GetHeight(), entry.GetSequence(),
+            entry.GetSpendsCoinbase(), entry.GetSigOpCost(), entry.GetLockPoints());
+    changeset->Apply();
 }

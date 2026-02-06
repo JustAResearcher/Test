@@ -79,6 +79,13 @@ Responds with 404 if the block doesn't exist.
 Given a height: returns hash of block in best-block-chain at height provided.
 Responds with 404 if block not found.
 
+#### Spent transaction outputs
+`GET /rest/spenttxouts/<BLOCK-HASH>.<bin|hex|json>`
+
+Given a block hash: returns a collection of spent transaction output lists,
+one per transaction in the block.
+Responds with 404 if the block doesn't exist or its undo data is not available.
+
 #### Chaininfos
 `GET /rest/chaininfo.json`
 
@@ -117,7 +124,7 @@ $ curl localhost:18332/rest/getutxos/checkmempool/b2cdfd7b89def827ff8af7cd9bff76
          "value" : 8.8687,
          "scriptPubKey" : {
             "asm" : "OP_DUP OP_HASH160 1c7cebb529b86a04c683dfa87be49de35bcf589e OP_EQUALVERIFY OP_CHECKSIG",
-            "desc" : "addr(mi7as51dvLJsizWnTMurtRmrP8hG2m1XvD)#gj9tznmy"
+            "desc" : "addr(mi7as51dvLJsizWnTMurtRmrP8hG2m1XvD)#gj9tznmy",
             "hex" : "76a9141c7cebb529b86a04c683dfa87be49de35bcf589e88ac",
             "type" : "pubkeyhash",
             "address" : "mi7as51dvLJsizWnTMurtRmrP8hG2m1XvD"

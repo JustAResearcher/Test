@@ -14,10 +14,6 @@
         <translation type="unfinished">&amp;Bayu</translation>
     </message>
     <message>
-        <source>Copy the currently selected address to the system clipboard</source>
-        <translation type="unfinished">Kopyan me ing makalage address king system clipboard</translation>
-    </message>
-    <message>
         <source>&amp;Copy</source>
         <translation type="unfinished">&amp;Kopyan</translation>
     </message>
@@ -386,7 +382,22 @@
     </message>
 </context>
 <context>
+    <name>HelpMessageDialog</name>
+    <message>
+        <source>version</source>
+        <translation type="unfinished">bersion</translation>
+    </message>
+    <message>
+        <source>Command-line options</source>
+        <translation type="unfinished">Pipamilian command-line</translation>
+    </message>
+</context>
+<context>
     <name>Intro</name>
+    <message>
+        <source>Welcome</source>
+        <translation type="unfinished">Malaus ka</translation>
+    </message>
     <message numerus="yes">
         <source>%n GB of space available</source>
         <translation type="unfinished">
@@ -416,21 +427,6 @@
         <source>Error</source>
         <translation type="unfinished">Mali</translation>
     </message>
-    <message>
-        <source>Welcome</source>
-        <translation type="unfinished">Malaus ka</translation>
-    </message>
-    </context>
-<context>
-    <name>HelpMessageDialog</name>
-    <message>
-        <source>version</source>
-        <translation type="unfinished">bersion</translation>
-    </message>
-    <message>
-        <source>Command-line options</source>
-        <translation type="unfinished">Pipamilian command-line</translation>
-    </message>
 </context>
 <context>
     <name>ModalOverlay</name>
@@ -456,14 +452,6 @@
     <message>
         <source>&amp;Main</source>
         <translation type="unfinished">&amp;Pun</translation>
-    </message>
-    <message>
-        <source>Automatically open the Bitcoin client port on the router. This only works when your router supports UPnP and it is enabled.</source>
-        <translation type="unfinished">Ibuklat yang antimanu ing Bitcoin client port king router. Gagana yamu ini istung ing router mu susuporta yang UPnP at magsilbi ya.</translation>
-    </message>
-    <message>
-        <source>Map port using &amp;UPnP</source>
-        <translation type="unfinished">Mapa ng ning port gamit ing &amp;UPnP</translation>
     </message>
     <message>
         <source>Port of the proxy (e.g. 9050)</source>
@@ -753,10 +741,6 @@
     <message>
         <source>Signature</source>
         <translation type="unfinished">Pirma</translation>
-    </message>
-    <message>
-        <source>Copy the current signature to the system clipboard</source>
-        <translation type="unfinished">Kopyan ing kasalungsungan pirma king system clipboard</translation>
     </message>
     <message>
         <source>Sign the message to prove you own this Bitcoin address</source>
@@ -1093,10 +1077,6 @@
     <message>
         <source>Corrupted block database detected</source>
         <translation type="unfinished">Mekapansin lang me-corrupt a block database</translation>
-    </message>
-    <message>
-        <source>Do you want to rebuild the block database now?</source>
-        <translation type="unfinished">Buri meng buuan pasibayu ing block database ngene?</translation>
     </message>
     <message>
         <source>Done loading</source>

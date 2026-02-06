@@ -96,7 +96,7 @@ class RPCGenerateTest(BitcoinTestFramework):
         txid1 = miniwallet.send_self_transfer(from_node=node)['txid']
         utxo1 = miniwallet.get_utxo(txid=txid1)
         rawtx2 = miniwallet.create_self_transfer(utxo_to_spend=utxo1)['hex']
-        assert_raises_rpc_error(-25, 'testBlockValidity failed: bad-txns-inputs-missingorspent', self.generateblock, node, address, [rawtx2, txid1])
+        assert_raises_rpc_error(-25, 'TestBlockValidity failed: bad-txns-inputs-missingorspent', self.generateblock, node, address, [rawtx2, txid1])
 
         self.log.info('Fail to generate block with txid not in mempool')
         missing_txid = '0000000000000000000000000000000000000000000000000000000000000000'
@@ -124,11 +124,12 @@ class RPCGenerateTest(BitcoinTestFramework):
             "cli option. Refer to -help for more information.\n"
         )
 
-        self.log.info("Test rpc generate raises with message to use cli option")
-        assert_raises_rpc_error(-32601, message, self.nodes[0].rpc.generate)
+        if not self.options.usecli:
+            self.log.info("Test rpc generate raises with message to use cli option")
+            assert_raises_rpc_error(-32601, message, self.nodes[0]._rpc.generate)
 
-        self.log.info("Test rpc generate help prints message to use cli option")
-        assert_equal(message, self.nodes[0].help("generate"))
+            self.log.info("Test rpc generate help prints message to use cli option")
+            assert_equal(message, self.nodes[0].help("generate"))
 
         self.log.info("Test rpc generate is a hidden command not discoverable in general help")
         assert message not in self.nodes[0].help()

@@ -14,10 +14,6 @@
         <translation type="unfinished">&amp;Novo</translation>
     </message>
     <message>
-        <source>Copy the currently selected address to the system clipboard</source>
-        <translation type="unfinished">Copie o endereço selecionado para a área de transferência do sistema</translation>
-    </message>
-    <message>
         <source>&amp;Copy</source>
         <translation type="unfinished">&amp;Copiar</translation>
     </message>
@@ -47,7 +43,7 @@
     </message>
     <message>
         <source>Choose the address to send coins to</source>
-        <translation type="unfinished">Escolha o endereço para enviar moeda</translation>
+        <translation type="unfinished">Escolha o endereço para enviar moedas</translation>
     </message>
     <message>
         <source>Choose the address to receive coins with</source>
@@ -59,12 +55,12 @@
     </message>
     <message>
         <source>These are your Bitcoin addresses for sending payments. Always check the amount and the receiving address before sending coins.</source>
-        <translation type="unfinished">Estes são os seus endereços para enviar pagamentos. Sempre confira o valor e o endereço do destinatário antes de enviar bitcoins.</translation>
+        <translation type="unfinished">Estes são os seus endereços Bitcoin para enviar pagamentos. Sempre confira o valor e o endereço de destino antes de enviar bitcoins.</translation>
     </message>
     <message>
         <source>These are your Bitcoin addresses for receiving payments. Use the 'Create new receiving address' button in the receive tab to create new addresses.
 Signing is only possible with addresses of the type 'legacy'.</source>
-        <translation type="unfinished">Estes são seus endereços Bitcoin para receber pagamentos. Use o botão 'Criar novo endereço de recebimento' na barra receber para criar novos endereços.
+        <translation type="unfinished">Estes são seus endereços Bitcoin para receber pagamentos. Use o botão 'Criar novo endereço de recebimento' na aba receber para criar novos endereços.
 Só é possível assinar com endereços do tipo 'legado'.</translation>
     </message>
     <message>
@@ -91,7 +87,7 @@ Só é possível assinar com endereços do tipo 'legado'.</translation>
     <message>
         <source>There was an error trying to save the address list to %1. Please try again.</source>
         <extracomment>An error message. %1 is a stand-in argument for the name of the file we attempted to save to.</extracomment>
-        <translation type="unfinished">Erro ao salvar a lista de endereço para %1. Tente novamente.</translation>
+        <translation type="unfinished">Erro ao salvar a lista de endereço para %1. Por favor, tente novamente.</translation>
     </message>
     <message>
         <source>Sending addresses - %1</source>
@@ -779,14 +775,6 @@ Só é possível assinar com endereços do tipo 'legado'.</translation>
         <translation type="unfinished">Pré-Sincronizando cabeçalhos (%1%)...</translation>
     </message>
     <message>
-        <source>Error creating wallet</source>
-        <translation type="unfinished">Erro ao criar a carteira</translation>
-    </message>
-    <message>
-        <source>Cannot create new wallet, the software was compiled without sqlite support (required for descriptor wallets)</source>
-        <translation type="unfinished">Não foi possível criar uma nova carteira, o programa foi compilado sem suporte a sqlite (necessário para carteiras com descritores)</translation>
-    </message>
-    <message>
         <source>Error: %1</source>
         <translation type="unfinished">Erro: %1</translation>
     </message>
@@ -914,11 +902,11 @@ Só é possível assinar com endereços do tipo 'legado'.</translation>
     </message>
     <message>
         <source>Received with label</source>
-        <translation type="unfinished">Recebido com rótulo</translation>
+        <translation type="unfinished">Rótulo</translation>
     </message>
     <message>
         <source>Received with address</source>
-        <translation type="unfinished">Recebido com endereço</translation>
+        <translation type="unfinished">Endereço</translation>
     </message>
     <message>
         <source>Date</source>
@@ -935,18 +923,6 @@ Só é possível assinar com endereços do tipo 'legado'.</translation>
     <message>
         <source>Copy amount</source>
         <translation type="unfinished">Copiar quantia</translation>
-    </message>
-    <message>
-        <source>&amp;Copy address</source>
-        <translation type="unfinished">&amp;Copiar endereço</translation>
-    </message>
-    <message>
-        <source>Copy &amp;label</source>
-        <translation type="unfinished">&amp;Copiar etiqueta</translation>
-    </message>
-    <message>
-        <source>Copy &amp;amount</source>
-        <translation type="unfinished">&amp;Copiar valor</translation>
     </message>
     <message>
         <source>Copy transaction &amp;ID and output index</source>
@@ -970,7 +946,7 @@ Só é possível assinar com endereços do tipo 'legado'.</translation>
     </message>
     <message>
         <source>Copy change</source>
-        <translation type="unfinished">Copiar alteração</translation>
+        <translation type="unfinished">Copiar troco</translation>
     </message>
     <message>
         <source>(%1 locked)</source>
@@ -1068,6 +1044,10 @@ O processo de migração criará um backup da carteira antes da migração. Este
     <message>
         <source>The wallet '%1' was migrated successfully.</source>
         <translation type="unfinished">A carteira '%1' foi migrada com sucesso.</translation>
+    </message>
+    <message>
+        <source>Watchonly scripts have been migrated to a new wallet named '%1'.</source>
+        <translation type="unfinished">Os scripts watchonly foram migrados para uma nova pasta chamada '%1'.</translation>
     </message>
     <message>
         <source>Solvable but not watched scripts have been migrated to a new wallet named '%1'.</source>
@@ -1288,7 +1268,77 @@ O processo de migração criará um backup da carteira antes da migração. Este
     </message>
 </context>
 <context>
+    <name>HelpMessageDialog</name>
+    <message>
+        <source>version</source>
+        <translation type="unfinished">versão</translation>
+    </message>
+    <message>
+        <source>About %1</source>
+        <translation type="unfinished">Sobre %1</translation>
+    </message>
+    <message>
+        <source>Command-line options</source>
+        <translation type="unfinished">Opções da linha de comando</translation>
+    </message>
+</context>
+<context>
+    <name>ShutdownWindow</name>
+    <message>
+        <source>%1 is shutting down…</source>
+        <translation type="unfinished">%1 está desligando...</translation>
+    </message>
+    <message>
+        <source>Do not shut down the computer until this window disappears.</source>
+        <translation type="unfinished">Não desligue o computador até que esta janela desapareça.</translation>
+    </message>
+</context>
+<context>
     <name>Intro</name>
+    <message>
+        <source>Welcome</source>
+        <translation type="unfinished">Bem-vindo</translation>
+    </message>
+    <message>
+        <source>Welcome to %1.</source>
+        <translation type="unfinished">Bem vindo ao %1</translation>
+    </message>
+    <message>
+        <source>As this is the first time the program is launched, you can choose where %1 will store its data.</source>
+        <translation type="unfinished">Como essa é a primeira vez que o programa é executado, você pode escolher onde %1 armazenará seus dados.</translation>
+    </message>
+    <message>
+        <source>Limit block chain storage to</source>
+        <translation type="unfinished">Limitar o tamanho da blockchain para</translation>
+    </message>
+    <message>
+        <source>Reverting this setting requires re-downloading the entire blockchain. It is faster to download the full chain first and prune it later. Disables some advanced features.</source>
+        <translation type="unfinished">Reverter essa configuração requer o re-download de todo o blockchain. É mais rápido fazer o download de todo o blockchain primeiro e depois fazer prune. Essa opção desabilita algumas funcionalidades avançadas.</translation>
+    </message>
+    <message>
+        <source> GB</source>
+        <translation type="unfinished">GB</translation>
+    </message>
+    <message>
+        <source>This initial synchronisation is very demanding, and may expose hardware problems with your computer that had previously gone unnoticed. Each time you run %1, it will continue downloading where it left off.</source>
+        <translation type="unfinished">Esta sincronização inicial é muito exigente e pode expor problemas de hardware com o computador que passaram despercebidos anteriormente. Cada vez que você executar o %1, irá continuar baixando de onde parou.</translation>
+    </message>
+    <message>
+        <source>When you click OK, %1 will begin to download and process the full %4 block chain (%2 GB) starting with the earliest transactions in %3 when %4 initially launched.</source>
+        <translation type="unfinished">Quando clicar em OK, %1 iniciará o download e irá processar a cadeia de blocos completa %4 (%2 GB) iniciando com as mais recentes transações em %3 enquanto %4 é processado. </translation>
+    </message>
+    <message>
+        <source>If you have chosen to limit block chain storage (pruning), the historical data must still be downloaded and processed, but will be deleted afterward to keep your disk usage low.</source>
+        <translation type="unfinished">Se você escolheu limitar o armazenamento da block chain (prunando), os dados históricos ainda devem ser baixados e processados, mas serão apagados no final para manter o uso de disco baixo.</translation>
+    </message>
+    <message>
+        <source>Use the default data directory</source>
+        <translation type="unfinished">Use o diretório de dados padrão</translation>
+    </message>
+    <message>
+        <source>Use a custom data directory:</source>
+        <translation type="unfinished">Use um diretório de dados personalizado:</translation>
+    </message>
     <message numerus="yes">
         <source>%n GB of space available</source>
         <translation type="unfinished">
@@ -1345,76 +1395,6 @@ O processo de migração criará um backup da carteira antes da migração. Este
     <message>
         <source>Error</source>
         <translation type="unfinished">Erro</translation>
-    </message>
-    <message>
-        <source>Welcome</source>
-        <translation type="unfinished">Bem-vindo</translation>
-    </message>
-    <message>
-        <source>Welcome to %1.</source>
-        <translation type="unfinished">Bem vindo ao %1</translation>
-    </message>
-    <message>
-        <source>As this is the first time the program is launched, you can choose where %1 will store its data.</source>
-        <translation type="unfinished">Como essa é a primeira vez que o programa é executado, você pode escolher onde %1 armazenará seus dados.</translation>
-    </message>
-    <message>
-        <source>Limit block chain storage to</source>
-        <translation type="unfinished">Limitar o tamanho da blockchain para</translation>
-    </message>
-    <message>
-        <source>Reverting this setting requires re-downloading the entire blockchain. It is faster to download the full chain first and prune it later. Disables some advanced features.</source>
-        <translation type="unfinished">Reverter essa configuração requer o re-download de todo o blockchain. É mais rápido fazer o download de todo o blockchain primeiro e depois fazer prune. Essa opção desabilita algumas funcionalidades avançadas.</translation>
-    </message>
-    <message>
-        <source> GB</source>
-        <translation type="unfinished">GB</translation>
-    </message>
-    <message>
-        <source>This initial synchronisation is very demanding, and may expose hardware problems with your computer that had previously gone unnoticed. Each time you run %1, it will continue downloading where it left off.</source>
-        <translation type="unfinished">Esta sincronização inicial é muito exigente e pode expor problemas de hardware com o computador que passaram despercebidos anteriormente. Cada vez que você executar o %1, irá continuar baixando de onde parou.</translation>
-    </message>
-    <message>
-        <source>When you click OK, %1 will begin to download and process the full %4 block chain (%2 GB) starting with the earliest transactions in %3 when %4 initially launched.</source>
-        <translation type="unfinished">Quando clicar em OK, %1 iniciará o download e irá processar a cadeia de blocos completa %4 (%2 GB) iniciando com as mais recentes transações em %3 enquanto %4 é processado. </translation>
-    </message>
-    <message>
-        <source>If you have chosen to limit block chain storage (pruning), the historical data must still be downloaded and processed, but will be deleted afterward to keep your disk usage low.</source>
-        <translation type="unfinished">Se você escolheu limitar o armazenamento da block chain (prunando), os dados históricos ainda devem ser baixados e processados, mas serão apagados no final para manter o uso de disco baixo.</translation>
-    </message>
-    <message>
-        <source>Use the default data directory</source>
-        <translation type="unfinished">Use o diretório de dados padrão</translation>
-    </message>
-    <message>
-        <source>Use a custom data directory:</source>
-        <translation type="unfinished">Use um diretório de dados personalizado:</translation>
-    </message>
-</context>
-<context>
-    <name>HelpMessageDialog</name>
-    <message>
-        <source>version</source>
-        <translation type="unfinished">versão</translation>
-    </message>
-    <message>
-        <source>About %1</source>
-        <translation type="unfinished">Sobre %1</translation>
-    </message>
-    <message>
-        <source>Command-line options</source>
-        <translation type="unfinished">Opções da linha de comando</translation>
-    </message>
-</context>
-<context>
-    <name>ShutdownWindow</name>
-    <message>
-        <source>%1 is shutting down…</source>
-        <translation type="unfinished">%1 está desligando...</translation>
-    </message>
-    <message>
-        <source>Do not shut down the computer until this window disappears.</source>
-        <translation type="unfinished">Não desligue o computador até que esta janela desapareça.</translation>
     </message>
 </context>
 <context>
@@ -1507,6 +1487,11 @@ O processo de migração criará um backup da carteira antes da migração. Este
         <translation type="unfinished">&amp;Iniciar %1 ao fazer login no sistema</translation>
     </message>
     <message>
+        <source>Maximum database cache size. Make sure you have enough RAM. A larger cache can contribute to faster sync, after which the benefit is less pronounced for most use cases. Lowering the cache size will reduce memory usage. Unused mempool memory is shared for this cache.</source>
+        <extracomment>Tooltip text for Options window setting that sets the size of the database cache. Explains the corresponding effects of increasing/decreasing this value.</extracomment>
+        <translation type="unfinished">Tamanho máximo da cache da base de dados. Certifica-te de que tens RAM suficiente. Uma cache maior pode contribuir para uma sincronização mais rápida, embora, após isso, o benefício seja menos significativo na maioria dos casos. Reduzir o tamanho da cache diminuirá o uso de memória. A memória não utilizada do mempool é partilhada com esta cache.</translation>
+    </message>
+    <message>
         <source>Size of &amp;database cache</source>
         <translation type="unfinished">Tamanho do banco de &amp;dados do cache</translation>
     </message>
@@ -1517,6 +1502,15 @@ O processo de migração criará um backup da carteira antes da migração. Este
     <message>
         <source>Full path to a %1 compatible script (e.g. C:\Downloads\hwi.exe or /Users/you/Downloads/hwi.py). Beware: malware can steal your coins!</source>
         <translation type="unfinished">Caminho completo para %1 um script compatível com Bitcoin Core (exemplo: C: \ Downloads \ hwi.exe ou /Users/you/Downloads/hwi.py). Cuidado: um malware pode roubar suas moedas!</translation>
+    </message>
+    <message>
+        <source>Automatically open the Bitcoin client port on the router. This only works when your router supports PCP or NAT-PMP and it is enabled. The external port could be random.</source>
+        <translation type="unfinished">Abrir automaticamente a porta do cliente Bitcoin no router. Esta função apenas funciona se o router suportar PCP ou NAT-PMP e essas opções estiverem ativadas. A porta externa pode ser atribuída aleatoriamente.</translation>
+    </message>
+    <message>
+        <source>Map port using PCP or NA&amp;T-PMP</source>
+        <translation type="unfinished">Configurar a porta através de PCP ou NAT-PMP.
+</translation>
     </message>
     <message>
         <source>IP address of the proxy (e.g. IPv4: 127.0.0.1 / IPv6: ::1)</source>
@@ -1565,11 +1559,6 @@ O processo de migração criará um backup da carteira antes da migração. Este
     <message>
         <source>Reverting this setting requires re-downloading the entire blockchain.</source>
         <translation type="unfinished">Reverter esta configuração requer baixar de novo a blockchain inteira.</translation>
-    </message>
-    <message>
-        <source>Maximum database cache size. A larger cache can contribute to faster sync, after which the benefit is less pronounced for most use cases. Lowering the cache size will reduce memory usage. Unused mempool memory is shared for this cache.</source>
-        <extracomment>Tooltip text for Options window setting that sets the size of the database cache. Explains the corresponding effects of increasing/decreasing this value.</extracomment>
-        <translation type="unfinished">Tamanho máximo do cache do banco de dados. Um cache maior pode contribuir para uma sincronização mais rápida, após a qual o benefício é menos pronunciado para a maioria dos casos de uso. Reduzir o tamanho do cache reduzirá o uso de memória. A memória do mempool não utilizada é compartilhada para este cache.</translation>
     </message>
     <message>
         <source>Set the number of script verification threads. Negative values correspond to the number of cores you want to leave free to the system.</source>
@@ -1629,14 +1618,6 @@ O processo de migração criará um backup da carteira antes da migração. Este
         <source>Whether to show PSBT controls.</source>
         <extracomment>Tooltip text for options window setting that enables PSBT controls.</extracomment>
         <translation type="unfinished">Mostrar os controles de PSBT (Transação de Bitcoin Parcialmente Assinada).</translation>
-    </message>
-    <message>
-        <source>Automatically open the Bitcoin client port on the router. This only works when your router supports UPnP and it is enabled.</source>
-        <translation type="unfinished">Abrir automaticamente no roteador as portas do cliente Bitcoin. Isto só funcionará se seu roteador suportar UPnP e esta função estiver habilitada.</translation>
-    </message>
-    <message>
-        <source>Map port using &amp;UPnP</source>
-        <translation type="unfinished">Mapear porta usando &amp;UPnP</translation>
     </message>
     <message>
         <source>Accept connections from outside.</source>
@@ -1807,10 +1788,6 @@ O processo de migração criará um backup da carteira antes da migração. Este
         <translation type="unfinished">A informação mostrada pode estar desatualizada. Sua carteira sincroniza automaticamente com a rede Bitcoin depois que a conexão é estabelecida, mas este processo ainda não está completo.</translation>
     </message>
     <message>
-        <source>Watch-only:</source>
-        <translation type="unfinished">Monitorados:</translation>
-    </message>
-    <message>
         <source>Available:</source>
         <translation type="unfinished">Disponível:</translation>
     </message>
@@ -1843,28 +1820,8 @@ O processo de migração criará um backup da carteira antes da migração. Este
         <translation type="unfinished">Seu saldo total atual</translation>
     </message>
     <message>
-        <source>Your current balance in watch-only addresses</source>
-        <translation type="unfinished">Seu saldo atual em endereços monitorados</translation>
-    </message>
-    <message>
-        <source>Spendable:</source>
-        <translation type="unfinished">Disponível:</translation>
-    </message>
-    <message>
         <source>Recent transactions</source>
         <translation type="unfinished">Transações recentes</translation>
-    </message>
-    <message>
-        <source>Unconfirmed transactions to watch-only addresses</source>
-        <translation type="unfinished">Transações não confirmadas de um endereço monitorado</translation>
-    </message>
-    <message>
-        <source>Mined balance in watch-only addresses that has not yet matured</source>
-        <translation type="unfinished">Saldo minerado de endereço monitorado que ainda não está maduro</translation>
-    </message>
-    <message>
-        <source>Current total balance in watch-only addresses</source>
-        <translation type="unfinished">Balanço total em endereços monitorados</translation>
     </message>
     <message>
         <source>Privacy mode activated for the Overview tab. To unmask the values, uncheck Settings-&gt;Mask values.</source>
@@ -2878,7 +2835,7 @@ Nota: Como a taxa é calculada por byte, uma taxa de "100 satoshis por kvB" para
     </message>
     <message>
         <source>Copy change</source>
-        <translation type="unfinished">Copiar alteração</translation>
+        <translation type="unfinished">Copiar troco</translation>
     </message>
     <message>
         <source>%1 (%2 blocks)</source>
@@ -2978,10 +2935,6 @@ Nota: Como a taxa é calculada por byte, uma taxa de "100 satoshis por kvB" para
     <message>
         <source>Confirm send coins</source>
         <translation type="unfinished">Confirme o envio de moedas</translation>
-    </message>
-    <message>
-        <source>Watch-only balance:</source>
-        <translation type="unfinished">Saldo monitorado:</translation>
     </message>
     <message>
         <source>The recipient address is not valid. Please recheck.</source>
@@ -3142,10 +3095,6 @@ Nota: Como a taxa é calculada por byte, uma taxa de "100 satoshis por kvB" para
     <message>
         <source>Signature</source>
         <translation type="unfinished">Assinatura</translation>
-    </message>
-    <message>
-        <source>Copy the current signature to the system clipboard</source>
-        <translation type="unfinished">Copiar a assinatura para a área de transferência do sistema</translation>
     </message>
     <message>
         <source>Sign the message to prove you own this Bitcoin address</source>
@@ -3324,10 +3273,6 @@ Nota: Como a taxa é calculada por byte, uma taxa de "100 satoshis por kvB" para
         <translation type="unfinished">endereço próprio</translation>
     </message>
     <message>
-        <source>watch-only</source>
-        <translation type="unfinished">monitorado</translation>
-    </message>
-    <message>
         <source>label</source>
         <translation type="unfinished">rótulo</translation>
     </message>
@@ -3498,10 +3443,6 @@ Nota: Como a taxa é calculada por byte, uma taxa de "100 satoshis por kvB" para
         <translation type="unfinished">Minerado</translation>
     </message>
     <message>
-        <source>watch-only</source>
-        <translation type="unfinished">monitorado</translation>
-    </message>
-    <message>
         <source>(no label)</source>
         <translation type="unfinished">(sem rótulo)</translation>
     </message>
@@ -3516,10 +3457,6 @@ Nota: Como a taxa é calculada por byte, uma taxa de "100 satoshis por kvB" para
     <message>
         <source>Type of transaction.</source>
         <translation type="unfinished">Tipo de transação.</translation>
-    </message>
-    <message>
-        <source>Whether or not a watch-only address is involved in this transaction.</source>
-        <translation type="unfinished">Se um endereço monitorado está envolvido nesta transação.</translation>
     </message>
     <message>
         <source>User-defined intent/purpose of the transaction.</source>
@@ -3613,10 +3550,6 @@ Nota: Como a taxa é calculada por byte, uma taxa de "100 satoshis por kvB" para
     <message>
         <source>Confirmed</source>
         <translation type="unfinished">Confirmado</translation>
-    </message>
-    <message>
-        <source>Watch-only</source>
-        <translation type="unfinished">Monitorado</translation>
     </message>
     <message>
         <source>Date</source>
@@ -3798,20 +3731,12 @@ Go to File &gt; Open Wallet to load a wallet.
         <translation type="unfinished">Desenvolvedores do %s</translation>
     </message>
     <message>
-        <source>%s corrupt. Try using the wallet tool bitcoin-wallet to salvage or restoring a backup.</source>
-        <translation type="unfinished">%s está corrompido. Tente usar a ferramenta de carteira bitcoin-wallet para salvamento ou restauração de backup.</translation>
-    </message>
-    <message>
         <source>%s failed to validate the -assumeutxo snapshot state. This indicates a hardware problem, or a bug in the software, or a bad software modification that allowed an invalid snapshot to be loaded. As a result of this, the node will shut down and stop using any state that was built on the snapshot, resetting the chain height from %d to %d. On the next restart, the node will resume syncing from %d without using any snapshot data. Please report this incident to %s, including how you obtained the snapshot. The invalid snapshot chainstate will be left on disk in case it is helpful in diagnosing the issue that caused this error.</source>
         <translation type="unfinished">%s falhou ao validar o estado da cópia -assumeutxo. Isso indica um problema de hardware, um bug no software ou uma modificação incorreta do software que permitiu o carregamento de uma cópia inválida. Como resultado disso, o nó será desligado e parará de usar qualquer estado criado na cópia, redefinindo a altura da corrente de %d para %d. Na próxima reinicialização, o nó retomará a sincronização de%d sem usar nenhum dado da cópia. Por favor, reporte este incidente para %s, incluindo como você obteve a cópia. A cópia inválida do estado de cadeia será deixada no disco caso sirva para diagnosticar o problema que causou esse erro.</translation>
     </message>
     <message>
         <source>%s request to listen on port %u. This port is considered "bad" and thus it is unlikely that any peer will connect to it. See doc/p2p-bad-ports.md for details and a full list.</source>
         <translation type="unfinished">1%s solicita para escutar na porta 2%u. Esta porta é considerada "ruim" e, portanto, é improvável que qualquer ponto se conecte-se a ela. Consulte doc/p2p-bad-ports.md para obter detalhes e uma lista completa.</translation>
-    </message>
-    <message>
-        <source>Cannot obtain a lock on data directory %s. %s is probably already running.</source>
-        <translation type="unfinished">Não foi possível obter exclusividade de escrita no endereço %s. O %s provavelmente já está sendo executado.</translation>
     </message>
     <message>
         <source>Disk space for %s may not accommodate the block files. Approximately %u GB of data will be stored in this directory.</source>
@@ -3830,12 +3755,20 @@ Go to File &gt; Open Wallet to load a wallet.
         <translation type="unfinished">Erro ao ler %s! Dados de transações podem estar incorretos ou faltando. Reescaneando a carteira.</translation>
     </message>
     <message>
+        <source>Error starting/committing db txn for wallet transactions removal process</source>
+        <translation type="unfinished">Erro ao iniciar/concluir a transação da base de dados para o processo de remoção de transações da carteira.</translation>
+    </message>
+    <message>
         <source>Error: Unable to produce descriptors for this legacy wallet. Make sure to provide the wallet's passphrase if it is encrypted.</source>
         <translation type="unfinished">Erro: Não foi possível produzir descritores para esta carteira antiga. Certifique-se que a carteira foi desbloqueada antes</translation>
     </message>
     <message>
         <source>Invalid or corrupt peers.dat (%s). If you believe this is a bug, please report it to %s. As a workaround, you can move the file (%s) out of the way (rename, move, or delete) to have a new one created on the next start.</source>
         <translation type="unfinished">O arquivo peers.dat (%s) está corrompido ou inválido. Se você acredita se tratar de um bug, por favor reporte para %s. Como solução, você pode mover, renomear ou deletar (%s) para um novo ser criado na próxima inicialização</translation>
+    </message>
+    <message>
+        <source>Invalid value detected for '-wallet' or '-nowallet'. '-wallet' requires a string value, while '-nowallet' accepts only '1' to disable all wallets</source>
+        <translation type="unfinished">Valor inválido detetado para '-wallet' ou '-nowallet'. O parâmetro '-wallet' requer um valor em formato de texto, enquanto '-nowallet' aceita apenas '1' para desativar todas as carteiras.</translation>
     </message>
     <message>
         <source>More than one onion bind address is provided. Using %s for the automatically created Tor onion service.</source>
@@ -3854,10 +3787,6 @@ Go to File &gt; Open Wallet to load a wallet.
         <translation type="unfinished">O modo Prune é incompatível com a opção "-reindex-chainstate". Ao invés disso utilize "-reindex".</translation>
     </message>
     <message>
-        <source>Prune: last wallet synchronisation goes beyond pruned data. You need to -reindex (download the whole blockchain again in case of pruned node)</source>
-        <translation type="unfinished">Prune: A ultima sincronização da carteira foi além dos dados podados. Você precisa usar -reindex (fazer o download de toda a blockchain novamente no caso de nós com prune)</translation>
-    </message>
-    <message>
         <source>Rename of '%s' -&gt; '%s' failed. You should resolve this by manually moving or deleting the invalid snapshot directory %s, otherwise you will encounter the same error again on the next startup.</source>
         <translation type="unfinished">Falha ao renomear '%s' -&gt; '%s'. Você deve resolver este problema manualmente movendo ou removendo o diretório de cópia inválido %s, caso contrário o mesmo erro ocorrerá novamente na próxima inicialização.</translation>
     </message>
@@ -3872,10 +3801,6 @@ Go to File &gt; Open Wallet to load a wallet.
     <message>
         <source>The transaction amount is too small to send after the fee has been deducted</source>
         <translation type="unfinished">A quantia da transação é muito pequena para mandar depois de deduzida a taxa</translation>
-    </message>
-    <message>
-        <source>This error could occur if this wallet was not shutdown cleanly and was last loaded using a build with a newer version of Berkeley DB. If so, please use the software that last loaded this wallet</source>
-        <translation type="unfinished">Este erro pode ocorrer se a sua carteira não foi desligada de forma correta e foi recentementa carregada utilizando uma nova versão do Berkeley DB. Se isto ocorreu então por favor utilize a mesma versão na qual esta carteira foi utilizada pela última vez.</translation>
     </message>
     <message>
         <source>This is a pre-release test build - use at your own risk - do not use for mining or merchant applications</source>
@@ -3910,14 +3835,6 @@ Go to File &gt; Open Wallet to load a wallet.
         <translation type="unfinished">Formato de banco de dados incompatível na chainstate. Por favor reinicie com a opção "-reindex-chainstate". Isto irá recriar o banco de dados da chainstate.</translation>
     </message>
     <message>
-        <source>Wallet created successfully. The legacy wallet type is being deprecated and support for creating and opening legacy wallets will be removed in the future.</source>
-        <translation type="unfinished">Carteira criada com sucesso. As carteiras antigas estão sendo descontinuadas e o suporte para a criação de abertura de carteiras antigas será removido no futuro.</translation>
-    </message>
-    <message>
-        <source>Wallet loaded successfully. The legacy wallet type is being deprecated and support for creating and opening legacy wallets will be removed in the future. Legacy wallets can be migrated to a descriptor wallet with migratewallet.</source>
-        <translation type="unfinished">Carteira carregada com sucesso. As carteiras legadas estão sendo descontinuadas e o suporte para a criação e abertura de carteiras legadas será removido no futuro. Carteiras legadas podem ser migradas para uma carteira com descritor com a ferramenta migratewallet. </translation>
-    </message>
-    <message>
         <source>Warning: Private keys detected in wallet {%s} with disabled private keys</source>
         <translation type="unfinished">Aviso: Chaves privadas detectadas na carteira {%s} com chaves privadas desativadas</translation>
     </message>
@@ -3942,6 +3859,10 @@ Go to File &gt; Open Wallet to load a wallet.
         <translation type="unfinished">-maxmempool deve ser pelo menos %d MB</translation>
     </message>
     <message>
+        <source>Cannot obtain a lock on directory %s. %s is probably already running.</source>
+        <translation type="unfinished">Não é possível obter um bloqueio no diretório %s. Provavelmente, %s já está a ser executado.</translation>
+    </message>
+    <message>
         <source>Cannot resolve -%s address: '%s'</source>
         <translation type="unfinished">Não foi possível encontrar o endereço de -%s: '%s'</translation>
     </message>
@@ -3952,10 +3873,6 @@ Go to File &gt; Open Wallet to load a wallet.
     <message>
         <source>Cannot set -peerblockfilters without -blockfilterindex.</source>
         <translation type="unfinished">Não pode definir -peerblockfilters sem -blockfilterindex.</translation>
-    </message>
-    <message>
-        <source>Cannot write to data directory '%s'; check permissions.</source>
-        <translation type="unfinished">Não foi possível escrever no diretório de dados '%s': verifique as permissões.</translation>
     </message>
     <message>
         <source>%s is set very high! Fees this large could be paid on a single transaction.</source>
@@ -3984,10 +3901,6 @@ Go to File &gt; Open Wallet to load a wallet.
     <message>
         <source>Error: Transaction %s in wallet cannot be identified to belong to migrated wallets</source>
         <translation type="unfinished">Erro: A transação %s na carteira não pôde ser identificada por pertencer a carteiras migradas</translation>
-    </message>
-    <message>
-        <source>Failed to calculate bump fees, because unconfirmed UTXOs depend on enormous cluster of unconfirmed transactions.</source>
-        <translation type="unfinished">Falha ao calcular as taxas de colisão porque os UTXOs não confirmados dependem de um enorme conjunto de transações não confirmadas.</translation>
     </message>
     <message>
         <source>Failed to remove snapshot chainstate dir (%s). Manually remove it before restarting.
@@ -4048,6 +3961,18 @@ Go to File &gt; Open Wallet to load a wallet.
         <translation type="unfinished">Renomear de '%s' -&gt; '%s'falhou. Não é possível limpar o diretório leveldb do chainstate em segundo plano.</translation>
     </message>
     <message>
+        <source>Specified -blockmaxweight (%d) exceeds consensus maximum block weight (%d)</source>
+        <translation type="unfinished">O -blockmaxweight (%d) especificado excede o peso máximo consensual do bloco (%d)</translation>
+    </message>
+    <message>
+        <source>Specified -blockreservedweight (%d) exceeds consensus maximum block weight (%d)</source>
+        <translation type="unfinished">O -blockreservedweight (%d) especificado excede o peso máximo consensual do bloco (%d)</translation>
+    </message>
+    <message>
+        <source>Specified -blockreservedweight (%d) is lower than minimum safety value of (%d)</source>
+        <translation type="unfinished">O -blockreservedweight (%d) especificado é inferior ao valor mínimo de segurança de (%d)</translation>
+    </message>
+    <message>
         <source>The combination of the pre-selected inputs and the wallet automatic inputs selection exceeds the transaction maximum weight. Please try sending a smaller amount or manually consolidating your wallet's UTXOs</source>
         <translation type="unfinished">A combinação das entradas pré-selecionadas e a seleção automática de entradas da carteira excede o peso máximo da transação. Tente enviar uma quantia menor ou consolidar manualmente os UTXOs da sua carteira</translation>
     </message>
@@ -4058,10 +3983,6 @@ Go to File &gt; Open Wallet to load a wallet.
     <message>
         <source>The preselected coins total amount does not cover the transaction target. Please allow other inputs to be automatically selected or include more coins manually</source>
         <translation type="unfinished">O montante total das moedas pré-selecionadas não cobre a meta da transação. Permita que outras entradas sejam selecionadas automaticamente ou inclua mais moedas manualmente</translation>
-    </message>
-    <message>
-        <source>Transaction requires one destination of non-0 value, a non-0 feerate, or a pre-selected input</source>
-        <translation type="unfinished">A transação requer um destino com montante diferente de 0, uma taxa diferente de 0 ou uma entrada pré-selecionada</translation>
     </message>
     <message>
         <source>UTXO snapshot failed to validate. Restart to resume normal initial block download, or try loading a different snapshot.</source>
@@ -4082,18 +4003,6 @@ A carteira pode ter sido adulterada ou criada com intenção maliciosa.
 </translation>
     </message>
     <message>
-        <source>Unrecognized descriptor found. Loading wallet %s
-
-The wallet might had been created on a newer version.
-Please try running the latest software version.
-</source>
-        <translation type="unfinished">Descriptor não reconhecido foi encontrado. Carregando carteira %s
-
-A carteira pode ter sido criada em uma versão mais nova.
-Por favor tente atualizar o software para a última versão.
-</translation>
-    </message>
-    <message>
         <source>Your computer's date and time appear to be more than %d minutes out of sync with the network, this may lead to consensus failure. After you've confirmed your computer's clock, this message should no longer appear when you restart your node. Without a restart, it should stop showing automatically after you've connected to a sufficient number of new outbound peers, which may take some time. You can inspect the `timeoffset` field of the `getpeerinfo` and `getnetworkinfo` RPC methods to get more info.</source>
         <translation type="unfinished">A data e a hora do seu computador parecem estar mais de %d minutos fora de sincronia com a rede, isso pode levar a uma falha de consenso. Depois de confirmar o relógio do seu computador, essa mensagem não deve mais aparecer quando você reiniciar seu nó. Sem uma reinicialização, ela deve parar de aparecer automaticamente depois que você se conectar a um número suficiente de novos pares de saída, o que pode levar algum tempo. Você pode inspecionar o campo `timeoffset` dos métodos RPC `getpeerinfo` e `getnetworkinfo` para obter mais informações.</translation>
     </message>
@@ -4110,6 +4019,10 @@ Unable to restore backup of wallet.</source>
 Impossível restaurar backup da carteira.</translation>
     </message>
     <message>
+        <source>default wallet</source>
+        <translation type="unfinished">carteira padrão</translation>
+    </message>
+    <message>
         <source>whitebind may only be used for incoming connections ("out" was passed)</source>
         <translation type="unfinished">whitebind só pode ser utilizado para conexões de entrada ("out" foi passado)</translation>
     </message>
@@ -4124,6 +4037,18 @@ Impossível restaurar backup da carteira.</translation>
     <message>
         <source>Block verification was interrupted</source>
         <translation type="unfinished">A verificação dos blocos foi interrompida</translation>
+    </message>
+    <message>
+        <source>Can't spend unconfirmed version %d pre-selected input with a version 3 tx</source>
+        <translation type="unfinished">Não é possível gastar a entrada pré-selecionada %d da versão não confirmada com uma versão 3 tx</translation>
+    </message>
+    <message>
+        <source>Can't spend unconfirmed version 3 pre-selected input with a version %d tx</source>
+        <translation type="unfinished">Não é possível gastar a entrada pré-selecionada da versão 3 não confirmada com uma versão %d tx</translation>
+    </message>
+    <message>
+        <source>Cannot write to directory '%s'; check permissions.</source>
+        <translation type="unfinished">Não é possível escrever no diretório '%s'; verifique aspermissões.</translation>
     </message>
     <message>
         <source>Config setting for %s only applied on %s network when in [%s] section.</source>
@@ -4150,10 +4075,6 @@ Impossível restaurar backup da carteira.</translation>
         <translation type="unfinished">Espaço em disco insuficiente!</translation>
     </message>
     <message>
-        <source>Do you want to rebuild the block database now?</source>
-        <translation type="unfinished">Você quer reconstruir o banco de dados de blocos agora?</translation>
-    </message>
-    <message>
         <source>Done loading</source>
         <translation type="unfinished">Carregamento terminado!</translation>
     </message>
@@ -4162,16 +4083,8 @@ Impossível restaurar backup da carteira.</translation>
         <translation type="unfinished">Falha na verificação de integridade da criptografia de curva elíptica. %s está sendo desligado.</translation>
     </message>
     <message>
-        <source>Error committing db txn for wallet transactions removal</source>
-        <translation type="unfinished">Erro durante commiting db txn para a remoção das transações da carteira.</translation>
-    </message>
-    <message>
         <source>Error initializing block database</source>
         <translation type="unfinished">Erro ao inicializar banco de dados de blocos</translation>
-    </message>
-    <message>
-        <source>Error initializing wallet database environment %s!</source>
-        <translation type="unfinished">Erro ao inicializar ambiente de banco de dados de carteira %s!</translation>
     </message>
     <message>
         <source>Error loading %s</source>
@@ -4194,8 +4107,17 @@ Impossível restaurar backup da carteira.</translation>
         <translation type="unfinished">Erro ao carregar banco de dados de blocos</translation>
     </message>
     <message>
+        <source>Error loading databases</source>
+        <translation type="unfinished">Erro ao carregar as bases de dados</translation>
+    </message>
+    <message>
         <source>Error opening block database</source>
         <translation type="unfinished">Erro ao abrir banco de dados de blocos</translation>
+    </message>
+    <message>
+        <source>Error opening coins database</source>
+        <translation type="unfinished">Erro ao abrir a base de dados de moedas.
+</translation>
     </message>
     <message>
         <source>Error reading configuration file: %s</source>
@@ -4204,10 +4126,6 @@ Impossível restaurar backup da carteira.</translation>
     <message>
         <source>Error reading from database, shutting down.</source>
         <translation type="unfinished">Erro ao ler o banco de dados. Encerrando.</translation>
-    </message>
-    <message>
-        <source>Error starting db txn for wallet transactions removal</source>
-        <translation type="unfinished">Erro durante o início db txn para a remoção das transações da carteira.</translation>
     </message>
     <message>
         <source>Error: Cannot extract destination from the generated scriptpubkey</source>
@@ -4258,16 +4176,16 @@ Impossível restaurar backup da carteira.</translation>
         <translation type="unfinished">Erro: Impossível remover dados somente-visualização do Livro de Endereços </translation>
     </message>
     <message>
+        <source>Error: Unable to write data to disk for wallet %s</source>
+        <translation type="unfinished">Erro: não é possível escrever dados no disco da carteira %s</translation>
+    </message>
+    <message>
         <source>Error: Unable to write solvable wallet best block locator record</source>
         <translation type="unfinished">Erro: Não foi possível escrever o registo do melhor localizador de bloqueio da pasta solvível</translation>
     </message>
     <message>
         <source>Error: Unable to write watchonly wallet best block locator record</source>
         <translation type="unfinished">Erro: Não é possível escrever o registo do melhor localizador de blocos da pasta watchonly</translation>
-    </message>
-    <message>
-        <source>Error: address book copy failed for wallet %s</source>
-        <translation type="unfinished">Erro: falha na cópia da agenda de endereços para a carteira %s</translation>
     </message>
     <message>
         <source>Error: database transaction cannot be executed for wallet %s</source>
@@ -4292,10 +4210,6 @@ Impossível restaurar backup da carteira.</translation>
     <message>
         <source>Failed to rescan the wallet during initialization</source>
         <translation type="unfinished">Falha ao escanear novamente a carteira durante a inicialização</translation>
-    </message>
-    <message>
-        <source>Failed to start indexes, shutting down..</source>
-        <translation type="unfinished">Falha ao iniciar índices, desligando..</translation>
     </message>
     <message>
         <source>Failed to verify database</source>
@@ -4328,10 +4242,6 @@ Impossível restaurar backup da carteira.</translation>
     <message>
         <source>Ignoring duplicate -wallet %s.</source>
         <translation type="unfinished">Ignorando -carteira %s duplicada.</translation>
-    </message>
-    <message>
-        <source>Importing…</source>
-        <translation type="unfinished">Importando...</translation>
     </message>
     <message>
         <source>Incorrect or no genesis block found. Wrong datadir for network?</source>
@@ -4386,10 +4296,6 @@ Impossível restaurar backup da carteira.</translation>
         <translation type="unfinished">Porta inválida especificada em %s: '%s'</translation>
     </message>
     <message>
-        <source>Invalid pre-selected input %s</source>
-        <translation type="unfinished">Entrada pré-selecionada inválida %s</translation>
-    </message>
-    <message>
         <source>Listening for incoming connections failed (listen returned error %s)</source>
         <translation type="unfinished">A espera por conexões de entrada falharam (a espera retornou o erro %s)</translation>
     </message>
@@ -4428,10 +4334,6 @@ Impossível restaurar backup da carteira.</translation>
     <message>
         <source>No addresses available</source>
         <translation type="unfinished">Nenhum endereço disponível</translation>
-    </message>
-    <message>
-        <source>Not enough file descriptors available.</source>
-        <translation type="unfinished">Não há file descriptors suficientes disponíveis.</translation>
     </message>
     <message>
         <source>Not found pre-selected input %s</source>
@@ -4543,12 +4445,20 @@ Impossível restaurar backup da carteira.</translation>
         <translation type="unfinished">Erro do sistema ao salvar bloco no disco: %s</translation>
     </message>
     <message>
+        <source>The %s path uses exFAT, which is known to have intermittent corruption problems on macOS. Move this directory to a different filesystem to avoid data loss.</source>
+        <translation type="unfinished">O caminho %s utiliza exFAT, que é conhecido por ter problemas intermitentes de corrupção no macOS. Mova esta diretoria para um sistema de ficheiros diferente para evitar a perda de dados.</translation>
+    </message>
+    <message>
         <source>The source code is available from %s.</source>
         <translation type="unfinished">O código fonte está disponível pelo %s.</translation>
     </message>
     <message>
         <source>The transaction amount is too small to pay the fee</source>
         <translation type="unfinished">A quantidade da transação é pequena demais para  pagar a taxa</translation>
+    </message>
+    <message>
+        <source>The transactions removal process can only be executed within a db txn</source>
+        <translation type="unfinished">O processo de remoção de transações só pode ser executado dentro de um db txn</translation>
     </message>
     <message>
         <source>The wallet will avoid paying less than the minimum relay fee.</source>
@@ -4615,24 +4525,12 @@ Impossível restaurar backup da carteira.</translation>
         <translation type="unfinished">Impossível localizar e entrada externa UTXO</translation>
     </message>
     <message>
-        <source>Unable to generate initial keys</source>
-        <translation type="unfinished">Não foi possível gerar as chaves iniciais</translation>
-    </message>
-    <message>
-        <source>Unable to generate keys</source>
-        <translation type="unfinished">Não foi possível gerar chaves</translation>
-    </message>
-    <message>
         <source>Unable to parse -maxuploadtarget: '%s'</source>
         <translation type="unfinished">Impossível analisar -maxuploadtarget: '%s'</translation>
     </message>
     <message>
         <source>Unable to start HTTP server. See debug log for details.</source>
         <translation type="unfinished">Não foi possível iniciar o servidor HTTP. Veja o log de depuração para detaihes.</translation>
-    </message>
-    <message>
-        <source>Unable to unload the wallet before migrating</source>
-        <translation type="unfinished">Impossível desconectar carteira antes de migrá-la</translation>
     </message>
     <message>
         <source>Unknown -blockfilterindex value %s.</source>
@@ -4671,12 +4569,28 @@ Impossível restaurar backup da carteira.</translation>
         <translation type="unfinished">Categoria de log desconhecida %s=%s.</translation>
     </message>
     <message>
+        <source>Do you want to rebuild the databases now?</source>
+        <translation type="unfinished">Desejas reconstruir as bases de dados agora?</translation>
+    </message>
+    <message>
         <source>Error: Could not add watchonly tx %s to watchonly wallet</source>
         <translation type="unfinished">Erro: Não foi possível adicionar tx %s de vigilância à pasta de vigilância</translation>
     </message>
     <message>
         <source>Error: Could not delete watchonly transactions. </source>
         <translation type="unfinished">Erro: Impossível excluir transações apenas-visualização.</translation>
+    </message>
+    <message>
+        <source>Error: Wallet does not exist</source>
+        <translation type="unfinished">Erro: A carteira não existe.</translation>
+    </message>
+    <message>
+        <source>Error: cannot remove legacy wallet records</source>
+        <translation type="unfinished">Erro: não é possível remover registros de carteira antiga</translation>
+    </message>
+    <message>
+        <source>Not enough file descriptors available. %d available, %d required.</source>
+        <translation type="unfinished">Não estão disponíveis descritores de ficheiros suficientes. %d disponíveis, %d necessários.</translation>
     </message>
     <message>
         <source>User Agent comment (%s) contains unsafe characters.</source>

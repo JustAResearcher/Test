@@ -1,4 +1,4 @@
-// Copyright (c) 2017-2022 The Bitcoin Core developers
+// Copyright (c) 2017-present The Bitcoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -7,6 +7,8 @@
 
 #include <dbwrapper.h>
 #include <interfaces/chain.h>
+#include <interfaces/types.h>
+#include <util/string.h>
 #include <util/threadinterrupt.h>
 #include <validationinterface.h>
 
@@ -88,13 +90,15 @@ private:
     /// getting corrupted.
     bool Commit();
 
-    /// Loop over disconnected blocks and call CustomRewind.
+    /// Loop over disconnected blocks and call CustomRemove.
     bool Rewind(const CBlockIndex* current_tip, const CBlockIndex* new_tip);
+
+    bool ProcessBlock(const CBlockIndex* pindex, const CBlock* block_data = nullptr);
 
     virtual bool AllowPrune() const = 0;
 
     template <typename... Args>
-    void FatalErrorf(const char* fmt, const Args&... args);
+    void FatalErrorf(util::ConstevalFormatString<sizeof...(Args)> fmt, const Args&... args);
 
 protected:
     std::unique_ptr<interfaces::Chain> m_chain;
@@ -105,8 +109,11 @@ protected:
 
     void ChainStateFlushed(ChainstateRole role, const CBlockLocator& locator) override;
 
+    /// Return custom notification options for index.
+    [[nodiscard]] virtual interfaces::Chain::NotifyOptions CustomOptions() { return {}; }
+
     /// Initialize internal state from the database and block index.
-    [[nodiscard]] virtual bool CustomInit(const std::optional<interfaces::BlockKey>& block) { return true; }
+    [[nodiscard]] virtual bool CustomInit(const std::optional<interfaces::BlockRef>& block) { return true; }
 
     /// Write update index entries for a newly connected block.
     [[nodiscard]] virtual bool CustomAppend(const interfaces::BlockInfo& block) { return true; }
@@ -115,9 +122,8 @@ protected:
     /// commit more index state.
     virtual bool CustomCommit(CDBBatch& batch) { return true; }
 
-    /// Rewind index to an earlier chain tip during a chain reorg. The tip must
-    /// be an ancestor of the current best block.
-    [[nodiscard]] virtual bool CustomRewind(const interfaces::BlockKey& current_tip, const interfaces::BlockKey& new_tip) { return true; }
+    /// Rewind index by one block during a chain reorg.
+    [[nodiscard]] virtual bool CustomRemove(const interfaces::BlockInfo& block) { return true; }
 
     virtual DB& GetDB() const = 0;
 

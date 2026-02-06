@@ -15,33 +15,43 @@
 #include <test/util/mining.h>
 #include <test/util/setup_common.h>
 #include <util/chaintype.h>
+#include <util/time.h>
 #include <validation.h>
+
+using node::BlockAssembler;
 
 FUZZ_TARGET(utxo_total_supply)
 {
+    SeedRandomStateForTest(SeedRand::ZEROS);
+    FuzzedDataProvider fuzzed_data_provider(buffer.data(), buffer.size());
+    SetMockTime(ConsumeTime(fuzzed_data_provider, /*min=*/1296688602)); // regtest genesis block timestamp
     /** The testing setup that creates a chainman only (no chainstate) */
     ChainTestingSetup test_setup{
         ChainType::REGTEST,
         {
-            .extra_args = {"-testactivationheight=bip34@2"},
+            .extra_args = {
+                "-testactivationheight=bip34@2",
+            },
         },
     };
     // Create chainstate
     test_setup.LoadVerifyActivateChainstate();
     auto& node{test_setup.m_node};
     auto& chainman{*Assert(test_setup.m_node.chainman)};
-    FuzzedDataProvider fuzzed_data_provider(buffer.data(), buffer.size());
 
     const auto ActiveHeight = [&]() {
         LOCK(chainman.GetMutex());
         return chainman.ActiveHeight();
     };
+    BlockAssembler::Options options;
+    options.coinbase_output_script = CScript() << OP_FALSE;
     const auto PrepareNextBlock = [&]() {
         // Use OP_FALSE to avoid BIP30 check from hitting early
-        auto block = PrepareBlock(node, CScript{} << OP_FALSE);
+        auto block = PrepareBlock(node, options);
         // Replace OP_FALSE with OP_TRUE
         {
             CMutableTransaction tx{*block->vtx.back()};
+            tx.nLockTime = 0; // Use the same nLockTime for all as we want to duplicate one of them.
             tx.vout.at(0).scriptPubKey = CScript{} << OP_TRUE;
             block->vtx.back() = MakeTransactionRef(tx);
         }
@@ -143,7 +153,7 @@ FUZZ_TARGET(utxo_total_supply)
                 node::RegenerateCommitments(*current_block, chainman);
                 const bool was_valid = !MineBlock(node, current_block).IsNull();
 
-                const auto prev_utxo_stats = utxo_stats;
+                const uint256 prev_hash_serialized{utxo_stats.hashSerialized};
                 if (was_valid) {
                     if (duplicate_coinbase_height == ActiveHeight()) {
                         // we mined the duplicate coinbase
@@ -157,7 +167,7 @@ FUZZ_TARGET(utxo_total_supply)
 
                 if (!was_valid) {
                     // utxo stats must not change
-                    assert(prev_utxo_stats.hashSerialized == utxo_stats.hashSerialized);
+                    assert(prev_hash_serialized == utxo_stats.hashSerialized);
                 }
 
                 current_block = PrepareNextBlock();

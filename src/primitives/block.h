@@ -194,4 +194,4 @@ struct CBlockLocator
     }
 };
 
-#endif // BITCOIN_PRIMITIVES_BLOCK_H
+#endif // MEOWCOIN_PRIMITIVES_BLOCK_H

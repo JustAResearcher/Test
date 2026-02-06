@@ -34,6 +34,12 @@ public:
     }
     std::unique_ptr<interfaces::Echo> makeEcho() override { return interfaces::MakeEcho(); }
     interfaces::Ipc* ipc() override { return m_ipc.get(); }
+    // bitcoin-gui accepts -ipcbind option even though it does not use it
+    // directly. It just returns true here to accept the option because
+    // bitcoin-node accepts the option, and bitcoin-gui accepts all bitcoin-node
+    // options and will start the node with those options.
+    bool canListenIpc() override { return true; }
+    const char* exeName() override { return EXE_NAME; }
     node::NodeContext m_node;
     std::unique_ptr<interfaces::Ipc> m_ipc;
 };

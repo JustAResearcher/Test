@@ -14,10 +14,6 @@
         <translation type="unfinished">&amp;Nova</translation>
     </message>
     <message>
-        <source>Copy the currently selected address to the system clipboard</source>
-        <translation type="unfinished">Kopii elektitan adreson al la tondejo</translation>
-    </message>
-    <message>
         <source>&amp;Copy</source>
         <translation type="unfinished">&amp;Kopii</translation>
     </message>
@@ -432,8 +428,8 @@ Signing is only possible with addresses of the type 'legacy'.</source>
     <message numerus="yes">
         <source>Processed %n block(s) of transaction history.</source>
         <translation type="unfinished">
-            <numerusform />
-            <numerusform />
+            <numerusform>Processed %n block(s) of transaction history.</numerusform>
+            <numerusform>Processed %n block(s) of transaction history.</numerusform>
         </translation>
     </message>
     <message>
@@ -501,8 +497,8 @@ Signing is only possible with addresses of the type 'legacy'.</source>
         <source>%n active connection(s) to Bitcoin network.</source>
         <extracomment>A substring of the tooltip.</extracomment>
         <translation type="unfinished">
-            <numerusform />
-            <numerusform />
+            <numerusform>%n active connection(s) to Bitcoin network.</numerusform>
+            <numerusform>%n active connection(s) to Bitcoin network.</numerusform>
         </translation>
     </message>
     <message>
@@ -822,62 +818,6 @@ Signing is only possible with addresses of the type 'legacy'.</source>
     </message>
 </context>
 <context>
-    <name>Intro</name>
-    <message>
-        <source>Bitcoin</source>
-        <translation type="unfinished">Bitmono</translation>
-    </message>
-    <message numerus="yes">
-        <source>%n GB of space available</source>
-        <translation type="unfinished">
-            <numerusform>%n gigabajto de libera loko disponeble</numerusform>
-            <numerusform>%n gigabajtoj de libera loko disponebla.</numerusform>
-        </translation>
-    </message>
-    <message numerus="yes">
-        <source>(of %n GB needed)</source>
-        <translation type="unfinished">
-            <numerusform />
-            <numerusform />
-        </translation>
-    </message>
-    <message numerus="yes">
-        <source>(%n GB needed for full chain)</source>
-        <translation type="unfinished">
-            <numerusform />
-            <numerusform />
-        </translation>
-    </message>
-    <message numerus="yes">
-        <source>(sufficient to restore backups %n day(s) old)</source>
-        <extracomment>Explanatory text on the capability of the current prune target.</extracomment>
-        <translation type="unfinished">
-            <numerusform />
-            <numerusform />
-        </translation>
-    </message>
-    <message>
-        <source>Error</source>
-        <translation type="unfinished">Eraro</translation>
-    </message>
-    <message>
-        <source>Welcome</source>
-        <translation type="unfinished">Bonvenon</translation>
-    </message>
-    <message>
-        <source>Welcome to %1.</source>
-        <translation type="unfinished">Bonvenon al %1.</translation>
-    </message>
-    <message>
-        <source>Use the default data directory</source>
-        <translation type="unfinished">Uzi la defaŭltan dosierujon por datumoj</translation>
-    </message>
-    <message>
-        <source>Use a custom data directory:</source>
-        <translation type="unfinished">Uzi alian dosierujon por datumoj:</translation>
-    </message>
-</context>
-<context>
     <name>HelpMessageDialog</name>
     <message>
         <source>version</source>
@@ -897,6 +837,62 @@ Signing is only possible with addresses of the type 'legacy'.</source>
     <message>
         <source>Do not shut down the computer until this window disappears.</source>
         <translation type="unfinished">Ne sistemfermu ĝis ĉi tiu fenestro malaperas.</translation>
+    </message>
+</context>
+<context>
+    <name>Intro</name>
+    <message>
+        <source>Welcome</source>
+        <translation type="unfinished">Bonvenon</translation>
+    </message>
+    <message>
+        <source>Welcome to %1.</source>
+        <translation type="unfinished">Bonvenon al %1.</translation>
+    </message>
+    <message>
+        <source>Use the default data directory</source>
+        <translation type="unfinished">Uzi la defaŭltan dosierujon por datumoj</translation>
+    </message>
+    <message>
+        <source>Use a custom data directory:</source>
+        <translation type="unfinished">Uzi alian dosierujon por datumoj:</translation>
+    </message>
+    <message>
+        <source>Bitcoin</source>
+        <translation type="unfinished">Bitmono</translation>
+    </message>
+    <message numerus="yes">
+        <source>%n GB of space available</source>
+        <translation type="unfinished">
+            <numerusform>%n gigabajto de libera loko disponeble</numerusform>
+            <numerusform>%n gigabajtoj de libera loko disponebla.</numerusform>
+        </translation>
+    </message>
+    <message numerus="yes">
+        <source>(of %n GB needed)</source>
+        <translation type="unfinished">
+            <numerusform>(of %n GB needed)</numerusform>
+            <numerusform>(of %n GB needed)</numerusform>
+        </translation>
+    </message>
+    <message numerus="yes">
+        <source>(%n GB needed for full chain)</source>
+        <translation type="unfinished">
+            <numerusform>(%n GB needed for full chain)</numerusform>
+            <numerusform>(%n GB needed for full chain)</numerusform>
+        </translation>
+    </message>
+    <message numerus="yes">
+        <source>(sufficient to restore backups %n day(s) old)</source>
+        <extracomment>Explanatory text on the capability of the current prune target.</extracomment>
+        <translation type="unfinished">
+            <numerusform>(sufficient to restore backups %n day(s) old)</numerusform>
+            <numerusform>(sufficient to restore backups %n day(s) old)</numerusform>
+        </translation>
+    </message>
+    <message>
+        <source>Error</source>
+        <translation type="unfinished">Eraro</translation>
     </message>
 </context>
 <context>
@@ -991,14 +987,6 @@ Signing is only possible with addresses of the type 'legacy'.</source>
     <message>
         <source>Expert</source>
         <translation type="unfinished">Fakulo</translation>
-    </message>
-    <message>
-        <source>Automatically open the Bitcoin client port on the router. This only works when your router supports UPnP and it is enabled.</source>
-        <translation type="unfinished">Aŭtomate malfermi la kursilan pordon por Bitmono. Tio funkcias nur se via kursilo havas la UPnP-funkcion, kaj se tiu ĉi estas ŝaltita.</translation>
-    </message>
-    <message>
-        <source>Map port using &amp;UPnP</source>
-        <translation type="unfinished">Mapigi pordon per &amp;UPnP</translation>
     </message>
     <message>
         <source>Proxy &amp;IP:</source>
@@ -1119,10 +1107,6 @@ Signing is only possible with addresses of the type 'legacy'.</source>
     <message>
         <source>Your current total balance</source>
         <translation type="unfinished">via aktuala totala saldo</translation>
-    </message>
-    <message>
-        <source>Spendable:</source>
-        <translation type="unfinished">Elspezebla:</translation>
     </message>
     <message>
         <source>Recent transactions</source>
@@ -1592,8 +1576,8 @@ Signing is only possible with addresses of the type 'legacy'.</source>
     <message numerus="yes">
         <source>Estimated to begin confirmation within %n block(s).</source>
         <translation type="unfinished">
-            <numerusform />
-            <numerusform />
+            <numerusform>Estimated to begin confirmation within %n block(s).</numerusform>
+            <numerusform>Estimated to begin confirmation within %n block(s).</numerusform>
         </translation>
     </message>
     <message>
@@ -1672,10 +1656,6 @@ Signing is only possible with addresses of the type 'legacy'.</source>
     <message>
         <source>Signature</source>
         <translation type="unfinished">Subskribo</translation>
-    </message>
-    <message>
-        <source>Copy the current signature to the system clipboard</source>
-        <translation type="unfinished">Kopii la aktualan subskribon al la tondejo</translation>
     </message>
     <message>
         <source>Sign the message to prove you own this Bitcoin address</source>
@@ -1813,8 +1793,8 @@ Signing is only possible with addresses of the type 'legacy'.</source>
     <message numerus="yes">
         <source>matures in %n more block(s)</source>
         <translation type="unfinished">
-            <numerusform />
-            <numerusform />
+            <numerusform>matures in %n more block(s)</numerusform>
+            <numerusform>matures in %n more block(s)</numerusform>
         </translation>
     </message>
     <message>
@@ -2088,12 +2068,12 @@ Signing is only possible with addresses of the type 'legacy'.</source>
         <translation type="unfinished">Averto: ŝajne ni ne tute konsentas kun niaj samtavolanoj! Eble vi devas ĝisdatigi vian klienton, aŭ eble aliaj nodoj faru same.</translation>
     </message>
     <message>
-        <source>Corrupted block database detected</source>
-        <translation type="unfinished">Difektita blokdatumbazo trovita</translation>
+        <source>default wallet</source>
+        <translation type="unfinished">defaŭlta monujo</translation>
     </message>
     <message>
-        <source>Do you want to rebuild the block database now?</source>
-        <translation type="unfinished">Ĉu vi volas rekonstrui la blokdatumbazon nun?</translation>
+        <source>Corrupted block database detected</source>
+        <translation type="unfinished">Difektita blokdatumbazo trovita</translation>
     </message>
     <message>
         <source>Done loading</source>
@@ -2102,10 +2082,6 @@ Signing is only possible with addresses of the type 'legacy'.</source>
     <message>
         <source>Error initializing block database</source>
         <translation type="unfinished">Eraro dum pravalorizado de blokdatumbazo</translation>
-    </message>
-    <message>
-        <source>Error initializing wallet database environment %s!</source>
-        <translation type="unfinished">Eraro dum pravalorizado de monuj-datumbaza ĉirkaŭaĵo %s!</translation>
     </message>
     <message>
         <source>Error loading block database</source>
@@ -2126,10 +2102,6 @@ Signing is only possible with addresses of the type 'legacy'.</source>
     <message>
         <source>Insufficient funds</source>
         <translation type="unfinished">Nesufiĉa mono</translation>
-    </message>
-    <message>
-        <source>Not enough file descriptors available.</source>
-        <translation type="unfinished">Nesufiĉa nombro de dosierpriskribiloj disponeblas.</translation>
     </message>
     <message>
         <source>Signing transaction failed</source>
@@ -2154,6 +2126,10 @@ Signing is only possible with addresses of the type 'legacy'.</source>
     <message>
         <source>Unknown network specified in -onlynet: '%s'</source>
         <translation type="unfinished">Nekonata reto specifita en -onlynet: '%s'</translation>
+    </message>
+    <message>
+        <source>Error: Wallet does not exist</source>
+        <translation type="unfinished">Eraro: monujo ne ekzistas</translation>
     </message>
     </context>
 </TS>

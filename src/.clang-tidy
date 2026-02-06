@@ -9,11 +9,13 @@ bugprone-lambda-function-name,
 bugprone-unhandled-self-assignment,
 misc-unused-using-decls,
 misc-no-recursion,
+modernize-deprecated-headers,
 modernize-use-default-member-init,
 modernize-use-emplace,
 modernize-use-equals-default,
 modernize-use-noexcept,
 modernize-use-nullptr,
+modernize-use-starts-ends-with,
 performance-*,
 -performance-avoid-endl,
 -performance-enum-size,
@@ -28,6 +30,8 @@ readability-redundant-string-init,
 HeaderFilterRegex: '.'
 WarningsAsErrors: '*'
 CheckOptions:
+ - key: modernize-deprecated-headers.CheckHeaderFile
+   value: false
  - key: performance-move-const-arg.CheckTriviallyCopyableMove
    value: false
  - key: bugprone-unhandled-self-assignment.WarnOnlyIfThisHasSuspiciousField

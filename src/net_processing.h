@@ -1,20 +1,34 @@
 // Copyright (c) 2009-2010 Satoshi Nakamoto
-// Copyright (c) 2009-2022 The Bitcoin Core developers
+// Copyright (c) 2009-present The Bitcoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 #ifndef BITCOIN_NET_PROCESSING_H
 #define BITCOIN_NET_PROCESSING_H
 
+#include <consensus/amount.h>
 #include <net.h>
+#include <node/txorphanage.h>
+#include <protocol.h>
+#include <threadsafety.h>
 #include <validationinterface.h>
 
+#include <atomic>
 #include <chrono>
+#include <cstdint>
+#include <memory>
+#include <optional>
+#include <string>
+#include <vector>
 
 class AddrMan;
-class CChainParams;
 class CTxMemPool;
 class ChainstateManager;
+class BanMan;
+class CBlockIndex;
+class CScheduler;
+class DataStream;
+class uint256;
 
 namespace node {
 class Warnings;
@@ -22,8 +36,6 @@ class Warnings;
 
 /** Whether transaction reconciliation protocol should be enabled by default. */
 static constexpr bool DEFAULT_TXRECONCILIATION_ENABLE{false};
-/** Default for -maxorphantx, maximum number of orphan transactions kept in memory */
-static const uint32_t DEFAULT_MAX_ORPHAN_TRANSACTIONS{100};
 /** Default number of non-mempool transactions to keep around for block reconstruction. Includes
     orphan, replaced, and rejected transactions. */
 static const uint32_t DEFAULT_BLOCK_RECONSTRUCTION_EXTRA_TXN{100};
@@ -31,6 +43,9 @@ static const bool DEFAULT_PEERBLOOMFILTERS = false;
 static const bool DEFAULT_PEERBLOCKFILTERS = false;
 /** Maximum number of outstanding CMPCTBLOCK requests for the same block. */
 static const unsigned int MAX_CMPCTBLOCKS_INFLIGHT_PER_BLOCK = 3;
+/** Number of headers sent in one getheaders result. We rely on the assumption that if a peer sends
+ *  less than this number, we reached its tip. Changing this value is a protocol upgrade. */
+static const unsigned int MAX_HEADERS_RESULTS = 2000;
 
 struct CNodeStateStats {
     int nSyncHeight = -1;
@@ -61,8 +76,6 @@ public:
         bool ignore_incoming_txs{DEFAULT_BLOCKSONLY};
         //! Whether transaction reconciliation protocol is enabled
         bool reconcile_txs{DEFAULT_TXRECONCILIATION_ENABLE};
-        //! Maximum number of orphan transactions kept in memory
-        uint32_t max_orphan_txs{DEFAULT_MAX_ORPHAN_TRANSACTIONS};
         //! Number of non-mempool transactions to keep around for block reconstruction. Includes
         //! orphan, replaced, and rejected transactions.
         uint32_t max_extra_txs{DEFAULT_BLOCK_RECONSTRUCTION_EXTRA_TXN};
@@ -71,6 +84,9 @@ public:
         //! Whether or not the internal RNG behaves deterministically (this is
         //! a test-only option).
         bool deterministic_rng{false};
+        //! Number of headers sent in one getheaders message result (this is
+        //! a test-only option).
+        uint32_t max_headers_result{MAX_HEADERS_RESULTS};
     };
 
     static std::unique_ptr<PeerManager> make(CConnman& connman, AddrMan& addrman,
@@ -93,11 +109,13 @@ public:
     /** Get statistics from node state */
     virtual bool GetNodeStateStats(NodeId nodeid, CNodeStateStats& stats) const = 0;
 
+    virtual std::vector<node::TxOrphanage::OrphanInfo> GetOrphanTransactions() = 0;
+
     /** Get peer manager info. */
     virtual PeerManagerInfo GetInfo() const = 0;
 
     /** Relay transaction to all peers. */
-    virtual void RelayTransaction(const uint256& txid, const uint256& wtxid) = 0;
+    virtual void RelayTransaction(const Txid& txid, const Wtxid& wtxid) = 0;
 
     /** Send ping message to all peers */
     virtual void SendPings() = 0;

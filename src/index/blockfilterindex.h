@@ -52,13 +52,15 @@ private:
     std::optional<uint256> ReadFilterHeader(int height, const uint256& expected_block_hash);
 
 protected:
-    bool CustomInit(const std::optional<interfaces::BlockKey>& block) override;
+    interfaces::Chain::NotifyOptions CustomOptions() override;
+
+    bool CustomInit(const std::optional<interfaces::BlockRef>& block) override;
 
     bool CustomCommit(CDBBatch& batch) override;
 
     bool CustomAppend(const interfaces::BlockInfo& block) override;
 
-    bool CustomRewind(const interfaces::BlockKey& current_tip, const interfaces::BlockKey& new_tip) override;
+    bool CustomRemove(const interfaces::BlockInfo& block) override;
 
     BaseIndex::DB& GetDB() const LIFETIMEBOUND override { return *m_db; }
 

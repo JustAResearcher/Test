@@ -3,7 +3,7 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#include <config/bitcoin-config.h> // IWYU pragma: keep
+#include <bitcoin-build-config.h> // IWYU pragma: keep
 
 #include <common/system.h>
 
@@ -11,19 +11,25 @@
 #include <util/string.h>
 #include <util/time.h>
 
-#ifndef WIN32
-#include <sys/stat.h>
-#else
-#include <compat/compat.h>
+#ifdef WIN32
 #include <codecvt>
+#include <compat/compat.h>
+#include <windows.h>
+#else
+#include <sys/stat.h>
+#include <unistd.h>
 #endif
 
 #ifdef HAVE_MALLOPT_ARENA_MAX
 #include <malloc.h>
 #endif
 
+#include <algorithm>
+#include <cstddef>
+#include <cstdint>
 #include <cstdlib>
 #include <locale>
+#include <optional>
 #include <stdexcept>
 #include <string>
 #include <thread>
@@ -70,7 +76,7 @@ void SetupEnvironment()
 #endif
     // On most POSIX systems (e.g. Linux, but not BSD) the environment's locale
     // may be invalid, in which case the "C.UTF-8" locale is used as fallback.
-#if !defined(WIN32) && !defined(MAC_OSX) && !defined(__FreeBSD__) && !defined(__OpenBSD__) && !defined(__NetBSD__)
+#if !defined(WIN32) && !defined(__APPLE__) && !defined(__FreeBSD__) && !defined(__OpenBSD__) && !defined(__NetBSD__)
     try {
         std::locale(""); // Raises a runtime error if current locale is invalid
     } catch (const std::runtime_error&) {
@@ -103,6 +109,22 @@ bool SetupNetworking()
 int GetNumCores()
 {
     return std::thread::hardware_concurrency();
+}
+
+std::optional<size_t> GetTotalRAM()
+{
+    [[maybe_unused]] auto clamp{[](uint64_t v) { return size_t(std::min(v, uint64_t{std::numeric_limits<size_t>::max()})); }};
+#ifdef WIN32
+    if (MEMORYSTATUSEX m{}; (m.dwLength = sizeof(m), GlobalMemoryStatusEx(&m))) return clamp(m.ullTotalPhys);
+#elif defined(__APPLE__) || \
+      defined(__FreeBSD__) || \
+      defined(__NetBSD__) || \
+      defined(__OpenBSD__) || \
+      defined(__illumos__) || \
+      defined(__linux__)
+    if (long p{sysconf(_SC_PHYS_PAGES)}, s{sysconf(_SC_PAGESIZE)}; p > 0 && s > 0) return clamp(1ULL * p * s);
+#endif
+    return std::nullopt;
 }
 
 // Obtain the application startup time (used for uptime calculation)

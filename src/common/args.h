@@ -1,4 +1,4 @@
-// Copyright (c) 2023 The Bitcoin Core developers
+// Copyright (c) 2023-present The Bitcoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -11,12 +11,12 @@
 #include <util/chaintype.h>
 #include <util/fs.h>
 
+#include <cstdint>
 #include <iosfwd>
 #include <list>
 #include <map>
 #include <optional>
 #include <set>
-#include <stdint.h>
 #include <string>
 #include <variant>
 #include <vector>
@@ -63,6 +63,8 @@ enum class OptionsCategory {
     GUI,
     COMMANDS,
     REGISTER_COMMANDS,
+    CLI_COMMANDS,
+    IPC,
 
     HIDDEN // Always the last option to avoid printing these in the help
 };
@@ -135,6 +137,7 @@ protected:
     std::string m_network GUARDED_BY(cs_args);
     std::set<std::string> m_network_only_args GUARDED_BY(cs_args);
     std::map<OptionsCategory, std::map<std::string, Arg>> m_available_args GUARDED_BY(cs_args);
+    std::optional<unsigned int> m_default_flags GUARDED_BY(cs_args){};
     bool m_accept_any_command GUARDED_BY(cs_args){true};
     std::list<SectionInfo> m_config_sections GUARDED_BY(cs_args);
     std::optional<fs::path> m_config_path GUARDED_BY(cs_args);
@@ -357,11 +360,14 @@ protected:
     /**
      * Clear available arguments
      */
-    void ClearArgs() {
-        LOCK(cs_args);
-        m_available_args.clear();
-        m_network_only_args.clear();
-    }
+    void ClearArgs();
+
+    /**
+     * Check CLI command args
+     *
+     * @throws std::runtime_error when multiple CLI_COMMAND arguments are specified
+     */
+    void CheckMultipleCLIArgs() const;
 
     /**
      * Get the help string
@@ -370,9 +376,14 @@ protected:
 
     /**
      * Return Flags for known arg.
-     * Return nullopt for unknown arg.
+     * Return default flags for unknown arg.
      */
     std::optional<unsigned int> GetArgFlags(const std::string& name) const;
+
+    /**
+     * Set default flags to return for an unknown arg.
+     */
+    void SetDefaultFlags(std::optional<unsigned int>);
 
     /**
      * Get settings file path, or return false if read-write settings were

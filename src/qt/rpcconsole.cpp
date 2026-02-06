@@ -2,7 +2,7 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#include <config/bitcoin-config.h> // IWYU pragma: keep
+#include <bitcoin-build-config.h> // IWYU pragma: keep
 
 #include <qt/rpcconsole.h>
 #include <qt/forms/ui_debugwindow.h>
@@ -16,7 +16,9 @@
 #include <qt/guiutil.h>
 #include <qt/peertablesortproxy.h>
 #include <qt/platformstyle.h>
+#ifdef ENABLE_WALLET
 #include <qt/walletmodel.h>
+#endif // ENABLE_WALLET
 #include <rpc/client.h>
 #include <rpc/server.h>
 #include <util/strencodings.h>
@@ -70,9 +72,9 @@ namespace {
 
 // don't add private key handling cmd's to the history
 const QStringList historyFilter = QStringList()
-    << "importprivkey"
-    << "importmulti"
-    << "sethdseed"
+    << "createwallet"
+    << "createwalletdescriptor"
+    << "migratewallet"
     << "signmessagewithprivkey"
     << "signrawtransactionwithkey"
     << "walletpassphrase"
@@ -90,44 +92,13 @@ public:
     explicit RPCExecutor(interfaces::Node& node) : m_node(node) {}
 
 public Q_SLOTS:
-    void request(const QString &command, const WalletModel* wallet_model);
+    void request(const QString &command, const QString& wallet_name);
 
 Q_SIGNALS:
     void reply(int category, const QString &command);
 
 private:
     interfaces::Node& m_node;
-};
-
-/** Class for handling RPC timers
- * (used for e.g. re-locking the wallet after a timeout)
- */
-class QtRPCTimerBase: public QObject, public RPCTimerBase
-{
-    Q_OBJECT
-public:
-    QtRPCTimerBase(std::function<void()>& _func, int64_t millis):
-        func(_func)
-    {
-        timer.setSingleShot(true);
-        connect(&timer, &QTimer::timeout, [this]{ func(); });
-        timer.start(millis);
-    }
-    ~QtRPCTimerBase() = default;
-private:
-    QTimer timer;
-    std::function<void()> func;
-};
-
-class QtRPCTimerInterface: public RPCTimerInterface
-{
-public:
-    ~QtRPCTimerInterface() = default;
-    const char *Name() override { return "Qt"; }
-    RPCTimerBase* NewTimer(std::function<void()>& func, int64_t millis) override
-    {
-        return new QtRPCTimerBase(func, millis);
-    }
 };
 
 class PeerIdViewDelegate : public QStyledItemDelegate
@@ -167,7 +138,7 @@ public:
  * @param[out]   pstrFilteredOut  Command line, filtered to remove any sensitive data
  */
 
-bool RPCConsole::RPCParseCommandLine(interfaces::Node* node, std::string &strResult, const std::string &strCommand, const bool fExecute, std::string * const pstrFilteredOut, const WalletModel* wallet_model)
+bool RPCConsole::RPCParseCommandLine(interfaces::Node* node, std::string &strResult, const std::string &strCommand, const bool fExecute, std::string * const pstrFilteredOut, const QString& wallet_name)
 {
     std::vector< std::vector<std::string> > stack;
     stack.emplace_back();
@@ -326,12 +297,10 @@ bool RPCConsole::RPCParseCommandLine(interfaces::Node* node, std::string &strRes
                             UniValue params = RPCConvertValues(stack.back()[0], std::vector<std::string>(stack.back().begin() + 1, stack.back().end()));
                             std::string method = stack.back()[0];
                             std::string uri;
-#ifdef ENABLE_WALLET
-                            if (wallet_model) {
-                                QByteArray encodedName = QUrl::toPercentEncoding(wallet_model->getWalletName());
+                            if (!wallet_name.isEmpty()) {
+                                QByteArray encodedName = QUrl::toPercentEncoding(wallet_name);
                                 uri = "/wallet/"+std::string(encodedName.constData(), encodedName.length());
                             }
-#endif
                             assert(node);
                             lastResult = node->executeRpc(method, params, uri);
                         }
@@ -409,7 +378,7 @@ bool RPCConsole::RPCParseCommandLine(interfaces::Node* node, std::string &strRes
     }
 }
 
-void RPCExecutor::request(const QString &command, const WalletModel* wallet_model)
+void RPCExecutor::request(const QString &command, const QString& wallet_name)
 {
     try
     {
@@ -439,7 +408,7 @@ void RPCExecutor::request(const QString &command, const WalletModel* wallet_mode
                 "   example:    getblock(getblockhash(0),1)[tx][0]\n\n")));
             return;
         }
-        if (!RPCConsole::RPCExecuteCommandLine(m_node, result, executableCommand, nullptr, wallet_model)) {
+        if (!RPCConsole::RPCExecuteCommandLine(m_node, result, executableCommand, nullptr, wallet_name)) {
             Q_EMIT reply(RPCConsole::CMD_ERROR, QString("Parse error: unbalanced ' or \""));
             return;
         }
@@ -534,7 +503,7 @@ RPCConsole::RPCConsole(interfaces::Node& node, const PlatformStyle *_platformSty
     ui->peerHighBandwidthLabel->setToolTip(ui->peerHighBandwidthLabel->toolTip().arg(hb_list));
     ui->dataDir->setToolTip(ui->dataDir->toolTip().arg(QString(nonbreaking_hyphen) + "datadir"));
     ui->blocksDir->setToolTip(ui->blocksDir->toolTip().arg(QString(nonbreaking_hyphen) + "blocksdir"));
-    ui->openDebugLogfileButton->setToolTip(ui->openDebugLogfileButton->toolTip().arg(PACKAGE_NAME));
+    ui->openDebugLogfileButton->setToolTip(ui->openDebugLogfileButton->toolTip().arg(CLIENT_NAME));
 
     if (platformStyle->getImagesOnButtons()) {
         ui->openDebugLogfileButton->setIcon(platformStyle->SingleColorIcon(":/icons/export"));
@@ -570,12 +539,6 @@ RPCConsole::RPCConsole(interfaces::Node& node, const PlatformStyle *_platformSty
     ui->WalletSelector->setVisible(false);
     ui->WalletSelectorLabel->setVisible(false);
 
-    // Register RPC timer interface
-    rpcTimerInterface = new QtRPCTimerInterface();
-    // avoid accidentally overwriting an existing, non QTThread
-    // based timer interface
-    m_node.rpcSetTimerInterfaceIfUnset(rpcTimerInterface);
-
     setTrafficGraphRange(INITIAL_TRAFFIC_GRAPH_MINS);
     updateDetailWidget();
 
@@ -605,8 +568,6 @@ RPCConsole::~RPCConsole()
     settings.setValue("PeersTabPeerHeaderState", m_peer_widget_header_state);
     settings.setValue("PeersTabBanlistHeaderState", m_banlist_widget_header_state);
 
-    m_node.rpcUnsetTimerInterface(rpcTimerInterface);
-    delete rpcTimerInterface;
     delete ui;
 }
 
@@ -912,7 +873,7 @@ void RPCConsole::clear(bool keep_prompt)
            "%7WARNING: Scammers have been active, telling users to type"
            " commands here, stealing their wallet contents. Do not use this console"
            " without fully understanding the ramifications of a command.%8")
-            .arg(PACKAGE_NAME,
+            .arg(CLIENT_NAME,
                  "<b>" + ui->clearButton->shortcut().toString(QKeySequence::NativeText) + "</b>",
                  "<b>" + ui->fontBiggerButton->shortcut().toString(QKeySequence::NativeText) + "</b>",
                  "<b>" + ui->fontSmallerButton->shortcut().toString(QKeySequence::NativeText) + "</b>",
@@ -1058,10 +1019,10 @@ void RPCConsole::on_lineEdit_returnPressed()
 
     ui->lineEdit->clear();
 
-    WalletModel* wallet_model{nullptr};
+    QString in_use_wallet_name;
 #ifdef ENABLE_WALLET
-    wallet_model = ui->WalletSelector->currentData().value<WalletModel*>();
-
+    WalletModel* wallet_model = ui->WalletSelector->currentData().value<WalletModel*>();
+    in_use_wallet_name = wallet_model ? wallet_model->getWalletName() : QString();
     if (m_last_wallet_model != wallet_model) {
         if (wallet_model) {
             message(CMD_REQUEST, tr("Executing command using \"%1\" wallet").arg(wallet_model->getWalletName()));
@@ -1077,8 +1038,8 @@ void RPCConsole::on_lineEdit_returnPressed()
     message(CMD_REPLY, tr("Executing…"));
     m_is_executing = true;
 
-    QMetaObject::invokeMethod(m_executor, [this, cmd, wallet_model] {
-        m_executor->request(cmd, wallet_model);
+    QMetaObject::invokeMethod(m_executor, [this, cmd, in_use_wallet_name] {
+        m_executor->request(cmd, in_use_wallet_name);
     });
 
     cmd = QString::fromStdString(strFilteredCmd);
