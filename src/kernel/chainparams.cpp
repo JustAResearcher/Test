@@ -93,7 +93,7 @@ public:
         consensus.BIP65Height = 1; // Meowcoin: enabled from start
         consensus.BIP66Height = 1; // Meowcoin: enabled from start
         consensus.CSVHeight = 1; // Meowcoin: enabled from start
-        consensus.SegwitHeight = 0; // Meowcoin: segwit always active (nSegwitEnabled = true in original)
+        consensus.SegwitHeight = 2072166; // Meowcoin: SegWit soft fork, ~1 month before Taproot
         consensus.MinBIP9WarningHeight = 2016;
         consensus.powLimit[static_cast<size_t>(PowAlgo::MEOWPOW)] = uint256{"00ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"}; // Meowcoin MeowPow limit
         consensus.powLimit[static_cast<size_t>(PowAlgo::SCRYPT)] = uint256{"00000fffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"};
@@ -119,6 +119,8 @@ public:
         consensus.vDeployments[Consensus::DEPLOYMENT_TAPROOT].min_activation_height = 2115366; // SegWit + 1 month at 60s spacing
         consensus.vDeployments[Consensus::DEPLOYMENT_TAPROOT].threshold = 1815; // 90%
         consensus.vDeployments[Consensus::DEPLOYMENT_TAPROOT].period = 2016;
+
+        consensus.n32MBForkHeight = 2201766; // Taproot + 2 months at 60s blocks (86400 blocks)
 
         consensus.nMinimumChainWork = uint256{}; // Disable presync anti-DoS (not needed for Meowcoin)
         consensus.defaultAssumeValid = uint256{}; // Validate all blocks during initial sync
@@ -198,7 +200,7 @@ public:
         consensus.BIP65Height = 1;
         consensus.BIP66Height = 1;
         consensus.CSVHeight = 1;
-        consensus.SegwitHeight = 0; // Meowcoin: segwit always active
+        consensus.SegwitHeight = 2072166; // Meowcoin: SegWit soft fork, ~1 month before Taproot
         consensus.MinBIP9WarningHeight = 2016;
         consensus.powLimit[static_cast<size_t>(PowAlgo::MEOWPOW)] = uint256{"7fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"};
         consensus.powLimit[static_cast<size_t>(PowAlgo::SCRYPT)] = uint256{"7fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"};
@@ -224,6 +226,8 @@ public:
         consensus.vDeployments[Consensus::DEPLOYMENT_TAPROOT].min_activation_height = 2115366; // SegWit + 1 month at 60s spacing
         consensus.vDeployments[Consensus::DEPLOYMENT_TAPROOT].threshold = 1512; // 75%
         consensus.vDeployments[Consensus::DEPLOYMENT_TAPROOT].period = 2016;
+
+        consensus.n32MBForkHeight = 2201766; // Taproot + 2 months at 60s blocks (86400 blocks)
 
         consensus.nMinimumChainWork = uint256{};
         consensus.defaultAssumeValid = uint256{}; // Meowcoin testnet
@@ -295,7 +299,7 @@ public:
         consensus.BIP65Height = 1;
         consensus.BIP66Height = 1;
         consensus.CSVHeight = 1;
-        consensus.SegwitHeight = 0; // Meowcoin: segwit always active
+        consensus.SegwitHeight = 2072166; // Meowcoin: SegWit soft fork, ~1 month before Taproot
         consensus.MinBIP9WarningHeight = 2016;
         consensus.powLimit[static_cast<size_t>(PowAlgo::MEOWPOW)] = uint256{"7fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"};
         consensus.powLimit[static_cast<size_t>(PowAlgo::SCRYPT)] = uint256{"7fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"};
@@ -322,6 +326,8 @@ public:
         consensus.vDeployments[Consensus::DEPLOYMENT_TAPROOT].min_activation_height = 2115366; // SegWit + 1 month at 60s spacing
         consensus.vDeployments[Consensus::DEPLOYMENT_TAPROOT].threshold = 1512; // 75%
         consensus.vDeployments[Consensus::DEPLOYMENT_TAPROOT].period = 2016;
+
+        consensus.n32MBForkHeight = 2201766; // Taproot + 2 months at 60s blocks (86400 blocks)
 
         consensus.nMinimumChainWork = uint256{};
         consensus.defaultAssumeValid = uint256{};
@@ -406,7 +412,7 @@ public:
         consensus.BIP65Height = 1;
         consensus.BIP66Height = 1;
         consensus.CSVHeight = 1;
-        consensus.SegwitHeight = 0; // Meowcoin: segwit always active
+        consensus.SegwitHeight = 2072166; // Meowcoin: SegWit soft fork, ~1 month before Taproot
         consensus.nPowTargetTimespan = 2016 * 60;
         consensus.nPowTargetSpacing = 1 * 60;
         consensus.fPowAllowMinDifficultyBlocks = true;
@@ -431,6 +437,8 @@ public:
         consensus.vDeployments[Consensus::DEPLOYMENT_TAPROOT].min_activation_height = 2115366; // SegWit + 1 month at 60s spacing
         consensus.vDeployments[Consensus::DEPLOYMENT_TAPROOT].threshold = 1512; // 75%
         consensus.vDeployments[Consensus::DEPLOYMENT_TAPROOT].period = 2016;
+
+        consensus.n32MBForkHeight = 2201766; // Taproot + 2 months at 60s blocks (86400 blocks)
 
         pchMessageStart[0] = 0x4d; // M
         pchMessageStart[1] = 0x45; // E
@@ -490,7 +498,7 @@ public:
         consensus.BIP65Height = 1;  // Always active unless overridden
         consensus.BIP66Height = 1;  // Always active unless overridden
         consensus.CSVHeight = 1;    // Always active unless overridden
-        consensus.SegwitHeight = 0; // Meowcoin: segwit always active
+        consensus.SegwitHeight = 0; // Regtest: segwit always active
         consensus.MinBIP9WarningHeight = 2016;
         consensus.powLimit[static_cast<size_t>(PowAlgo::MEOWPOW)] = uint256{"7fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"};
         consensus.powLimit[static_cast<size_t>(PowAlgo::SCRYPT)] = uint256{"7fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"};
@@ -516,6 +524,8 @@ public:
         consensus.vDeployments[Consensus::DEPLOYMENT_TAPROOT].min_activation_height = 2115366; // SegWit + 1 month at 60s spacing
         consensus.vDeployments[Consensus::DEPLOYMENT_TAPROOT].threshold = 1512; // 75%
         consensus.vDeployments[Consensus::DEPLOYMENT_TAPROOT].period = 2016;
+
+        consensus.n32MBForkHeight = 0; // Regtest: 32 MB blocks always active
 
         consensus.nMinimumChainWork = uint256{};
         consensus.defaultAssumeValid = uint256{};

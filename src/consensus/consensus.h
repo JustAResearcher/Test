@@ -9,10 +9,14 @@
 #include <cstdint>
 #include <cstdlib>
 
+/** Pre-32MB-fork block size limit (8 MB) */
+static const unsigned int LEGACY_MAX_BLOCK_SERIALIZED_SIZE = 8000000;
+/** Pre-32MB-fork block weight limit (8 MB) */
+static const unsigned int LEGACY_MAX_BLOCK_WEIGHT = 8000000;
 /** The maximum allowed size for a serialized block, in bytes (only for buffer size limits) */
-static const unsigned int MAX_BLOCK_SERIALIZED_SIZE = 8000000; // Meowcoin HIP2: doubled for asset support
+static const unsigned int MAX_BLOCK_SERIALIZED_SIZE = 32000000; // Meowcoin: 32 MB after fork
 /** The maximum allowed weight for a block, see BIP 141 (network rule) */
-static const unsigned int MAX_BLOCK_WEIGHT = 8000000; // Meowcoin HIP2: doubled for asset support
+static const unsigned int MAX_BLOCK_WEIGHT = 32000000; // Meowcoin: 32 MB after fork
 /** The maximum allowed number of signature check operations in a block (network rule) */
 static const int64_t MAX_BLOCK_SIGOPS_COST = 80000;
 /** Coinbase transaction outputs can only be spent after this number of new blocks (network rule) */

@@ -4286,7 +4286,9 @@ static bool ContextualCheckBlock(const CBlock& block, BlockValidationState& stat
     // large by filling up the coinbase witness, which doesn't change
     // the block hash, so we couldn't mark the block as permanently
     // failed).
-    if (GetBlockWeight(block) > MAX_BLOCK_WEIGHT) {
+    // Meowcoin: height-dependent block weight limit (8 MB before 32 MB fork, 32 MB after)
+    const unsigned int nMaxBlockWeight = (nHeight >= chainman.GetConsensus().n32MBForkHeight) ? MAX_BLOCK_WEIGHT : LEGACY_MAX_BLOCK_WEIGHT;
+    if (GetBlockWeight(block) > nMaxBlockWeight) {
         return state.Invalid(BlockValidationResult::BLOCK_CONSENSUS, "bad-blk-weight", strprintf("%s : weight limit failed", __func__));
     }
 

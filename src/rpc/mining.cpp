@@ -996,8 +996,12 @@ static RPCHelpMan getblocktemplate()
     result.pushKV("mintime", GetMinimumTime(pindexPrev, consensusParams.DifficultyAdjustmentInterval()));
     result.pushKV("mutable", std::move(aMutable));
     result.pushKV("noncerange", "00000000ffffffff");
+    // Meowcoin: height-dependent block size limit (8 MB before 32 MB fork, 32 MB after)
+    const int nNextHeight = pindexPrev->nHeight + 1;
+    const unsigned int nMaxBlockWeight = (nNextHeight >= consensusParams.n32MBForkHeight) ? MAX_BLOCK_WEIGHT : LEGACY_MAX_BLOCK_WEIGHT;
+    const unsigned int nMaxBlockSerializedSize = (nNextHeight >= consensusParams.n32MBForkHeight) ? MAX_BLOCK_SERIALIZED_SIZE : LEGACY_MAX_BLOCK_SERIALIZED_SIZE;
     int64_t nSigOpLimit = MAX_BLOCK_SIGOPS_COST;
-    int64_t nSizeLimit = MAX_BLOCK_SERIALIZED_SIZE;
+    int64_t nSizeLimit = nMaxBlockSerializedSize;
     if (fPreSegWit) {
         CHECK_NONFATAL(nSigOpLimit % WITNESS_SCALE_FACTOR == 0);
         nSigOpLimit /= WITNESS_SCALE_FACTOR;
@@ -1007,7 +1011,7 @@ static RPCHelpMan getblocktemplate()
     result.pushKV("sigoplimit", nSigOpLimit);
     result.pushKV("sizelimit", nSizeLimit);
     if (!fPreSegWit) {
-        result.pushKV("weightlimit", (int64_t)MAX_BLOCK_WEIGHT);
+        result.pushKV("weightlimit", (int64_t)nMaxBlockWeight);
     }
     result.pushKV("curtime", block.GetBlockTime());
     result.pushKV("bits", strprintf("%08x", block.nBits));

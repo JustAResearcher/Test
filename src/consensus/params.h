@@ -133,6 +133,9 @@ struct Params {
     /** By default assume that the signatures in ancestors of this block are valid */
     uint256 defaultAssumeValid;
 
+    /** Block height at which the 32 MB block-size hard fork activates */
+    int n32MBForkHeight{std::numeric_limits<int>::max()};
+
     /** Auxpow parameters */
     int32_t nAuxpowChainId{0};
     int nAuxpowStartHeight{0};

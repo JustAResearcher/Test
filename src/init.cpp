@@ -835,7 +835,7 @@ namespace { // Variables internal to initialization process only
 
 int nMaxConnections;
 int available_fds;
-ServiceFlags g_local_services = ServiceFlags(NODE_NETWORK_LIMITED | NODE_WITNESS); // Meowcoin: segwit always active
+ServiceFlags g_local_services = ServiceFlags(NODE_NETWORK_LIMITED | NODE_WITNESS); // Meowcoin: advertise witness capability (v28 nodes understand witness data)
 int64_t peer_connect_timeout;
 std::set<BlockFilterType> g_enabled_filter_types;
 
