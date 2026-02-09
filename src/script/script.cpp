@@ -149,6 +149,9 @@ std::string GetOpName(opcodetype opcode)
     // Opcode added by BIP 342 (Tapscript)
     case OP_CHECKSIGADD            : return "OP_CHECKSIGADD";
 
+    // Meowcoin asset opcode
+    case OP_MEWC_ASSET             : return "OP_MEWC_ASSET";
+
     case OP_INVALIDOPCODE          : return "OP_INVALIDOPCODE";
 
     default:
@@ -358,6 +361,14 @@ bool GetScriptOp(CScriptBase::const_iterator& pc, CScriptBase::const_iterator en
         pc += nSize;
     }
 
+    // Meowcoin: OP_MEWC_ASSET consumes all remaining bytes as data
+    if (opcode == OP_MEWC_ASSET) {
+        unsigned int nSize = end - pc;
+        if (pvchRet)
+            pvchRet->assign(pc, pc + nSize);
+        pc += nSize;
+    }
+
     opcodeRet = static_cast<opcodetype>(opcode);
     return true;
 }
@@ -367,7 +378,7 @@ bool IsOpSuccess(const opcodetype& opcode)
     return opcode == 80 || opcode == 98 || (opcode >= 126 && opcode <= 129) ||
            (opcode >= 131 && opcode <= 134) || (opcode >= 137 && opcode <= 138) ||
            (opcode >= 141 && opcode <= 142) || (opcode >= 149 && opcode <= 153) ||
-           (opcode >= 187 && opcode <= 254);
+           (opcode >= 187 && opcode <= 191) || (opcode >= 193 && opcode <= 254); // Meowcoin: exclude 0xc0 (OP_MEWC_ASSET)
 }
 
 bool CheckMinimalPush(const std::vector<unsigned char>& data, opcodetype opcode) {

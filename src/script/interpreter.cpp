@@ -1213,6 +1213,10 @@ bool EvalScript(std::vector<std::vector<unsigned char> >& stack, const CScript& 
                 }
                 break;
 
+                // Meowcoin: OP_MEWC_ASSET is a NOP in the interpreter
+                case OP_MEWC_ASSET:
+                    break;
+
                 default:
                     return set_error(serror, SCRIPT_ERR_BAD_OPCODE);
             }

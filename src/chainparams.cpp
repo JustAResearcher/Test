@@ -23,6 +23,9 @@
 
 using util::SplitString;
 
+extern uint32_t nKAWPOWActivationTime;
+extern uint32_t nMEOWPOWActivationTime;
+
 void ReadSigNetArgs(const ArgsManager& args, CChainParams::SigNetOptions& options)
 {
     if (!args.GetArgs("-signetseednode").empty()) {
@@ -141,4 +144,7 @@ void SelectParams(const ChainType chain)
 {
     SelectBaseParams(chain);
     globalChainParams = CreateChainParams(gArgs, chain);
+    const auto& consensus = globalChainParams->GetConsensus();
+    nKAWPOWActivationTime = consensus.nKAWPOWActivationTime;
+    nMEOWPOWActivationTime = consensus.nMEOWPOWActivationTime;
 }

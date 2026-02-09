@@ -74,20 +74,18 @@ add_library(meowcoin_algo STATIC EXCLUDE_FROM_ALL
   algo/hamsi.c
   algo/hamsi_helper.c
   algo/haval.c
-  algo/haval_helper.c
   algo/jh.c
   algo/keccak.c
   algo/luffa.c
   algo/Lyra2RE.c
-  algo/md_helper.c
   algo/sha2.c
   algo/shabal.c
   algo/shavite.c
   algo/simd.c
   algo/skein.c
-  algo/sph_md_helper.c
   algo/sph_sha2.c
   algo/sph_sha2big.c
+  algo/tiger.cpp
   algo/whirlpool.c
 )
 target_include_directories(meowcoin_algo PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
@@ -127,6 +125,7 @@ add_library(bitcoin_consensus STATIC EXCLUDE_FROM_ALL
   hash.cpp
   hash_x16r.cpp
   primitives/block.cpp
+  primitives/pureheader.cpp
   primitives/transaction.cpp
   pubkey.cpp
   script/interpreter.cpp
@@ -243,6 +242,7 @@ endif()
 add_library(bitcoin_node STATIC EXCLUDE_FROM_ALL
   addrdb.cpp
   addrman.cpp
+  auxpow.cpp
   banman.cpp
   bip324.cpp
   blockencodings.cpp
@@ -460,6 +460,14 @@ if(BUILD_UTIL)
     bitcoin_util
   )
   install_binary_component(meowcoin-util HAS_MANPAGE)
+
+  add_executable(meowcoin-genesis-kawpow genesis_kawpow.cpp)
+  target_link_libraries(meowcoin-genesis-kawpow
+    core_interface
+    bitcoin_consensus
+    bitcoin_util
+  )
+  install_binary_component(meowcoin-genesis-kawpow INTERNAL)
 endif()
 
 

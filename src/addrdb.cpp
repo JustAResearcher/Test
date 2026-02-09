@@ -219,8 +219,14 @@ util::Result<std::unique_ptr<AddrMan>> LoadAddrman(const NetGroupManager& netgro
         LogWarning("Creating new peers.dat because the file version was not compatible (%s). Original backed up to peers.dat.bak", fs::quoted(fs::PathToString(path_addr)));
         DumpPeerAddresses(args, *addrman);
     } catch (const std::exception& e) {
-        return util::Error{strprintf(_("Invalid or corrupt peers.dat (%s). If you believe this is a bug, please report it to %s. As a workaround, you can move the file (%s) out of the way (rename, move, or delete) to have a new one created on the next start."),
-                                     e.what(), CLIENT_BUGREPORT, fs::quoted(fs::PathToString(path_addr)))};
+        // Auto-recover from corrupt/incompatible peers.dat instead of failing fatally
+        addrman = std::make_unique<AddrMan>(netgroupman, deterministic, /*consistency_check_ratio=*/check_addrman);
+        if (!RenameOver(path_addr, (fs::path)path_addr + ".bak")) {
+            LogWarning("Could not rename corrupt peers.dat, attempting to delete it");
+            fs::remove(path_addr);
+        }
+        LogWarning("Creating new peers.dat because the existing file was invalid or corrupt (%s). Original backed up to peers.dat.bak", e.what());
+        DumpPeerAddresses(args, *addrman);
     }
     return addrman;
 }

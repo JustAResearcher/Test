@@ -85,7 +85,7 @@ BOOST_AUTO_TEST_CASE(CheckProofOfWork_test_negative_target)
     const auto consensus = CreateChainParams(*m_node.args, ChainType::MAIN)->GetConsensus();
     uint256 hash;
     unsigned int nBits;
-    nBits = UintToArith256(consensus.powLimit).GetCompact(true);
+    nBits = UintToArith256(consensus.powLimit[static_cast<size_t>(PowAlgo::MEOWPOW)]).GetCompact(true);
     hash = uint256{1};
     BOOST_CHECK(!CheckProofOfWork(hash, nBits, consensus));
 }
@@ -104,7 +104,7 @@ BOOST_AUTO_TEST_CASE(CheckProofOfWork_test_too_easy_target)
     const auto consensus = CreateChainParams(*m_node.args, ChainType::MAIN)->GetConsensus();
     uint256 hash;
     unsigned int nBits;
-    arith_uint256 nBits_arith = UintToArith256(consensus.powLimit);
+    arith_uint256 nBits_arith = UintToArith256(consensus.powLimit[static_cast<size_t>(PowAlgo::MEOWPOW)]);
     nBits_arith *= 2;
     nBits = nBits_arith.GetCompact();
     hash = uint256{1};
@@ -116,7 +116,7 @@ BOOST_AUTO_TEST_CASE(CheckProofOfWork_test_biger_hash_than_target)
     const auto consensus = CreateChainParams(*m_node.args, ChainType::MAIN)->GetConsensus();
     uint256 hash;
     unsigned int nBits;
-    arith_uint256 hash_arith = UintToArith256(consensus.powLimit);
+    arith_uint256 hash_arith = UintToArith256(consensus.powLimit[static_cast<size_t>(PowAlgo::MEOWPOW)]);
     nBits = hash_arith.GetCompact();
     hash_arith *= 2; // hash > nBits
     hash = ArithToUint256(hash_arith);
@@ -173,13 +173,13 @@ void sanity_check_chainparams(const ArgsManager& args, ChainType chain_type)
     pow_compact.SetCompact(chainParams->GenesisBlock().nBits, &neg, &over);
     BOOST_CHECK(!neg && pow_compact != 0);
     BOOST_CHECK(!over);
-    BOOST_CHECK(UintToArith256(consensus.powLimit) >= pow_compact);
+    BOOST_CHECK(UintToArith256(consensus.powLimit[static_cast<size_t>(PowAlgo::MEOWPOW)]) >= pow_compact);
 
     // check max target * 4*nPowTargetTimespan doesn't overflow -- see pow.cpp:CalculateNextWorkRequired()
     if (!consensus.fPowNoRetargeting) {
         arith_uint256 targ_max{UintToArith256(uint256{"ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"})};
         targ_max /= consensus.nPowTargetTimespan*4;
-        BOOST_CHECK(UintToArith256(consensus.powLimit) < targ_max);
+        BOOST_CHECK(UintToArith256(consensus.powLimit[static_cast<size_t>(PowAlgo::MEOWPOW)]) < targ_max);
     }
 }
 

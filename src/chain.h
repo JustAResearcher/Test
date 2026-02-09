@@ -190,6 +190,10 @@ public:
     uint32_t nBits{0};
     uint32_t nNonce{0};
 
+    //! KawPow/MeowPow extended header fields
+    uint64_t nNonce64{0};
+    uint256 mix_hash{};
+
     //! (memory only) Sequential id assigned to distinguish order in which blocks are received.
     int32_t nSequenceId{0};
 
@@ -201,7 +205,9 @@ public:
           hashMerkleRoot{block.hashMerkleRoot},
           nTime{block.nTime},
           nBits{block.nBits},
-          nNonce{block.nNonce}
+          nNonce{block.nNonce},
+          nNonce64{block.nNonce64},
+          mix_hash{block.mix_hash}
     {
     }
 
@@ -227,16 +233,28 @@ public:
         return ret;
     }
 
+    /**
+     * Get block header from index data.
+     * WARNING: For auxpow blocks, this returns a header WITHOUT auxpow data.
+     * Use node::GetFullBlockHeader() for headers that need to be serialized.
+     * The auxpow version flag is stripped so serialization won't assert.
+     */
     CBlockHeader GetBlockHeader() const
     {
         CBlockHeader block;
         block.nVersion = nVersion;
+        // Strip auxpow flag since we don't have auxpow data in memory.
+        // Callers that need full auxpow headers must use GetFullBlockHeader().
+        block.nVersion.SetAuxpow(false);
         if (pprev)
             block.hashPrevBlock = pprev->GetBlockHash();
         block.hashMerkleRoot = hashMerkleRoot;
         block.nTime = nTime;
         block.nBits = nBits;
         block.nNonce = nNonce;
+        block.nHeight = nHeight;
+        block.nNonce64 = nNonce64;
+        block.mix_hash = mix_hash;
         return block;
     }
 
@@ -394,6 +412,10 @@ public:
         READWRITE(obj.nTime);
         READWRITE(obj.nBits);
         READWRITE(obj.nNonce);
+        // KawPow/MeowPow extended fields (always stored for all blocks;
+        // they are zero for pre-KawPow and auxpow blocks)
+        READWRITE(obj.nNonce64);
+        READWRITE(obj.mix_hash);
     }
 
     uint256 ConstructBlockHash() const
@@ -405,6 +427,9 @@ public:
         block.nTime = nTime;
         block.nBits = nBits;
         block.nNonce = nNonce;
+        block.nHeight = nHeight;
+        block.nNonce64 = nNonce64;
+        block.mix_hash = mix_hash;
         return block.GetHash();
     }
 

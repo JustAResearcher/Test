@@ -208,7 +208,7 @@ FUZZ_TARGET(tx_pool_standard, .init = initialize_tx_pool)
     outpoints_rbf = outpoints_supply;
 
     // The sum of the values of all spendable outpoints
-    constexpr CAmount SUPPLY_TOTAL{COINBASE_MATURITY * 50 * COIN};
+    constexpr CAmount SUPPLY_TOTAL{COINBASE_MATURITY * 5000 * COIN};
 
     SetMempoolConstraints(*node.args, fuzzed_data_provider);
     auto tx_pool_{MakeMempool(fuzzed_data_provider, node)};
@@ -287,7 +287,7 @@ FUZZ_TARGET(tx_pool_standard, .init = initialize_tx_pool)
             const auto& txid = fuzzed_data_provider.ConsumeBool() ?
                                    tx->GetHash() :
                                    PickValue(fuzzed_data_provider, outpoints_rbf).hash;
-            const auto delta = fuzzed_data_provider.ConsumeIntegralInRange<CAmount>(-50 * COIN, +50 * COIN);
+            const auto delta = fuzzed_data_provider.ConsumeIntegralInRange<CAmount>(-5000 * COIN, +5000 * COIN);
             tx_pool.PrioritiseTransaction(txid, delta);
         }
 
@@ -410,7 +410,7 @@ FUZZ_TARGET(tx_pool, .init = initialize_tx_pool)
             const auto txid = fuzzed_data_provider.ConsumeBool() ?
                                    mut_tx.GetHash() :
                                    PickValue(fuzzed_data_provider, txids);
-            const auto delta = fuzzed_data_provider.ConsumeIntegralInRange<CAmount>(-50 * COIN, +50 * COIN);
+            const auto delta = fuzzed_data_provider.ConsumeIntegralInRange<CAmount>(-5000 * COIN, +5000 * COIN);
             tx_pool.PrioritiseTransaction(txid, delta);
         }
 

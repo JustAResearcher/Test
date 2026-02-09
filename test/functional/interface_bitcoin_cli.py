@@ -2,7 +2,7 @@
 # Copyright (c) 2017-2022 The Bitcoin Core developers
 # Distributed under the MIT software license, see the accompanying
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
-"""Test bitcoin-cli"""
+"""Test meowcoin-cli"""
 
 from decimal import Decimal
 import re
@@ -20,11 +20,11 @@ from test_framework.util import (
 )
 import time
 
-# The block reward of coinbaseoutput.nValue (50) BTC/block matures after
+# The block reward of coinbaseoutput.nValue (5000) BTC/block matures after
 # COINBASE_MATURITY (100) blocks. Therefore, after mining 101 blocks we expect
-# node 0 to have a balance of (BLOCKS - COINBASE_MATURITY) * 50 BTC/block.
+# node 0 to have a balance of (BLOCKS - COINBASE_MATURITY) * 5000 BTC/block.
 BLOCKS = COINBASE_MATURITY + 1
-BALANCE = (BLOCKS - 100) * 50
+BALANCE = (BLOCKS - 100) * 5000
 
 JSON_PARSING_ERROR = 'error: Error parsing JSON: foo'
 BLOCKS_VALUE_OF_ZERO = 'error: the first argument (number of blocks to generate, default: 1) must be an integer value greater than zero'
@@ -33,7 +33,7 @@ WALLET_NOT_LOADED = 'Requested wallet does not exist or is not loaded'
 WALLET_NOT_SPECIFIED = (
     "Multiple wallets are loaded. Please select which wallet to use by requesting the RPC "
     "through the /wallet/<walletname> URI path. Or for the CLI, specify the \"-rpcwallet=<walletname>\" "
-    "option before the command (run \"bitcoin-cli -h\" for help or \"bitcoin-cli listwallets\" to see "
+    "option before the command (run \"meowcoin-cli -h\" for help or \"meowcoin-cli listwallets\" to see "
     "which wallets are currently loaded)."
 )
 
@@ -98,7 +98,7 @@ class TestBitcoinCli(BitcoinTestFramework):
         """Main test logic"""
         self.generate(self.nodes[0], BLOCKS)
 
-        self.log.info("Compare responses from getblockchaininfo RPC and `bitcoin-cli getblockchaininfo`")
+        self.log.info("Compare responses from getblockchaininfo RPC and `meowcoin-cli getblockchaininfo`")
         cli_response = self.nodes[0].cli.getblockchaininfo()
         rpc_response = self.nodes[0].getblockchaininfo()
         assert_equal(cli_response, rpc_response)
@@ -150,7 +150,7 @@ class TestBitcoinCli(BitcoinTestFramework):
 
         self.log.info("Test port usage preferences")
         node_rpc_port = rpc_port(self.nodes[0].index)
-        # Prevent bitcoin-cli from using existing rpcport in conf
+        # Prevent meowcoin-cli from using existing rpcport in conf
         conf_rpcport = "rpcport=" + str(node_rpc_port)
         self.nodes[0].replace_in_config([(conf_rpcport, "#" + conf_rpcport)])
         # prefer rpcport over rpcconnect
@@ -210,7 +210,7 @@ class TestBitcoinCli(BitcoinTestFramework):
         assert_equal(Decimal(cli_get_info['Difficulty']), blockchain_info['difficulty'])
         assert_equal(cli_get_info['Chain'], blockchain_info['chain'])
 
-        self.log.info("Test -getinfo and bitcoin-cli return all proxies")
+        self.log.info("Test -getinfo and meowcoin-cli return all proxies")
         self.restart_node(0, extra_args=["-proxy=127.0.0.1:9050", "-i2psam=127.0.0.1:7656"])
         network_info = self.nodes[0].getnetworkinfo()
         cli_get_info_string = self.nodes[0].cli('-getinfo').send_cli()
@@ -218,7 +218,7 @@ class TestBitcoinCli(BitcoinTestFramework):
         assert_equal(cli_get_info["Proxies"], "127.0.0.1:9050 (ipv4, ipv6, onion, cjdns), 127.0.0.1:7656 (i2p)")
 
         if self.is_wallet_compiled():
-            self.log.info("Test -getinfo and bitcoin-cli getwalletinfo return expected wallet info")
+            self.log.info("Test -getinfo and meowcoin-cli getwalletinfo return expected wallet info")
             # Explicitly set the output type in order to have consistent tx vsize / fees
             # for both legacy and descriptor wallets (disables the change address type detection algorithm)
             self.restart_node(0, extra_args=["-addresstype=bech32", "-changetype=bech32"])
@@ -246,7 +246,7 @@ class TestBitcoinCli(BitcoinTestFramework):
             w1.sendtoaddress(w2.getnewaddress(), amounts[1])
             w1.sendtoaddress(w3.getnewaddress(), amounts[2])
 
-            # Mine a block to confirm; adds a block reward (50 BTC) to the default wallet.
+            # Mine a block to confirm; adds a block reward (5000 BTC) to the default wallet.
             self.generate(self.nodes[0], 1)
 
             self.log.info("Test -getinfo with multiple wallets and -rpcwallet returns specified wallet balance")

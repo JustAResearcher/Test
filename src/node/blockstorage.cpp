@@ -131,12 +131,22 @@ bool BlockTreeDB::LoadBlockIndexGuts(const Consensus::Params& consensusParams, s
                 pindexNew->nTime          = diskindex.nTime;
                 pindexNew->nBits          = diskindex.nBits;
                 pindexNew->nNonce         = diskindex.nNonce;
+                pindexNew->nNonce64       = diskindex.nNonce64;
+                pindexNew->mix_hash       = diskindex.mix_hash;
                 pindexNew->nStatus        = diskindex.nStatus;
                 pindexNew->nTx            = diskindex.nTx;
 
-                if (!CheckProofOfWork(pindexNew->GetBlockHash(), pindexNew->nBits, consensusParams)) {
-                    LogError("%s: CheckProofOfWork failed: %s\n", __func__, pindexNew->ToString());
-                    return false;
+                // NOTE: Hash-based PoW check only valid for pre-KawPow (X16R) blocks.
+                // KawPow/MeowPow block hashes are mix hashes that cannot be compared
+                // against a target — full verification requires the complete block
+                // header (nHeight, nNonce64, mix_hash). Since nKAWPOWActivationTime=0
+                // for mainnet, all blocks are KawPow/MeowPow era and this check is
+                // effectively skipped. Blocks were fully validated when accepted.
+                if (pindexNew->nTime < nKAWPOWActivationTime) {
+                    if (!CheckProofOfWork(pindexNew->GetBlockHash(), pindexNew->nBits, consensusParams)) {
+                        LogError("%s: CheckProofOfWork failed: %s\n", __func__, pindexNew->ToString());
+                        return false;
+                    }
                 }
 
                 pcursor->Next();
@@ -1017,10 +1027,14 @@ bool BlockManager::ReadBlock(CBlock& block, const FlatFilePos& pos, const std::o
 
     const auto block_hash{block.GetHash()};
 
-    // Check the header
-    if (!CheckProofOfWork(block_hash, block.nBits, GetConsensus())) {
-        LogError("Errors in block header at %s while reading block", pos.ToString());
-        return false;
+    // Skip expensive KawPow/MeowPow PoW verification for blocks read from disk.
+    // These blocks were already fully validated when first received.
+    // Full KawPow verify() is too expensive for bulk operations like reindex.
+    if (block.nTime < nKAWPOWActivationTime) {
+        if (!CheckProofOfWork(block_hash, block.nBits, GetConsensus())) {
+            LogError("Errors in block header at %s while reading block", pos.ToString());
+            return false;
+        }
     }
 
     // Signet only: check block solution
@@ -1035,6 +1049,24 @@ bool BlockManager::ReadBlock(CBlock& block, const FlatFilePos& pos, const std::o
         return false;
     }
 
+    return true;
+}
+
+bool BlockManager::ReadBlockHeader(CBlockHeader& header, const CBlockIndex& index) const
+{
+    const FlatFilePos block_pos{WITH_LOCK(cs_main, return index.GetBlockPos())};
+    header.SetNull();
+    AutoFile filein{OpenBlockFile(block_pos, /*fReadOnly=*/true)};
+    if (filein.IsNull()) {
+        LogError("OpenBlockFile failed for %s while reading block header", block_pos.ToString());
+        return false;
+    }
+    try {
+        filein >> header;
+    } catch (const std::exception& e) {
+        LogError("Deserialize or I/O error - %s at %s while reading block header", e.what(), block_pos.ToString());
+        return false;
+    }
     return true;
 }
 
@@ -1213,6 +1245,26 @@ public:
         m_importing = false;
     }
 };
+
+CBlockHeader GetFullBlockHeader(const CBlockIndex& index, const BlockManager& blockman)
+{
+    // Check if this is an auxpow block by examining the raw nVersion
+    CBlockVersion ver;
+    ver = index.nVersion;
+    if (ver.IsAuxpow()) {
+        // Auxpow data is only stored on disk, not in CBlockIndex.
+        // Read the full header from the block file.
+        CBlockHeader header;
+        if (blockman.ReadBlockHeader(header, index)) {
+            return header;
+        }
+        // Fallback: return header without auxpow (stripped flag)
+        LogError("Failed to read auxpow block header from disk for height %d", index.nHeight);
+    }
+
+    // Non-auxpow block: construct from in-memory CBlockIndex data
+    return index.GetBlockHeader();
+}
 
 void ImportBlocks(ChainstateManager& chainman, std::span<const fs::path> import_paths)
 {

@@ -9,16 +9,44 @@
  * network protocol versioning
  */
 
-static const int PROTOCOL_VERSION = 70016;
+static const int PROTOCOL_VERSION = 70031;
 
 //! initial proto version, to be increased after version/verack negotiation
 static const int INIT_PROTO_VERSION = 209;
 
+//! In this version, 'getheaders' was introduced.
+static const int GETHEADERS_VERSION = 31800;
+
+//! assetdata network request is allowed for this version
+static const int ASSETDATA_VERSION = 70017;
+
+//! getassetdata return asstnotfound, and assetdata doesn't have blockhash in the data
+static const int X16RV2_VERSION = 70025;
+
+//! getassetdata return asstnotfound, and assetdata doesn't have blockhash in the data
+static const int ASSETDATA_VERSION_UPDATED = 70020;
+
+//! In this version, 'rip5 (messaging and restricted assets)' was introduced
+static const int MESSAGING_RESTRICTED_ASSETS_VERSION = 70026;
+
+static const int KAWPOW_VERSION = 70027;
+
+static const int MEOWPOW_VERSION = 70030;
+
+static const int AUXPOW_VERSION = 70031;
+
 //! disconnect from peers older than this proto version
-static const int MIN_PEER_PROTO_VERSION = 31800;
+static const int MIN_PEER_PROTO_VERSION = MEOWPOW_VERSION;
+
+//! nTime field added to CAddress, starting with this version;
+//! if possible, avoid requesting addresses nodes older than this
+static const int CADDR_TIME_VERSION = 31402;
 
 //! BIP 0031, pong message, is enabled for all versions AFTER this one
 static const int BIP0031_VERSION = 60000;
+
+//! "filter*" commands are disabled without NODE_BLOOM after and including this version
+static const int NO_BLOOM_VERSION = 70011;
 
 //! "sendheaders" command and announcing blocks with headers starts with this version
 static const int SENDHEADERS_VERSION = 70012;
@@ -34,5 +62,8 @@ static const int INVALID_CB_NO_BAN_VERSION = 70015;
 
 //! "wtxidrelay" command for wtxid-based relay starts with this version
 static const int WTXID_RELAY_VERSION = 70016;
+
+//! Version when we switched to a size-based "headers" limit.
+static const int SIZE_HEADERS_LIMIT_VERSION = 70031;
 
 #endif // BITCOIN_NODE_PROTOCOL_VERSION_H

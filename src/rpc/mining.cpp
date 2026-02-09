@@ -223,7 +223,7 @@ static RPCHelpMan generatetodescriptor()
         "Mine to a specified descriptor and return the block hashes.",
         {
             {"num_blocks", RPCArg::Type::NUM, RPCArg::Optional::NO, "How many blocks are generated."},
-            {"descriptor", RPCArg::Type::STR, RPCArg::Optional::NO, "The descriptor to send the newly generated bitcoin to."},
+            {"descriptor", RPCArg::Type::STR, RPCArg::Optional::NO, "The descriptor to send the newly generated meowcoin to."},
             {"maxtries", RPCArg::Type::NUM, RPCArg::Default{DEFAULT_MAX_TRIES}, "How many iterations to try."},
         },
         RPCResult{
@@ -267,7 +267,7 @@ static RPCHelpMan generatetoaddress()
         "Mine to a specified address and return the block hashes.",
          {
              {"nblocks", RPCArg::Type::NUM, RPCArg::Optional::NO, "How many blocks are generated."},
-             {"address", RPCArg::Type::STR, RPCArg::Optional::NO, "The address to send the newly generated bitcoin to."},
+             {"address", RPCArg::Type::STR, RPCArg::Optional::NO, "The address to send the newly generated meowcoin to."},
              {"maxtries", RPCArg::Type::NUM, RPCArg::Default{DEFAULT_MAX_TRIES}, "How many iterations to try."},
          },
          RPCResult{
@@ -278,7 +278,7 @@ static RPCHelpMan generatetoaddress()
          RPCExamples{
             "\nGenerate 11 blocks to myaddress\n"
             + HelpExampleCli("generatetoaddress", "11 \"myaddress\"")
-            + "If you are using the " CLIENT_NAME " wallet, you can get a new address to send the newly generated bitcoin to with:\n"
+            + "If you are using the " CLIENT_NAME " wallet, you can get a new address to send the newly generated meowcoin to with:\n"
             + HelpExampleCli("getnewaddress", "")
                 },
         [&](const RPCHelpMan& self, const JSONRPCRequest& request) -> UniValue
@@ -307,7 +307,7 @@ static RPCHelpMan generateblock()
     return RPCHelpMan{"generateblock",
         "Mine a set of ordered transactions to a specified address or descriptor and return the block hash.",
         {
-            {"output", RPCArg::Type::STR, RPCArg::Optional::NO, "The address or descriptor to send the newly generated bitcoin to."},
+            {"output", RPCArg::Type::STR, RPCArg::Optional::NO, "The address or descriptor to send the newly generated meowcoin to."},
             {"transactions", RPCArg::Type::ARR, RPCArg::Optional::NO, "An array of hex strings which are either txids or raw transactions.\n"
                 "Txids must reference transactions currently in the mempool.\n"
                 "All transactions must be valid and in valid order, otherwise the block will be rejected.",
@@ -467,7 +467,7 @@ static RPCHelpMan getmininginfo()
     if (BlockAssembler::m_last_block_num_txs) obj.pushKV("currentblocktx", *BlockAssembler::m_last_block_num_txs);
     obj.pushKV("bits", strprintf("%08x", tip.nBits));
     obj.pushKV("difficulty", GetDifficulty(tip));
-    obj.pushKV("target", GetTarget(tip, chainman.GetConsensus().powLimit).GetHex());
+    obj.pushKV("target", GetTarget(tip, chainman.GetConsensus()).GetHex());
     obj.pushKV("networkhashps",    getnetworkhashps().HandleRequest(request));
     obj.pushKV("pooledtx",         (uint64_t)mempool.size());
     BlockAssembler::Options assembler_options;
@@ -482,7 +482,7 @@ static RPCHelpMan getmininginfo()
     next.pushKV("height", next_index.nHeight);
     next.pushKV("bits", strprintf("%08x", next_index.nBits));
     next.pushKV("difficulty", GetDifficulty(next_index));
-    next.pushKV("target", GetTarget(next_index, chainman.GetConsensus().powLimit).GetHex());
+    next.pushKV("target", GetTarget(next_index, chainman.GetConsensus()).GetHex());
     obj.pushKV("next", next);
 
     if (chainman.GetParams().GetChainType() == ChainType::SIGNET) {
@@ -954,21 +954,22 @@ static RPCHelpMan getblocktemplate()
 
     UniValue vbavailable(UniValue::VOBJ);
     const auto gbtstatus = chainman.m_versionbitscache.GBTStatus(*pindexPrev, consensusParams);
+    int32_t block_version = block.nVersion.GetFullVersion();
 
     for (const auto& [name, info] : gbtstatus.signalling) {
         vbavailable.pushKV(gbt_rule_value(name, info.gbt_optional_rule), info.bit);
         if (!info.gbt_optional_rule && !setClientRules.count(name)) {
             // If the client doesn't support this, don't indicate it in the [default] version
-            block.nVersion &= ~info.mask;
+            block_version &= ~info.mask;
         }
     }
 
     for (const auto& [name, info] : gbtstatus.locked_in) {
-        block.nVersion |= info.mask;
+        block_version |= info.mask;
         vbavailable.pushKV(gbt_rule_value(name, info.gbt_optional_rule), info.bit);
         if (!info.gbt_optional_rule && !setClientRules.count(name)) {
             // If the client doesn't support this, don't indicate it in the [default] version
-            block.nVersion &= ~info.mask;
+            block_version &= ~info.mask;
         }
     }
 
@@ -980,7 +981,8 @@ static RPCHelpMan getblocktemplate()
         }
     }
 
-    result.pushKV("version", block.nVersion);
+    block.nVersion = block_version;
+    result.pushKV("version", block_version);
     result.pushKV("rules", std::move(aRules));
     result.pushKV("vbavailable", std::move(vbavailable));
     result.pushKV("vbrequired", int(0));

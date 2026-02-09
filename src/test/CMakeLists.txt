@@ -18,6 +18,7 @@ add_executable(test_bitcoin
   bech32_tests.cpp
   bip32_tests.cpp
   bip324_tests.cpp
+  bip328_tests.cpp
   blockchain_tests.cpp
   blockencodings_tests.cpp
   blockfilter_index_tests.cpp
@@ -27,6 +28,7 @@ add_executable(test_bitcoin
   bswap_tests.cpp
   caches_tests.cpp
   chainstate_write_tests.cpp
+  chain_tests.cpp
   checkqueue_tests.cpp
   cluster_linearize_tests.cpp
   coins_tests.cpp
@@ -74,6 +76,7 @@ add_executable(test_bitcoin
   policy_fee_tests.cpp
   policyestimator_tests.cpp
   pool_tests.cpp
+  private_broadcast_tests.cpp
   pow_tests.cpp
   prevector_tests.cpp
   raii_event_tests.cpp
@@ -118,6 +121,8 @@ add_executable(test_bitcoin
   txvalidation_tests.cpp
   txvalidationcache_tests.cpp
   uint256_tests.cpp
+  util_check_tests.cpp
+  util_expected_tests.cpp
   util_string_tests.cpp
   util_tests.cpp
   util_threadnames_tests.cpp
@@ -161,23 +166,16 @@ target_link_libraries(test_bitcoin
   libevent::extra
 )
 
+if(ENABLE_IPC)
+  add_subdirectory(${PROJECT_SOURCE_DIR}/src/ipc/test ipc_test)
+endif()
+
 if(ENABLE_WALLET)
   add_subdirectory(${PROJECT_SOURCE_DIR}/src/wallet/test wallet)
 endif()
 
-if(ENABLE_IPC)
-  target_link_libraries(bitcoin_ipc_test
-    PRIVATE
-      core_interface
-      univalue
-      Boost::headers
-  )
-
-  target_sources(test_bitcoin
-    PRIVATE
-      ipc_tests.cpp
-  )
-  target_link_libraries(test_bitcoin bitcoin_ipc_test bitcoin_ipc)
+if(BUILD_KERNEL_LIB)
+  add_subdirectory(kernel)
 endif()
 
 function(add_boost_test source_file)

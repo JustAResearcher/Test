@@ -19,72 +19,72 @@ int algoHashHits[16] = {0};
 extern uint32_t nKAWPOWActivationTime;
 extern uint32_t nMEOWPOWActivationTime;
 
-// Convert uint256 to ethash::hash256
-inline ethash::hash256 to_hash256(const uint256& hash)
-{
-    ethash::hash256 result;
-    std::memcpy(result.bytes, hash.data(), 32);
-    return result;
-}
-
-// Convert ethash::hash256 to uint256  
-inline uint256 IsLessThan(const ethash::hash256& hash)
-{
-    uint256 result;
-    std::memcpy(result.data(), hash.bytes, 32);
-    return result;
-}
-
 uint256 KAWPOWHash(const CBlockHeader& blockHeader, uint256& mix_hash)
 {
     static ethash::epoch_context_ptr context{nullptr, nullptr};
 
-    // Get the header hash (without nNonce64 and mix_hash)
-    uint256 header_hash = blockHeader.GetKAWPOWHeaderHash();
-
-    // Build the epoch context if needed
+    // Get the context from the block height
     const auto epoch_number = ethash::get_epoch_number(blockHeader.nHeight);
+
     if (!context || context->epoch_number != epoch_number)
         context = ethash::create_epoch_context(epoch_number);
 
-    // Compute the KawPow hash
-    auto result = progpow::hash(*context, blockHeader.nHeight, 
-                                 to_hash256(header_hash), blockHeader.nNonce64);
+    // Build the header_hash (convert via hex string to handle byte ordering)
+    uint256 nHeaderHash = blockHeader.GetKAWPOWHeaderHash();
+    const auto header_hash = to_hash256(nHeaderHash.GetHex());
 
-    mix_hash = IsLessThan(result.mix_hash);
-    return IsLessThan(result.final_hash);
+    // ProgPow hash
+    const auto result = progpow::hash(*context, blockHeader.nHeight, header_hash, blockHeader.nNonce64);
+
+    mix_hash = uint256::FromHex(to_hex(result.mix_hash)).value();
+    return uint256::FromHex(to_hex(result.final_hash)).value();
 }
 
 uint256 KAWPOWHash_OnlyMix(const CBlockHeader& blockHeader)
 {
-    uint256 mix_hash;
-    KAWPOWHash(blockHeader, mix_hash);
-    return mix_hash;
+    // Build the header_hash (convert via hex string to handle byte ordering)
+    uint256 nHeaderHash = blockHeader.GetKAWPOWHeaderHash();
+    const auto header_hash = to_hash256(nHeaderHash.GetHex());
+
+    // Use hash_no_verify: computes final_hash from header_hash + stored mix_hash + nonce
+    // without doing the full DAG lookup
+    const auto result = progpow::hash_no_verify(blockHeader.nHeight, header_hash,
+        to_hash256(blockHeader.mix_hash.GetHex()), blockHeader.nNonce64);
+
+    return uint256::FromHex(to_hex(result)).value();
 }
 
 uint256 MEOWPOWHash(const CBlockHeader& blockHeader, uint256& mix_hash)
 {
     static ethash::epoch_context_ptr context{nullptr, nullptr};
 
-    // Get the header hash (without nNonce64 and mix_hash)
-    uint256 header_hash = blockHeader.GetMEOWPOWHeaderHash();
-
-    // Build the epoch context if needed
+    // Get the context from the block height
     const auto epoch_number = ethash::get_epoch_number(blockHeader.nHeight);
+
     if (!context || context->epoch_number != epoch_number)
         context = ethash::create_epoch_context(epoch_number);
 
-    // Compute the MeowPow hash
-    auto result = meowpow::hash(*context, blockHeader.nHeight,
-                                 to_hash256(header_hash), blockHeader.nNonce64);
+    // Build the header_hash (convert via hex string to handle byte ordering)
+    uint256 nHeaderHash = blockHeader.GetMEOWPOWHeaderHash();
+    const auto header_hash = to_hash256(nHeaderHash.GetHex());
 
-    mix_hash = IsLessThan(result.mix_hash);
-    return IsLessThan(result.final_hash);
+    // MeowPow hash
+    const auto result = meowpow::hash(*context, blockHeader.nHeight, header_hash, blockHeader.nNonce64);
+
+    mix_hash = uint256::FromHex(to_hex(result.mix_hash)).value();
+    return uint256::FromHex(to_hex(result.final_hash)).value();
 }
 
 uint256 MEOWPOWHash_OnlyMix(const CBlockHeader& blockHeader)
 {
-    uint256 mix_hash;
-    MEOWPOWHash(blockHeader, mix_hash);
-    return mix_hash;
+    // Build the header_hash (convert via hex string to handle byte ordering)
+    uint256 nHeaderHash = blockHeader.GetMEOWPOWHeaderHash();
+    const auto header_hash = to_hash256(nHeaderHash.GetHex());
+
+    // Use hash_no_verify: computes final_hash from header_hash + stored mix_hash + nonce
+    // without doing the full DAG lookup
+    const auto result = meowpow::hash_no_verify(blockHeader.nHeight, header_hash,
+        to_hash256(blockHeader.mix_hash.GetHex()), blockHeader.nNonce64);
+
+    return uint256::FromHex(to_hex(result)).value();
 }

@@ -20,7 +20,7 @@ using util::Join;
  * for both bitcoind and bitcoin-qt, to make it harder for attackers to
  * target servers or GUI users specifically.
  */
-const std::string UA_NAME("Satoshi");
+const std::string UA_NAME("Meowcoin");
 
 
 #include <bitcoin-build-info.h>
@@ -74,11 +74,10 @@ std::string CopyrightHolders(const std::string& strPrefix)
     const auto copyright_devs = strprintf(_(COPYRIGHT_HOLDERS), COPYRIGHT_HOLDERS_SUBSTITUTION).translated;
     std::string strCopyrightHolders = strPrefix + copyright_devs;
 
-    // Include Meowcoin and Bitcoin Core credits
+    // Include Meowcoin credits
     if (copyright_devs.find("Meowcoin") == std::string::npos) {
         strCopyrightHolders += "\n" + strPrefix + "The Meowcoin developers";
     }
-    strCopyrightHolders += "\n" + strPrefix + "The Bitcoin Core developers";
     return strCopyrightHolders;
 }
 

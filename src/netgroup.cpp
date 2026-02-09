@@ -6,13 +6,39 @@
 
 #include <hash.h>
 #include <logging.h>
+#include <uint256.h>
 #include <util/asmap.h>
 
-uint256 NetGroupManager::GetAsmapChecksum() const
-{
-    if (!m_asmap.size()) return {};
+#include <memory>
 
-    return (HashWriter{} << m_asmap).GetHash();
+std::unique_ptr<const NetGroupManager> NetGroupManager::Make(std::vector<bool> asmap)
+{
+    return std::make_unique<NetGroupManager>(std::move(asmap));
+}
+
+NetGroupManager::NetGroupManager(std::vector<bool> asmap)
+    : m_asmap{std::move(asmap)}
+    , m_asmap_version{CalculateAsmapVersion(m_asmap)}
+{}
+
+const AsmapVersion& NetGroupManager::GetAsmapVersion() const
+{
+    return m_asmap_version;
+}
+
+AsmapVersion NetGroupManager::CalculateAsmapVersion(const std::vector<bool>& asmap)
+{
+    AsmapVersion version{};
+    if (asmap.empty()) {
+        return version;
+    }
+
+    const uint256 hash = (HashWriter{} << asmap).GetHash();
+    const unsigned char* data = hash.begin();
+    for (size_t i = 0; i < version.size(); ++i) {
+        version[i] = std::byte{data[i]};
+    }
+    return version;
 }
 
 std::vector<unsigned char> NetGroupManager::GetGroup(const CNetAddr& address) const
@@ -124,9 +150,9 @@ void NetGroupManager::ASMapHealthCheck(const std::vector<CNetAddr>& clearnet_add
         clearnet_asns.insert(asn);
     }
 
-    LogPrintf("ASMap Health Check: %i clearnet peers are mapped to %i ASNs with %i peers being unmapped\n", clearnet_addrs.size(), clearnet_asns.size(), unmapped_count);
+    LogInfo("ASMap Health Check: %i clearnet peers are mapped to %i ASNs with %i peers being unmapped", clearnet_addrs.size(), clearnet_asns.size(), unmapped_count);
 }
 
 bool NetGroupManager::UsingASMap() const {
-    return m_asmap.size() > 0;
+    return !m_asmap.empty();
 }

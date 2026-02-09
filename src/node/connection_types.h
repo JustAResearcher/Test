@@ -75,6 +75,12 @@ enum class ConnectionType {
      * AddrMan is empty.
      */
     ADDR_FETCH,
+
+    /**
+     * Private broadcast connections are short-lived connections used to
+     * broadcast privacy-sensitive transactions.
+     */
+    PRIVATE_BROADCAST,
 };
 
 /** Convert ConnectionType enum to a string value */

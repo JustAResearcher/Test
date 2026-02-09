@@ -8,6 +8,8 @@
 
 #include <uint256.h>
 
+#include <primitives/algos.h>
+
 #include <array>
 #include <chrono>
 #include <limits>
@@ -108,7 +110,9 @@ struct Params {
     int MinBIP9WarningHeight;
     std::array<BIP9Deployment,MAX_VERSION_BITS_DEPLOYMENTS> vDeployments;
     /** Proof of work parameters */
-    uint256 powLimit;
+    std::array<uint256, static_cast<size_t>(PowAlgo::NUM_ALGOS)> powLimit;
+    uint32_t nKAWPOWActivationTime{0};
+    uint32_t nMEOWPOWActivationTime{0};
     bool fPowAllowMinDifficultyBlocks;
     /**
       * Enforce BIP94 timewarp attack mitigation. On testnet4 this also enforces
@@ -118,6 +122,7 @@ struct Params {
     bool fPowNoRetargeting;
     int64_t nPowTargetSpacing;
     int64_t nPowTargetTimespan;
+    int64_t nLwmaAveragingWindow{0};
     std::chrono::seconds PowTargetSpacing() const
     {
         return std::chrono::seconds{nPowTargetSpacing};
@@ -127,6 +132,11 @@ struct Params {
     uint256 nMinimumChainWork;
     /** By default assume that the signatures in ancestors of this block are valid */
     uint256 defaultAssumeValid;
+
+    /** Auxpow parameters */
+    int32_t nAuxpowChainId{0};
+    int nAuxpowStartHeight{0};
+    bool fStrictChainId{false};
 
     /**
      * If true, witness commitments contain a payload equal to a Bitcoin Script solution

@@ -163,7 +163,7 @@ static const char* DEFAULT_ASMAP_FILENAME="ip_asn.map";
 /**
  * The PID file facilities.
  */
-static const char* BITCOIN_PID_FILENAME = "bitcoind.pid";
+static const char* BITCOIN_PID_FILENAME = "meowcoind.pid";
 /**
  * True if this process has created a PID file.
  * Used to determine whether we should remove the PID file on shutdown.
@@ -835,7 +835,7 @@ namespace { // Variables internal to initialization process only
 
 int nMaxConnections;
 int available_fds;
-ServiceFlags g_local_services = ServiceFlags(NODE_NETWORK_LIMITED | NODE_WITNESS);
+ServiceFlags g_local_services = ServiceFlags(NODE_NETWORK_LIMITED | NODE_WITNESS); // Meowcoin: segwit always active
 int64_t peer_connect_timeout;
 std::set<BlockFilterType> g_enabled_filter_types;
 
@@ -1379,9 +1379,9 @@ bool AppInitMain(NodeContext& node, interfaces::BlockAndHeaderTipInfo* tip_info)
     // Warn about relative -datadir path.
     if (args.IsArgSet("-datadir") && !args.GetPathArg("-datadir").is_absolute()) {
         LogPrintf("Warning: relative datadir option '%s' specified, which will be interpreted relative to the "
-                  "current working directory '%s'. This is fragile, because if bitcoin is started in the future "
+                  "current working directory '%s'. This is fragile, because if meowcoin is started in the future "
                   "from a different location, it will be unable to locate the current data files. There could "
-                  "also be data loss if bitcoin is started while in a temporary directory.\n",
+                  "also be data loss if meowcoin is started while in a temporary directory.\n",
                   args.GetArg("-datadir", ""), fs::PathToString(fs::current_path()));
     }
 
@@ -1513,6 +1513,7 @@ bool AppInitMain(NodeContext& node, interfaces::BlockAndHeaderTipInfo* tip_info)
 
         // Read asmap file if configured
         std::vector<bool> asmap;
+        bool use_asmap = false;
         if (args.IsArgSet("-asmap") && !args.IsArgNegated("-asmap")) {
             fs::path asmap_path = args.GetPathArg("-asmap", DEFAULT_ASMAP_FILENAME);
             if (!asmap_path.is_absolute()) {
@@ -1527,15 +1528,18 @@ bool AppInitMain(NodeContext& node, interfaces::BlockAndHeaderTipInfo* tip_info)
                 InitError(strprintf(_("Could not parse asmap file %s"), fs::quoted(fs::PathToString(asmap_path))));
                 return false;
             }
-            const uint256 asmap_version = (HashWriter{} << asmap).GetHash();
-            LogInfo("Using asmap version %s for IP bucketing", asmap_version.ToString());
-        } else {
-            LogInfo("Using /16 prefix for IP bucketing");
+            use_asmap = true;
         }
 
         // Initialize netgroup manager
         assert(!node.netgroupman);
-        node.netgroupman = std::make_unique<NetGroupManager>(std::move(asmap));
+        node.netgroupman = NetGroupManager::Make(std::move(asmap));
+
+        if (use_asmap) {
+            LogInfo("Using asmap version %s for IP bucketing", HexStr(std::span<const std::byte>{node.netgroupman->GetAsmapVersion()}));
+        } else {
+            LogInfo("Using /16 prefix for IP bucketing");
+        }
 
         // Initialize addrman
         assert(!node.addrman);

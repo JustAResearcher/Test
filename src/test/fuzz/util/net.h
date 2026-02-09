@@ -235,6 +235,7 @@ auto ConsumeNode(FuzzedDataProvider& fuzzed_data_provider, const std::optional<N
     const CAddress address = ConsumeAddress(fuzzed_data_provider);
     const uint64_t keyed_net_group = fuzzed_data_provider.ConsumeIntegral<uint64_t>();
     const uint64_t local_host_nonce = fuzzed_data_provider.ConsumeIntegral<uint64_t>();
+    const uint64_t network_key = fuzzed_data_provider.ConsumeIntegral<uint64_t>();
     const CAddress addr_bind = ConsumeAddress(fuzzed_data_provider);
     const std::string addr_name = fuzzed_data_provider.ConsumeRandomLengthString(64);
     const ConnectionType conn_type = fuzzed_data_provider.PickValueInArray(ALL_CONNECTION_TYPES);
@@ -250,6 +251,7 @@ auto ConsumeNode(FuzzedDataProvider& fuzzed_data_provider, const std::optional<N
                                        addr_name,
                                        conn_type,
                                        inbound_onion,
+                                       network_key,
                                        CNodeOptions{ .permission_flags = permission_flags });
     } else {
         return CNode{node_id,
@@ -261,6 +263,7 @@ auto ConsumeNode(FuzzedDataProvider& fuzzed_data_provider, const std::optional<N
                      addr_name,
                      conn_type,
                      inbound_onion,
+                     network_key,
                      CNodeOptions{ .permission_flags = permission_flags }};
     }
 }

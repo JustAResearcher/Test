@@ -6,21 +6,25 @@
 #define BITCOIN_NETGROUP_H
 
 #include <netaddress.h>
-#include <uint256.h>
 
+#include <array>
+#include <cstddef>
+#include <memory>
 #include <vector>
+
+using AsmapVersion = std::array<std::byte, 32>;
 
 /**
  * Netgroup manager
  */
 class NetGroupManager {
 public:
-    explicit NetGroupManager(std::vector<bool> asmap)
-        : m_asmap{std::move(asmap)}
-    {}
+    static std::unique_ptr<const NetGroupManager> Make(std::vector<bool> asmap);
 
-    /** Get a checksum identifying the asmap being used. */
-    uint256 GetAsmapChecksum() const;
+    explicit NetGroupManager(std::vector<bool> asmap);
+
+    /** Get a version identifying the asmap being used. */
+    const AsmapVersion& GetAsmapVersion() const;
 
     /**
      * Get the canonical identifier of the network group for address.
@@ -52,6 +56,8 @@ public:
     bool UsingASMap() const;
 
 private:
+    static AsmapVersion CalculateAsmapVersion(const std::vector<bool>& asmap);
+
     /** Compressed IP->ASN mapping, loaded from a file when a node starts.
      *
      * This mapping is then used for bucketing nodes in Addrman and for
@@ -71,6 +77,7 @@ private:
      * This is initialized in the constructor, const, and therefore is
      * thread-safe. */
     const std::vector<bool> m_asmap;
+    const AsmapVersion m_asmap_version;
 };
 
 #endif // BITCOIN_NETGROUP_H

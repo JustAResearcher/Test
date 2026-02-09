@@ -15,6 +15,7 @@
 #include <node/types.h>
 #include <outputtype.h>
 #include <pow.h>
+#include <primitives/pureheader.h>
 #include <rpc/util.h>
 #include <script/descriptor.h>
 #include <script/interpreter.h>
@@ -113,7 +114,7 @@ CAmount AmountFromValue(const UniValue& value, int decimals)
 CFeeRate ParseFeeRate(const UniValue& json)
 {
     CAmount val{AmountFromValue(json)};
-    if (val >= COIN) throw JSONRPCError(RPC_INVALID_PARAMETER, "Fee rates larger than or equal to 1BTC/kvB are not accepted");
+    if (val >= COIN) throw JSONRPCError(RPC_INVALID_PARAMETER, "Fee rates larger than or equal to 1MEWC/kvB are not accepted");
     return CFeeRate{val};
 }
 
@@ -185,12 +186,12 @@ std::string ShellQuoteIfNeeded(const std::string& s)
 
 std::string HelpExampleCli(const std::string& methodname, const std::string& args)
 {
-    return "> bitcoin-cli " + methodname + " " + args + "\n";
+    return "> meowcoin-cli " + methodname + " " + args + "\n";
 }
 
 std::string HelpExampleCliNamed(const std::string& methodname, const RPCArgList& args)
 {
-    std::string result = "> bitcoin-cli -named " + methodname;
+    std::string result = "> meowcoin-cli -named " + methodname;
     for (const auto& argpair: args) {
         const auto& value = argpair.second.isStr()
                 ? argpair.second.get_str()
@@ -724,6 +725,7 @@ static void CheckRequiredOrDefault(const RPCArg& param)
 TMPL_INST(nullptr, const UniValue*, maybe_arg;);
 TMPL_INST(nullptr, std::optional<double>, maybe_arg ? std::optional{maybe_arg->get_real()} : std::nullopt;);
 TMPL_INST(nullptr, std::optional<bool>, maybe_arg ? std::optional{maybe_arg->get_bool()} : std::nullopt;);
+TMPL_INST(nullptr, std::optional<int64_t>, maybe_arg ? std::optional{maybe_arg->getInt<int64_t>()} : std::nullopt;);
 TMPL_INST(nullptr, const std::string*, maybe_arg ? &maybe_arg->get_str() : nullptr;);
 
 // Required arg or optional arg with default value.
@@ -1402,8 +1404,12 @@ std::vector<RPCResult> ScriptPubKeyDoc() {
          };
 }
 
-uint256 GetTarget(const CBlockIndex& blockindex, const uint256 pow_limit)
+uint256 GetTarget(const CBlockIndex& blockindex, const Consensus::Params& params)
 {
+    CBlockVersion version;
+    version = blockindex.nVersion;
+    const PowAlgo algo{version.GetAlgo()};
+    const uint256& pow_limit{params.powLimit[static_cast<size_t>(algo)]};
     arith_uint256 target{*CHECK_NONFATAL(DeriveTarget(blockindex.nBits, pow_limit))};
     return ArithToUint256(target);
 }

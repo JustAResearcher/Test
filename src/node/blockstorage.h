@@ -411,6 +411,7 @@ public:
     void UnlinkPrunedFiles(const std::set<int>& setFilesToPrune) const;
 
     /** Functions for disk access for blocks */
+    bool ReadBlockHeader(CBlockHeader& header, const CBlockIndex& index) const;
     bool ReadBlock(CBlock& block, const FlatFilePos& pos, const std::optional<uint256>& expected_hash) const;
     bool ReadBlock(CBlock& block, const CBlockIndex& index) const;
     bool ReadRawBlock(std::vector<std::byte>& block, const FlatFilePos& pos) const;
@@ -419,6 +420,13 @@ public:
 
     void CleanupBlockRevFiles() const;
 };
+
+/**
+ * Get a full block header for the given index, reading from disk if needed (e.g. for auxpow blocks).
+ * For non-auxpow blocks, constructs from CBlockIndex fields in memory.
+ * For auxpow blocks, reads the header (including auxpow data) from disk.
+ */
+CBlockHeader GetFullBlockHeader(const CBlockIndex& index, const BlockManager& blockman);
 
 // Calls ActivateBestChain() even if no blocks are imported.
 void ImportBlocks(ChainstateManager& chainman, std::span<const fs::path> import_paths);

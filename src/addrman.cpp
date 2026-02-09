@@ -222,9 +222,9 @@ void AddrManImpl::Serialize(Stream& s_) const
             }
         }
     }
-    // Store asmap checksum after bucket entries so that it
+    // Store asmap version after bucket entries so that it
     // can be ignored by older clients for backward compatibility.
-    s << m_netgroupman.GetAsmapChecksum();
+    s << m_netgroupman.GetAsmapVersion();
 }
 
 template <typename Stream>
@@ -333,13 +333,13 @@ void AddrManImpl::Unserialize(Stream& s_)
     // If the bucket count and asmap checksum haven't changed, then attempt
     // to restore the entries to the buckets/positions they were in before
     // serialization.
-    uint256 supplied_asmap_checksum{m_netgroupman.GetAsmapChecksum()};
-    uint256 serialized_asmap_checksum;
+    const AsmapVersion& supplied_asmap_version{m_netgroupman.GetAsmapVersion()};
+    AsmapVersion serialized_asmap_version{};
     if (format >= Format::V2_ASMAP) {
-        s >> serialized_asmap_checksum;
+        s >> serialized_asmap_version;
     }
     const bool restore_bucketing{nUBuckets == ADDRMAN_NEW_BUCKET_COUNT &&
-        serialized_asmap_checksum == supplied_asmap_checksum};
+        serialized_asmap_version == supplied_asmap_version};
 
     if (!restore_bucketing) {
         LogDebug(BCLog::ADDRMAN, "Bucketing method was updated, re-bucketing addrman entries from disk\n");
@@ -457,7 +457,7 @@ void AddrManImpl::Delete(nid_type nId)
 {
     AssertLockHeld(cs);
 
-    assert(mapInfo.count(nId) != 0);
+    assert(mapInfo.contains(nId));
     AddrInfo& info = mapInfo[nId];
     assert(!info.fInTried);
     assert(info.nRefCount == 0);
@@ -516,7 +516,7 @@ void AddrManImpl::MakeTried(AddrInfo& info, nid_type nId)
     if (vvTried[nKBucket][nKBucketPos] != -1) {
         // find an item to evict
         nid_type nIdEvict = vvTried[nKBucket][nKBucketPos];
-        assert(mapInfo.count(nIdEvict) == 1);
+        assert(mapInfo.contains(nIdEvict));
         AddrInfo& infoOld = mapInfo[nIdEvict];
 
         // Remove the to-be-evicted item from the tried set.
@@ -919,7 +919,7 @@ void AddrManImpl::ResolveCollisions_()
         bool erase_collision = false;
 
         // If id_new not found in mapInfo remove it from m_tried_collisions
-        if (mapInfo.count(id_new) != 1) {
+        if (!mapInfo.contains(id_new)) {
             erase_collision = true;
         } else {
             AddrInfo& info_new = mapInfo[id_new];
@@ -985,7 +985,7 @@ std::pair<CAddress, NodeSeconds> AddrManImpl::SelectTriedCollision_()
     nid_type id_new = *it;
 
     // If id_new not found in mapInfo remove it from m_tried_collisions
-    if (mapInfo.count(id_new) != 1) {
+    if (!mapInfo.contains(id_new)) {
         m_tried_collisions.erase(it);
         return {};
     }

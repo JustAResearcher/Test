@@ -13,6 +13,8 @@ add_library(bitcoin_crypto STATIC EXCLUDE_FROM_ALL
   muhash.cpp
   poly1305.cpp
   ripemd160.cpp
+  scrypt.cpp
+  scrypt-sse2.cpp
   sha1.cpp
   sha256.cpp
   sha256_sse4.cpp
