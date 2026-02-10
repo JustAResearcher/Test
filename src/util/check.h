@@ -31,6 +31,12 @@ constexpr bool G_ABORT_ON_FAILED_ASSUME{
 
 extern std::atomic<bool> g_enable_dynamic_fuzz_determinism;
 
+extern bool g_detail_test_only_CheckFailuresAreExceptionsNotAborts;
+struct test_only_CheckFailuresAreExceptionsNotAborts {
+    test_only_CheckFailuresAreExceptionsNotAborts() { g_detail_test_only_CheckFailuresAreExceptionsNotAborts = true; }
+    ~test_only_CheckFailuresAreExceptionsNotAborts() { g_detail_test_only_CheckFailuresAreExceptionsNotAborts = false; }
+};
+
 inline bool EnableFuzzDeterminism()
 {
     if constexpr (G_FUZZING_BUILD) {
