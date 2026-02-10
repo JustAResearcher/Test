@@ -188,6 +188,7 @@ add_library(bitcoin_common STATIC EXCLUDE_FROM_ALL
   policy/feerate.cpp
   policy/policy.cpp
   pow.cpp
+  auxpow.cpp
   protocol.cpp
   psbt.cpp
   rpc/rawtransaction_util.cpp
@@ -242,7 +243,6 @@ endif()
 add_library(bitcoin_node STATIC EXCLUDE_FROM_ALL
   addrdb.cpp
   addrman.cpp
-  auxpow.cpp
   banman.cpp
   bip324.cpp
   blockencodings.cpp
