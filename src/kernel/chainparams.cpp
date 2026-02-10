@@ -93,7 +93,7 @@ public:
         consensus.BIP65Height = 1; // Meowcoin: enabled from start
         consensus.BIP66Height = 1; // Meowcoin: enabled from start
         consensus.CSVHeight = 1; // Meowcoin: enabled from start
-        consensus.SegwitHeight = 2072166; // Meowcoin: SegWit soft fork, ~1 month before Taproot
+        consensus.SegwitHeight = 0; // Meowcoin: SegWit always active (existing chain has witness data from genesis)
         consensus.MinBIP9WarningHeight = 2016;
         consensus.powLimit[static_cast<size_t>(PowAlgo::MEOWPOW)] = uint256{"00ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"}; // Meowcoin MeowPow limit
         consensus.powLimit[static_cast<size_t>(PowAlgo::SCRYPT)] = uint256{"00000fffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"};
@@ -200,7 +200,7 @@ public:
         consensus.BIP65Height = 1;
         consensus.BIP66Height = 1;
         consensus.CSVHeight = 1;
-        consensus.SegwitHeight = 2072166; // Meowcoin: SegWit soft fork, ~1 month before Taproot
+        consensus.SegwitHeight = 0; // Meowcoin: SegWit always active (existing chain has witness data from genesis)
         consensus.MinBIP9WarningHeight = 2016;
         consensus.powLimit[static_cast<size_t>(PowAlgo::MEOWPOW)] = uint256{"7fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"};
         consensus.powLimit[static_cast<size_t>(PowAlgo::SCRYPT)] = uint256{"7fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"};
@@ -299,7 +299,7 @@ public:
         consensus.BIP65Height = 1;
         consensus.BIP66Height = 1;
         consensus.CSVHeight = 1;
-        consensus.SegwitHeight = 2072166; // Meowcoin: SegWit soft fork, ~1 month before Taproot
+        consensus.SegwitHeight = 0; // Meowcoin: SegWit always active (existing chain has witness data from genesis)
         consensus.MinBIP9WarningHeight = 2016;
         consensus.powLimit[static_cast<size_t>(PowAlgo::MEOWPOW)] = uint256{"7fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"};
         consensus.powLimit[static_cast<size_t>(PowAlgo::SCRYPT)] = uint256{"7fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"};
@@ -412,7 +412,7 @@ public:
         consensus.BIP65Height = 1;
         consensus.BIP66Height = 1;
         consensus.CSVHeight = 1;
-        consensus.SegwitHeight = 2072166; // Meowcoin: SegWit soft fork, ~1 month before Taproot
+        consensus.SegwitHeight = 0; // Meowcoin: SegWit always active (existing chain has witness data from genesis)
         consensus.nPowTargetTimespan = 2016 * 60;
         consensus.nPowTargetSpacing = 1 * 60;
         consensus.fPowAllowMinDifficultyBlocks = true;
