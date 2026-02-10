@@ -7,6 +7,7 @@
 
 #include <pubkey.h>
 
+#include <cstring>
 #include <optional>
 #include <vector>
 
@@ -27,5 +28,17 @@ bool GetMuSig2KeyAggCache(const std::vector<CPubKey>& pubkeys, secp256k1_musig_k
 std::optional<CPubKey> GetCPubKeyFromMuSig2KeyAggCache(secp256k1_musig_keyagg_cache& cache);
 //! Compute the full aggregate pubkey from the given participant pubkeys in their current order
 std::optional<CPubKey> MuSig2AggregatePubkeys(const std::vector<CPubKey>& pubkeys);
+
+//! Create a synthetic extended public key from a MuSig2 aggregate pubkey, as defined by BIP 328
+inline CExtPubKey CreateMuSig2SyntheticXpub(const CPubKey& aggregate_pubkey)
+{
+    CExtPubKey extpub;
+    extpub.nDepth = 0;
+    std::memset(extpub.vchFingerprint, 0, 4);
+    extpub.nChild = 0;
+    extpub.chaincode = MUSIG_CHAINCODE;
+    extpub.pubkey = aggregate_pubkey;
+    return extpub;
+}
 
 #endif // BITCOIN_MUSIG_H
