@@ -20,7 +20,7 @@
 #include <cstring>
 #include <vector>
 
-static ethash::hash256 ToHash256(const uint256& hash)
+[[maybe_unused]] static ethash::hash256 ToHash256(const uint256& hash)
 {
     ethash::hash256 result;
     std::memcpy(result.bytes, hash.data(), sizeof(result.bytes));
