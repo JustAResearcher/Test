@@ -667,7 +667,8 @@ BOOST_AUTO_TEST_CASE(get_local_addr_for_peer_port)
                    /*addrBindIn=*/CService{},
                    /*addrNameIn=*/std::string{},
                    /*conn_type_in=*/ConnectionType::OUTBOUND_FULL_RELAY,
-                   /*inbound_onion=*/false};
+                   /*inbound_onion=*/false,
+                   /*network_key=*/0};
     peer_out.fSuccessfullyConnected = true;
     peer_out.SetAddrLocal(peer_us);
 
@@ -688,7 +689,8 @@ BOOST_AUTO_TEST_CASE(get_local_addr_for_peer_port)
                   /*addrBindIn=*/CService{},
                   /*addrNameIn=*/std::string{},
                   /*conn_type_in=*/ConnectionType::INBOUND,
-                  /*inbound_onion=*/false};
+                  /*inbound_onion=*/false,
+                  /*network_key=*/0};
     peer_in.fSuccessfullyConnected = true;
     peer_in.SetAddrLocal(peer_us);
 
@@ -825,7 +827,8 @@ BOOST_AUTO_TEST_CASE(initial_advertise_from_version_message)
                /*addrBindIn=*/CService{},
                /*addrNameIn=*/std::string{},
                /*conn_type_in=*/ConnectionType::OUTBOUND_FULL_RELAY,
-               /*inbound_onion=*/false};
+               /*inbound_onion=*/false,
+               /*network_key=*/0};
 
     const uint64_t services{NODE_NETWORK | NODE_WITNESS};
     const int64_t time{0};

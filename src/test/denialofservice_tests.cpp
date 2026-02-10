@@ -62,7 +62,8 @@ BOOST_AUTO_TEST_CASE(outbound_slow_chain_eviction)
                      CAddress(),
                      /*addrNameIn=*/"",
                      ConnectionType::OUTBOUND_FULL_RELAY,
-                     /*inbound_onion=*/false};
+                     /*inbound_onion=*/false,
+                     /*network_key=*/0};
 
     connman.Handshake(
         /*node=*/dummyNode1,
@@ -423,7 +424,8 @@ BOOST_AUTO_TEST_CASE(DoS_bantime)
                     CAddress(),
                     /*addrNameIn=*/"",
                     ConnectionType::INBOUND,
-                    /*inbound_onion=*/false};
+                    /*inbound_onion=*/false,
+                    /*network_key=*/0};
     dummyNode.SetCommonVersion(PROTOCOL_VERSION);
     peerLogic->InitializeNode(dummyNode, NODE_NETWORK);
     dummyNode.fSuccessfullyConnected = true;
