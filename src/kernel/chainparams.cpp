@@ -276,7 +276,7 @@ public:
 
         bech32_hrp = "tmewc"; // Meowcoin testnet
 
-        vFixedSeeds = std::vector<uint8_t>(std::begin(chainparams_seed_test), std::end(chainparams_seed_test));
+        vFixedSeeds.clear(); // Meowcoin: don't use Bitcoin's hardcoded seed IPs
 
         fDefaultConsistencyChecks = false;
         m_is_mockable_chain = false;
@@ -368,9 +368,12 @@ public:
         assert(consensus.hashGenesisBlock == uint256{"2beb6b7f06e0a702a4af527b00c9a9a4bf7fa179b523bc11401bb7cd79c34492"});
         assert(genesis.hashMerkleRoot == uint256{"8184c2a16c343675ff0f4584ccca008aa583cde164c6b32eac3b4eac2aa09a2d"});
 
-        vFixedSeeds.clear();
+        // Fixed seed: 107.214.187.2:14569 (BIP155 IPv4 format)
+        static const uint8_t testnet4_seeds[] = {
+            0x01,0x04,0x6b,0xd6,0xbb,0x02,0x38,0xe9,
+        };
+        vFixedSeeds = std::vector<uint8_t>(std::begin(testnet4_seeds), std::end(testnet4_seeds));
         vSeeds.clear();
-        // No seeds - private testnet initially
 
         // Testnet4 address prefixes (same as testnet for compatibility)
         base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1,109); // m
@@ -483,7 +486,7 @@ public:
 
         fDefaultConsistencyChecks = false;
         m_is_mockable_chain = false;
-        vFixedSeeds = std::vector<uint8_t>(std::begin(chainparams_seed_test), std::end(chainparams_seed_test));
+        vFixedSeeds.clear(); // Meowcoin: don't use Bitcoin's hardcoded seed IPs
         m_assumed_blockchain_size = 1;
         m_assumed_chain_state_size = 1;
         chainTxData = ChainTxData{
@@ -592,7 +595,7 @@ public:
         //assert(consensus.hashGenesisBlock == uint256{"..."});
         assert(genesis.hashMerkleRoot == uint256{"e8916cf6592c8433d598c3a5fe60a9741fd2a997b39d93af2d789cdd9d9a7390"});
 
-        vFixedSeeds = std::vector<uint8_t>(std::begin(chainparams_seed_test), std::end(chainparams_seed_test));
+        vFixedSeeds.clear(); // Meowcoin: don't use Bitcoin's hardcoded seed IPs
         vSeeds.clear();
         vSeeds.emplace_back("testnet-seed.meowcoin.net.");
 
