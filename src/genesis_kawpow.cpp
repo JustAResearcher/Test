@@ -29,6 +29,7 @@
 
 using namespace util::hex_literals;
 
+// Must match the CreateGenesisBlock in kernel/chainparams.cpp exactly
 static CBlock CreateGenesisBlock(const char* pszTimestamp,
                                  const CScript& genesisOutputScript,
                                  uint32_t nTime,
@@ -41,7 +42,7 @@ static CBlock CreateGenesisBlock(const char* pszTimestamp,
     txNew.version = 1;
     txNew.vin.resize(1);
     txNew.vout.resize(1);
-    txNew.vin[0].scriptSig = CScript() << 486604799 << CScriptNum(4)
+    txNew.vin[0].scriptSig = CScript() << CScriptNum(0) << 486604799 << CScriptNum(4)
                                        << std::vector<unsigned char>(
                                               reinterpret_cast<const unsigned char*>(pszTimestamp),
                                               reinterpret_cast<const unsigned char*>(pszTimestamp) + std::strlen(pszTimestamp));
@@ -52,20 +53,34 @@ static CBlock CreateGenesisBlock(const char* pszTimestamp,
     genesis.nTime = nTime;
     genesis.nBits = nBits;
     genesis.nNonce = nNonce;
-    genesis.nVersion = nVersion;
+    genesis.nVersion.SetGenesisVersion(nVersion);
     genesis.vtx.push_back(MakeTransactionRef(std::move(txNew)));
     genesis.hashPrevBlock.SetNull();
     genesis.hashMerkleRoot = BlockMerkleRoot(genesis);
     return genesis;
 }
 
+// Meowcoin-style genesis (matches chainparams.cpp)
 static CBlock CreateGenesisBlock(uint32_t nTime,
                                  uint32_t nNonce,
                                  uint32_t nBits,
                                  int32_t nVersion,
                                  const CAmount& genesisReward)
 {
-    const char* pszTimestamp = "The Times 03/Jan/2009 Chancellor on brink of second bailout for banks";
+    const char* pszTimestamp = "The WSJ 08/28/2022 Investors Ramp Up Bets Against Stock Market";
+    const CScript genesisOutputScript = CScript() << "04678afdb0fe5548271967f1a67130b7105cd6a828e03909a67962e0ea1f61deb649f6bc3f4cef38c4f35504e51ec112de5c384df7ba0b8d578a4c702b6bf11d5f"_hex
+                                                  << OP_CHECKSIG;
+    return CreateGenesisBlock(pszTimestamp, genesisOutputScript, nTime, nNonce, nBits, nVersion, genesisReward);
+}
+
+// Testnet4 genesis with unique timestamp
+static CBlock CreateTestnet4GenesisBlock(uint32_t nTime,
+                                         uint32_t nNonce,
+                                         uint32_t nBits,
+                                         int32_t nVersion,
+                                         const CAmount& genesisReward)
+{
+    const char* pszTimestamp = "Meowcoin Taproot Testnet 10/Feb/2026";
     const CScript genesisOutputScript = CScript() << "04678afdb0fe5548271967f1a67130b7105cd6a828e03909a67962e0ea1f61deb649f6bc3f4cef38c4f35504e51ec112de5c384df7ba0b8d578a4c702b6bf11d5f"_hex
                                                   << OP_CHECKSIG;
     return CreateGenesisBlock(pszTimestamp, genesisOutputScript, nTime, nNonce, nBits, nVersion, genesisReward);
@@ -100,7 +115,12 @@ static void MineAndPrint(const GenesisSpec& spec)
     auto pow_limit = uint256::FromHex(spec.pow_limit);
     assert(pow_limit);
 
-    CBlock genesis = CreateGenesisBlock(spec.nTime, spec.nNonce, spec.nBits, spec.nVersion, spec.reward);
+    CBlock genesis;
+    if (std::string(spec.name) == "testnet4") {
+        genesis = CreateTestnet4GenesisBlock(spec.nTime, spec.nNonce, spec.nBits, spec.nVersion, spec.reward);
+    } else {
+        genesis = CreateGenesisBlock(spec.nTime, spec.nNonce, spec.nBits, spec.nVersion, spec.reward);
+    }
     genesis.nHeight = 0;
 
     uint256 mix_hash;
@@ -217,6 +237,8 @@ int main(int argc, char** argv)
          "7fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"},
         {"main", 1661730843, 351574, 0x1e00ffff, 4, 5000 * COIN,
          "00ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"},
+        {"testnet4", 1770700000, 0, 0x2000ffff, 4, 5000 * COIN,
+         "7fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"},
     };
 
     for (const auto& spec : specs) {

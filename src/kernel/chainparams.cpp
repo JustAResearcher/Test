@@ -76,6 +76,13 @@ static CBlock CreateGenesisBlock(uint32_t nTime, uint32_t nNonce, uint32_t nBits
     return CreateGenesisBlock(pszTimestamp, genesisOutputScript, nTime, nNonce, nBits, nVersion, genesisReward);
 }
 
+static CBlock CreateTestnet4GenesisBlock(uint32_t nTime, uint32_t nNonce, uint32_t nBits, int32_t nVersion, const CAmount& genesisReward)
+{
+    const char* pszTimestamp = "Meowcoin Taproot Testnet 10/Feb/2026";
+    const CScript genesisOutputScript = CScript() << "04678afdb0fe5548271967f1a67130b7105cd6a828e03909a67962e0ea1f61deb649f6bc3f4cef38c4f35504e51ec112de5c384df7ba0b8d578a4c702b6bf11d5f"_hex << OP_CHECKSIG;
+    return CreateGenesisBlock(pszTimestamp, genesisOutputScript, nTime, nNonce, nBits, nVersion, genesisReward);
+}
+
 
 /**
  * Main network on which people trade goods and services.
@@ -285,7 +292,10 @@ public:
 };
 
 /**
- * Testnet4 - Not used for Meowcoin
+ * Testnet4 - Meowcoin Taproot Testnet
+ *
+ * A fresh testnet using KawPow from genesis with Taproot activating at height 100.
+ * Intended for testing Taproot features before mainnet activation.
  */
 class CTestNet4Params : public CChainParams {
 public:
@@ -294,19 +304,20 @@ public:
         consensus.signet_blocks = false;
         consensus.signet_challenge.clear();
         consensus.nSubsidyHalvingInterval = 2100000;
+        consensus.script_flag_exceptions.clear();
         consensus.BIP34Height = 1;
         consensus.BIP34Hash = uint256{};
         consensus.BIP65Height = 1;
         consensus.BIP66Height = 1;
         consensus.CSVHeight = 1;
-        consensus.SegwitHeight = 0; // Meowcoin: SegWit always active (existing chain has witness data from genesis)
-        consensus.MinBIP9WarningHeight = 2016;
+        consensus.SegwitHeight = 0; // SegWit always active
+        consensus.MinBIP9WarningHeight = 0;
         consensus.powLimit[static_cast<size_t>(PowAlgo::MEOWPOW)] = uint256{"7fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"};
         consensus.powLimit[static_cast<size_t>(PowAlgo::SCRYPT)] = uint256{"7fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"};
-        consensus.nKAWPOWActivationTime = 1661833868; // Same as testnet
-        consensus.nMEOWPOWActivationTime = 1707354000;
+        consensus.nKAWPOWActivationTime = 0; // KawPow active from genesis
+        consensus.nMEOWPOWActivationTime = 4294967295; // MeowPow never (KawPow only testnet)
         consensus.nPowTargetTimespan = 2016 * 60;
-        consensus.nPowTargetSpacing = 1 * 60;
+        consensus.nPowTargetSpacing = 1 * 60; // 1 minute blocks
         consensus.nLwmaAveragingWindow = 45;
         consensus.fPowAllowMinDifficultyBlocks = true;
         consensus.enforce_BIP94 = false;
@@ -315,19 +326,19 @@ public:
         consensus.vDeployments[Consensus::DEPLOYMENT_TESTDUMMY].bit = 28;
         consensus.vDeployments[Consensus::DEPLOYMENT_TESTDUMMY].nStartTime = Consensus::BIP9Deployment::NEVER_ACTIVE;
         consensus.vDeployments[Consensus::DEPLOYMENT_TESTDUMMY].nTimeout = Consensus::BIP9Deployment::NO_TIMEOUT;
-        consensus.vDeployments[Consensus::DEPLOYMENT_TESTDUMMY].min_activation_height = 0; // No activation delay
-        consensus.vDeployments[Consensus::DEPLOYMENT_TESTDUMMY].threshold = 1512; // 75%
+        consensus.vDeployments[Consensus::DEPLOYMENT_TESTDUMMY].min_activation_height = 0;
+        consensus.vDeployments[Consensus::DEPLOYMENT_TESTDUMMY].threshold = 1512;
         consensus.vDeployments[Consensus::DEPLOYMENT_TESTDUMMY].period = 2016;
 
-        // Deployment of Taproot (BIPs 340-342)
+        // Taproot (BIPs 340-342): always-active, enforced from height 100
         consensus.vDeployments[Consensus::DEPLOYMENT_TAPROOT].bit = 2;
-        consensus.vDeployments[Consensus::DEPLOYMENT_TAPROOT].nStartTime = 1788739200; // Sep 7, 2026 00:00:00 UTC
+        consensus.vDeployments[Consensus::DEPLOYMENT_TAPROOT].nStartTime = Consensus::BIP9Deployment::ALWAYS_ACTIVE;
         consensus.vDeployments[Consensus::DEPLOYMENT_TAPROOT].nTimeout = Consensus::BIP9Deployment::NO_TIMEOUT;
-        consensus.vDeployments[Consensus::DEPLOYMENT_TAPROOT].min_activation_height = 2115366; // SegWit + 1 month at 60s spacing
-        consensus.vDeployments[Consensus::DEPLOYMENT_TAPROOT].threshold = 1512; // 75%
-        consensus.vDeployments[Consensus::DEPLOYMENT_TAPROOT].period = 2016;
+        consensus.vDeployments[Consensus::DEPLOYMENT_TAPROOT].min_activation_height = 100;
+        consensus.vDeployments[Consensus::DEPLOYMENT_TAPROOT].threshold = 0;
+        consensus.vDeployments[Consensus::DEPLOYMENT_TAPROOT].period = 0;
 
-        consensus.n32MBForkHeight = 2201766; // Taproot + 2 months at 60s blocks (86400 blocks)
+        consensus.n32MBForkHeight = 200; // 32 MB blocks after Taproot settles
 
         consensus.nMinimumChainWork = uint256{};
         consensus.defaultAssumeValid = uint256{};
@@ -335,37 +346,40 @@ public:
         consensus.nAuxpowStartHeight = 46;
         consensus.fStrictChainId = true;
 
+        // Unique magic bytes: "M4TP" (Meow 4 TaProot)
         pchMessageStart[0] = 0x4d; // M
-        pchMessageStart[1] = 0x45; // E
-        pchMessageStart[2] = 0x57; // W
-        pchMessageStart[3] = 0x54; // T (for Testnet)
-        nDefaultPort = 4569;
+        pchMessageStart[1] = 0x34; // 4
+        pchMessageStart[2] = 0x54; // T
+        pchMessageStart[3] = 0x50; // P
+        nDefaultPort = 14569; // Unique testnet4 port
         nPruneAfterHeight = 1000;
         m_assumed_blockchain_size = 1;
         m_assumed_chain_state_size = 1;
 
-        // Set globals before genesis hash computation so GetHash() picks the correct PoW algorithm
+        // Set globals before genesis hash computation so GetHash() picks KawPow
         nKAWPOWActivationTime = consensus.nKAWPOWActivationTime;
         nMEOWPOWActivationTime = consensus.nMEOWPOWActivationTime;
 
-        genesis = CreateGenesisBlock(1661734222, 7680541, 0x1e00ffff, 4, 5000 * COIN);
+        // Testnet4 genesis: KawPow, Feb 10 2026, easy initial difficulty
+        genesis = CreateTestnet4GenesisBlock(1770700000, 0, 0x2000ffff, 4, 5000 * COIN);
+        genesis.nNonce64 = 90;
+        genesis.mix_hash = uint256{"6fbe8614fcfa70985d7ad26374dad1862ac7903f10ed9dcebea7ebea617fe29a"};
         consensus.hashGenesisBlock = genesis.GetHash();
-        assert(consensus.hashGenesisBlock == uint256{"000000eaab417d6dfe9bd75119972e1d07ecfe8ff655bef7c2acb3d9a0eeed81"});
-        assert(genesis.hashMerkleRoot == uint256{"e8916cf6592c8433d598c3a5fe60a9741fd2a997b39d93af2d789cdd9d9a7390"});
+        assert(consensus.hashGenesisBlock == uint256{"2beb6b7f06e0a702a4af527b00c9a9a4bf7fa179b523bc11401bb7cd79c34492"});
+        assert(genesis.hashMerkleRoot == uint256{"8184c2a16c343675ff0f4584ccca008aa583cde164c6b32eac3b4eac2aa09a2d"});
 
         vFixedSeeds.clear();
         vSeeds.clear();
-        vSeeds.emplace_back("testnet-seed.meowcoin.net.");
+        // No seeds - private testnet initially
 
+        // Testnet4 address prefixes (same as testnet for compatibility)
         base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1,109); // m
         base58Prefixes[SCRIPT_ADDRESS] = std::vector<unsigned char>(1,124);
         base58Prefixes[SECRET_KEY] =     std::vector<unsigned char>(1,114);
         base58Prefixes[EXT_PUBLIC_KEY] = {0x04, 0x35, 0x87, 0xCF};
         base58Prefixes[EXT_SECRET_KEY] = {0x04, 0x35, 0x83, 0x94};
 
-        bech32_hrp = "tmewc";
-
-        vFixedSeeds = std::vector<uint8_t>(std::begin(chainparams_seed_test), std::end(chainparams_seed_test));
+        bech32_hrp = "t4mewc"; // Unique bech32 for testnet4
 
         fDefaultConsistencyChecks = false;
         m_is_mockable_chain = false;
@@ -373,7 +387,7 @@ public:
         m_assumeutxo_data = {};
 
         chainTxData = ChainTxData{
-            .nTime    = 1661730843,
+            .nTime    = 1770700000,
             .tx_count = 0,
             .dTxRate  = 0,
         };
